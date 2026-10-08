@@ -1019,7 +1019,7 @@
                 `;
             }
 
-            // Certificate Variants (Fixed top and bottom empty spaces by using full height distribution instead of vertical centering)
+            // Certificate Variants
             if (appState.docType === 'Certificate') {
                 if (appState.variant === 'minimal') {
                     return `
@@ -1031,7 +1031,7 @@
                             </div>
                             <div class="my-auto py-4">
                                 <p class="text-xs text-zinc-500 italic mb-2">Presented to</p>
-                                <div class="text-2xl font-bold text-zinc-900 mb-4 border-b pb-1 px-6">${cName}</div>
+                                <div class="text-2xl font-bold text-zinc-900 mb-4 border-b pb-1 px-6" style="border-color: ${appState.themePrimary}">${cName}</div>
                                 <p class="text-xs text-zinc-600 max-w-md mx-auto leading-relaxed">${appState.notes || appState.intro}</p>
                             </div>
                             <div class="w-full">${signatureHtml}</div>
@@ -1059,7 +1059,7 @@
                             <div>
                                 ${logoHtml}
                                 <div class="text-sm font-black uppercase tracking-widest text-zinc-500 mb-2">${sName} Presentation</div>
-                                <h2 class="text-3xl font-serif font-bold text-zinc-900 mb-4">${appState.certTitle}</h2>
+                                <h2 class="text-3xl font-serif font-bold text-zinc-900 mb-4" style="color: ${appState.themeDark}">${appState.certTitle}</h2>
                             </div>
                             <div class="my-auto py-4">
                                 <div class="text-xs italic text-zinc-500 mb-2">Honoring excellence and dedication of</div>
@@ -1093,16 +1093,16 @@
                 let amtPaid = appState.amountPaid;
                 let balanceDue = Math.max(0, total - amtPaid);
                 let statusBadgeText = appState.receiptStatusMode === 'partial' ? 'PARTIALLY PAID' : 'PAID IN FULL';
-                let statusBadgeClass = appState.receiptStatusMode === 'partial' ? 'bg-amber-500/10 text-amber-600 border-amber-500/30' : 'bg-emerald-500/10 text-emerald-600 border-emerald-500/30';
+                let statusBadgeStyle = `background-color: ${appState.themePrimary}10; color: ${appState.themePrimary}; border-color: ${appState.themePrimary}30;`;
 
                 receiptFinancialBlock = `
                     <div class="flex justify-between items-center mb-6 bg-zinc-50 p-4 rounded-xl border border-zinc-200">
                         <div>
-                            <span class="inline-block px-3 py-1 rounded-full text-[10px] font-mono font-bold border ${statusBadgeClass}">${statusBadgeText}</span>
+                            <span class="inline-block px-3 py-1 rounded-full text-[10px] font-mono font-bold border" style="${statusBadgeStyle}">${statusBadgeText}</span>
                         </div>
                         <div class="w-64 space-y-1 text-xs">
                             <div class="flex justify-between text-zinc-600"><span>Total Billed:</span><span class="font-mono font-bold">${curSym}${total.toLocaleString()}</span></div>
-                            <div class="flex justify-between text-emerald-600"><span>Amount Paid:</span><span class="font-mono font-bold">${curSym}${amtPaid.toLocaleString()}</span></div>
+                            <div class="flex justify-between font-bold" style="color: ${appState.themePrimary}"><span>Amount Paid:</span><span class="font-mono font-bold">${curSym}${amtPaid.toLocaleString()}</span></div>
                             <div class="flex justify-between pt-1 border-t border-zinc-300 font-bold text-zinc-900"><span>Balance Due:</span><span class="font-mono">${curSym}${balanceDue.toLocaleString()}</span></div>
                         </div>
                     </div>
@@ -1158,7 +1158,7 @@
                                         <td class="py-2.5 px-3 text-center text-zinc-600 font-mono">${item.qty}</td>${!isDelivery ? `
                                             <td class="py-2.5 px-3 text-right text-zinc-600 font-mono">${curSym}${item.price.toLocaleString()}</td>
                                             <td class="py-2.5 px-3 text-right font-bold font-mono" style="color: ${appState.themePrimary}">${curSym}${(item.qty * item.price).toLocaleString()}</td>
-                                        ` : `<td class="py-2.5 px-3 text-right font-bold text-emerald-600">Dispatched</td>`}
+                                        ` : `<td class="py-2.5 px-3 text-right font-bold" style="color: ${appState.themePrimary}">Dispatched</td>`}
                                     </tr>
                                 `).join('')}
                             </tbody>
@@ -1168,7 +1168,7 @@
                         ${appState.docType === 'Receipt' ? receiptFinancialBlock : (!isDelivery ? `
                         <div class="flex justify-end mb-6">
                             <div class="w-64 space-y-1.5 text-xs">
-                                <div class="flex justify-between py-1 text-zinc-600"><span>Subtotal:</span><span class="font-mono font-semibold">${curSym}${subtotal.toLocaleString()}</span></div>${discount > 0 ? `<div class="flex justify-between py-1" style="color: ${appState.themePrimary}"><span>Discount:</span><span class="font-mono font-semibold">-${curSym}${discount.toLocaleString()}</span></div>` : ''}
+                                <div class="flex justify-between py-1 text-zinc-600"><span>Subtotal:</span><span class="font-mono font-semibold">${curSym}${subtotal.toLocaleString()}</span></div>${discount > 0 ? `<div class="flex justify-between py-1 font-semibold" style="color: ${appState.themePrimary}"><span>Discount:</span><span class="font-mono">-${curSym}${discount.toLocaleString()}</span></div>` : ''}
                                 ${tax > 0 ? `<div class="flex justify-between py-1 text-zinc-600"><span>Tax (${appState.taxRate}%):</span><span class="font-mono font-semibold">${curSym}${tax.toLocaleString()}</span></div>` : ''}
                                 <div class="flex justify-between py-2.5 border-t border-zinc-300 text-sm font-black text-zinc-900"><span>Total Due:</span><span class="font-mono" style="color: ${appState.themePrimary}">${curSym}${total.toLocaleString()}</span></div>
                             </div>
@@ -1193,7 +1193,7 @@
                                 <div class="text-[11px] text-zinc-400">${sContact} • ${sAddress}</div>
                             </div>
                             <div class="text-right">
-                                <div class="text-2xl font-black uppercase tracking-widest text-emerald-400">${appState.docType}</div>
+                                <div class="text-2xl font-black uppercase tracking-widest" style="color: ${appState.themePrimary}">${appState.docType}</div>
                                 <div class="text-xs font-mono text-zinc-300 mt-1">${appState.docNumber || 'REF-001'}</div>
                             </div>
                         </div>
@@ -1227,7 +1227,7 @@
                                         <td class="py-2.5 px-3 text-center font-mono text-zinc-600">${item.qty}</td>${!isDelivery ? `
                                             <td class="py-2.5 px-3 text-right font-mono text-zinc-600">${curSym}${item.price.toLocaleString()}</td>
                                             <td class="py-2.5 px-3 text-right font-mono font-bold text-zinc-900">${curSym}${(item.qty * item.price).toLocaleString()}</td>
-                                        ` : `<td class="py-2.5 px-3 text-right font-bold text-emerald-600">Dispatched</td>`}
+                                        ` : `<td class="py-2.5 px-3 text-right font-bold" style="color: ${appState.themePrimary}">Dispatched</td>`}
                                     </tr>
                                 `).join('')}
                             </tbody>
@@ -1237,9 +1237,9 @@
                         ${appState.docType === 'Receipt' ? receiptFinancialBlock : (!isDelivery ? `
                         <div class="flex justify-end mb-6">
                             <div class="w-64 bg-zinc-50 p-4 rounded-xl border border-zinc-200 space-y-1.5 text-xs">
-                                <div class="flex justify-between text-zinc-600"><span>Subtotal:</span><span class="font-mono font-bold">${curSym}${subtotal.toLocaleString()}</span></div>${discount > 0 ? `<div class="flex justify-between text-amber-600"><span>Discount:</span><span class="font-mono font-bold">-${curSym}${discount.toLocaleString()}</span></div>` : ''}
+                                <div class="flex justify-between text-zinc-600"><span>Subtotal:</span><span class="font-mono font-bold">${curSym}${subtotal.toLocaleString()}</span></div>${discount > 0 ? `<div class="flex justify-between font-bold" style="color: ${appState.themePrimary}"><span>Discount:</span><span class="font-mono">-${curSym}${discount.toLocaleString()}</span></div>` : ''}
                                 ${tax > 0 ? `<div class="flex justify-between text-zinc-600"><span>Tax (${appState.taxRate}%):</span><span class="font-mono font-bold">${curSym}${tax.toLocaleString()}</span></div>` : ''}
-                                <div class="flex justify-between pt-2 border-t border-zinc-300 text-sm font-black text-zinc-900"><span>Total:</span><span class="font-mono text-emerald-600">${curSym}${total.toLocaleString()}</span></div>
+                                <div class="flex justify-between pt-2 border-t border-zinc-300 text-sm font-black text-zinc-900"><span>Total:</span><span class="font-mono" style="color: ${appState.themePrimary}">${curSym}${total.toLocaleString()}</span></div>
                             </div>
                         </div>` : '')}
                         <div class="border-t border-zinc-200 pt-3 text-[11px] text-zinc-500 space-y-2">
@@ -1287,7 +1287,7 @@
                                         <td class="py-2 px-2 text-center text-zinc-600">${item.qty}</td>${!isDelivery ? `
                                             <td class="py-2 px-2 text-right text-zinc-600">${curSym}${item.price.toLocaleString()}</td>
                                             <td class="py-2 px-2 text-right font-bold text-zinc-900">${curSym}${(item.qty * item.price).toLocaleString()}</td>
-                                        ` : `<td class="py-2 px-2 text-right font-bold text-emerald-600">Dispatched</td>`}
+                                        ` : `<td class="py-2 px-2 text-right font-bold" style="color: ${appState.themePrimary}">Dispatched</td>`}
                                     </tr>
                                 `).join('')}
                             </tbody>
@@ -1297,7 +1297,7 @@
                         ${appState.docType === 'Receipt' ? receiptFinancialBlock : (!isDelivery ? `
                         <div class="flex justify-end mb-6 font-mono text-xs">
                             <div class="w-72 space-y-1 border-t-2 border-zinc-900 pt-2">
-                                <div class="flex justify-between"><span>SUBTOTAL:</span><span>${curSym}${subtotal.toLocaleString()}</span></div>${discount > 0 ? `<div class="flex justify-between text-zinc-500"><span>DISCOUNT:</span><span>-${curSym}${discount.toLocaleString()}</span></div>` : ''}
+                                <div class="flex justify-between"><span>SUBTOTAL:</span><span>${curSym}${subtotal.toLocaleString()}</span></div>${discount > 0 ? `<div class="flex justify-between font-semibold" style="color: ${appState.themePrimary}"><span>DISCOUNT:</span><span>-${curSym}${discount.toLocaleString()}</span></div>` : ''}
                                 ${tax > 0 ? `<div class="flex justify-between text-zinc-500"><span>TAX:</span><span>${curSym}${tax.toLocaleString()}</span></div>` : ''}
                                 <div class="flex justify-between font-bold text-sm border-t border-zinc-900 pt-1"><span>TOTAL:</span><span>${curSym}${total.toLocaleString()}</span></div>
                             </div>
@@ -1327,10 +1327,10 @@
                         </div>
                     </div>
 
-                    <div class="bg-emerald-50/60 p-4 rounded-xl border border-emerald-200 mb-6 text-xs">
-                        <div class="font-bold text-emerald-900 uppercase tracking-wider mb-1">Recipient Information</div>
-                        <div class="font-bold text-emerald-950 text-sm">${cName}</div>
-                        <div class="text-emerald-900/80">${cContact} • ${cAddress}</div>
+                    <div class="p-4 rounded-xl border mb-6 text-xs" style="background-color: ${appState.themePrimary}10; border-color: ${appState.themePrimary}40;">
+                        <div class="font-bold uppercase tracking-wider mb-1" style="color: ${appState.themeDark}">Recipient Information</div>
+                        <div class="font-bold text-sm" style="color: ${appState.themeDark}">${cName}</div>
+                        <div style="color: ${appState.themeDark}; opacity: 0.8;">${cContact} • ${cAddress}</div>
                     </div>
 
                     <table class="w-full text-left border-collapse mb-6 text-xs">
@@ -1347,8 +1347,8 @@
                                     <td class="py-2.5 px-3 font-semibold text-zinc-900">${item.desc || '[Description]'}</td>
                                     <td class="py-2.5 px-3 text-center font-mono text-zinc-600">${item.qty}</td>${!isDelivery ? `
                                         <td class="py-2.5 px-3 text-right font-mono text-zinc-600">${curSym}${item.price.toLocaleString()}</td>
-                                        <td class="py-2.5 px-3 text-right font-mono font-bold text-emerald-700">${curSym}${(item.qty * item.price).toLocaleString()}</td>
-                                    ` : `<td class="py-2.5 px-3 text-right font-bold text-emerald-600">Dispatched</td>`}
+                                        <td class="py-2.5 px-3 text-right font-mono font-bold" style="color: ${appState.themePrimary}">${curSym}${(item.qty * item.price).toLocaleString()}</td>
+                                    ` : `<td class="py-2.5 px-3 text-right font-bold" style="color: ${appState.themePrimary}">Dispatched</td>`}
                                 </tr>
                             `).join('')}
                         </tbody>
@@ -1358,9 +1358,9 @@
                     ${appState.docType === 'Receipt' ? receiptFinancialBlock : (!isDelivery ? `
                     <div class="flex justify-end mb-6">
                         <div class="w-64 bg-zinc-50 p-4 rounded-xl border border-zinc-200 space-y-1.5 text-xs">
-                            <div class="flex justify-between text-zinc-600"><span>Subtotal:</span><span class="font-mono font-bold">${curSym}${subtotal.toLocaleString()}</span></div>${discount > 0 ? `<div class="flex justify-between text-emerald-600"><span>Discount:</span><span class="font-mono font-bold">-${curSym}${discount.toLocaleString()}</span></div>` : ''}
+                            <div class="flex justify-between text-zinc-600"><span>Subtotal:</span><span class="font-mono font-bold">${curSym}${subtotal.toLocaleString()}</span></div>${discount > 0 ? `<div class="flex justify-between font-bold" style="color: ${appState.themePrimary}"><span>Discount:</span><span class="font-mono">-${curSym}${discount.toLocaleString()}</span></div>` : ''}
                             ${tax > 0 ? `<div class="flex justify-between text-zinc-600"><span>Tax (${appState.taxRate}%):</span><span class="font-mono font-bold">${curSym}${tax.toLocaleString()}</span></div>` : ''}
-                            <div class="flex justify-between pt-2 border-t border-zinc-200 text-sm font-black text-zinc-900"><span>Total:</span><span class="font-mono text-emerald-600">${curSym}${total.toLocaleString()}</span></div>
+                            <div class="flex justify-between pt-2 border-t border-zinc-200 text-sm font-black text-zinc-900"><span>Total:</span><span class="font-mono" style="color: ${appState.themePrimary}">${curSym}${total.toLocaleString()}</span></div>
                         </div>
                     </div>` : '')}
                     <div class="border-t border-zinc-200 pt-3 text-[11px] text-zinc-500 space-y-2">
