@@ -298,6 +298,42 @@
                         <div class="w-7 h-4 bg-zinc-800 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-zinc-300 after:border after:rounded-full after:h-3 after:w-3 after:transition-all peer-checked:bg-emerald-500"></div>
                     </label>
                 </div>
+
+                <!-- Independent Bottom Corner Alignment Controls -->
+                <div class="space-y-2 bg-zinc-950 p-3 rounded-xl border border-zinc-800">
+                    <div class="text-[11px] font-bold text-zinc-300 mb-1">Independent Element Corner Alignment</div>
+                    
+                    <!-- Signature Block Corner -->
+                    <div class="flex items-center justify-between py-1">
+                        <span class="text-[10px] text-zinc-400">Signature Block</span>
+                        <div class="flex space-x-1 bg-zinc-900 p-0.5 rounded border border-zinc-800">
+                            <button type="button" id="sig-align-left" onclick="setSignoffElementAlign('sig', 'left')" class="px-2 py-0.5 text-[9px] rounded bg-zinc-800 text-zinc-200 font-bold">L</button>
+                            <button type="button" id="sig-align-center" onclick="setSignoffElementAlign('sig', 'center')" class="px-2 py-0.5 text-[9px] rounded text-zinc-400 hover:text-zinc-200">C</button>
+                            <button type="button" id="sig-align-right" onclick="setSignoffElementAlign('sig', 'right')" class="px-2 py-0.5 text-[9px] rounded text-zinc-400 hover:text-zinc-200">R</button>
+                        </div>
+                    </div>
+
+                    <!-- Official Seal Corner -->
+                    <div class="flex items-center justify-between py-1 border-t border-zinc-900">
+                        <span class="text-[10px] text-zinc-400">Official Seal</span>
+                        <div class="flex space-x-1 bg-zinc-900 p-0.5 rounded border border-zinc-800">
+                            <button type="button" id="seal-align-left" onclick="setSignoffElementAlign('seal', 'left')" class="px-2 py-0.5 text-[9px] rounded text-zinc-400 hover:text-zinc-200">L</button>
+                            <button type="button" id="seal-align-center" onclick="setSignoffElementAlign('seal', 'center')" class="px-2 py-0.5 text-[9px] rounded text-zinc-400 hover:text-zinc-200">C</button>
+                            <button type="button" id="seal-align-right" onclick="setSignoffElementAlign('seal', 'right')" class="px-2 py-0.5 text-[9px] rounded bg-zinc-800 text-zinc-200 font-bold">R</button>
+                        </div>
+                    </div>
+
+                    <!-- Corporate Stamp Corner -->
+                    <div class="flex items-center justify-between py-1 border-t border-zinc-900">
+                        <span class="text-[10px] text-zinc-400">Corporate Stamp</span>
+                        <div class="flex space-x-1 bg-zinc-900 p-0.5 rounded border border-zinc-800">
+                            <button type="button" id="stamp-align-left" onclick="setSignoffElementAlign('stamp', 'left')" class="px-2 py-0.5 text-[9px] rounded text-zinc-400 hover:text-zinc-200">L</button>
+                            <button type="button" id="stamp-align-center" onclick="setSignoffElementAlign('stamp', 'center')" class="px-2 py-0.5 text-[9px] rounded text-zinc-400 hover:text-zinc-200">C</button>
+                            <button type="button" id="stamp-align-right" onclick="setSignoffElementAlign('stamp', 'right')" class="px-2 py-0.5 text-[9px] rounded bg-zinc-800 text-zinc-200 font-bold">R</button>
+                        </div>
+                    </div>
+                </div>
+
                 <div class="grid grid-cols-2 gap-2">
                     <div>
                         <label class="block text-[10px] text-zinc-400 mb-1">Signatory Name</label>
@@ -456,6 +492,9 @@
             senderName: '',
             senderLogo: '',
             logoAlign: 'left',
+            sigAlign: 'left',
+            sealAlign: 'right',
+            stampAlign: 'center',
             senderContact: '',
             senderAddress: '',
             clientName: '',
@@ -482,7 +521,7 @@
                 { desc: 'Enterprise Cloud Architecture & GIS Integration', qty: 1, price: 45000 },
                 { desc: 'Custom Dashboard Frontend & API Pipeline Development', qty: 2, price: 20000 }
             ],
-            lastPaidClientName: null
+            paidDocuments: {}
         };
 
         let paymentTargetAction = 'download';
@@ -516,7 +555,7 @@
                 appState.authSigUrl = '';
                 appState.certTitle = 'Certificate of Achievement';
                 appState.items = [{ desc: '', qty: 1, price: 0 }];
-                appState.lastPaidClientName = null;
+                appState.paidDocuments = {};
                 syncStateToDOM();
                 renderLineItems();
                 updateLivePreview();
@@ -589,6 +628,22 @@
             updateLivePreview();
         }
 
+        function setSignoffElementAlign(element, align) {
+            if (element === 'sig') appState.sigAlign = align;
+            if (element === 'seal') appState.sealAlign = align;
+            if (element === 'stamp') appState.stampAlign = align;
+
+            ['left', 'center', 'right'].forEach(a => {
+                const btn = document.getElementById(`${element}-align-${a}`);
+                if (a === align) {
+                    btn.className = 'px-2 py-0.5 text-[9px] rounded bg-zinc-800 text-zinc-200 font-bold';
+                } else {
+                    btn.className = 'px-2 py-0.5 text-[9px] rounded text-zinc-400 hover:text-zinc-200';
+                }
+            });
+            updateLivePreview();
+        }
+
         function handleLogoUpload(event) {
             const file = event.target.files[0];
             if (file) {
@@ -631,14 +686,18 @@
             updateLivePreview();
         }
 
+        function getDocumentKey() {
+            let client = (appState.clientName || '').trim().toLowerCase();
+            let docNum = (appState.docNumber || '').trim().toLowerCase();
+            return `${client}_${docNum}`;
+        }
+
         function isClientPaid() {
-            if (!appState.clientName.trim()) return false;
-            if (!appState.lastPaidClientName) return false;
-            return appState.lastPaidClientName.trim().toLowerCase() === appState.clientName.trim().toLowerCase();
+            if (!appState.clientName.trim() || !appState.docNumber.trim()) return false;
+            return !!appState.paidDocuments[getDocumentKey()];
         }
 
         function handleClientBillingChange() {
-            appState.lastPaidClientName = null;
             updateLivePreview();
         }
 
@@ -662,7 +721,7 @@
 
         function openPaymentModal(action = 'download') {
             paymentTargetAction = action;
-            document.getElementById('modal-subtitle').textContent = `Complete payment for "${appState.clientName || 'Client'}" to unlock printing and downloading.`;
+            document.getElementById('modal-subtitle').textContent = `Complete payment for "${appState.clientName || 'Client'}" (${appState.docNumber || 'Doc'}) to unlock printing and downloading.`;
             document.getElementById('modal-client-badge').textContent = appState.clientName || 'Client';
             document.getElementById('payment-modal').classList.remove('hidden');
         }
@@ -693,7 +752,7 @@
                     ]
                 },
                 callback: function(response) {
-                    appState.lastPaidClientName = appState.clientName;
+                    appState.paidDocuments[getDocumentKey()] = true;
                     updateLivePreview();
 
                     if (typeof confetti === 'function') {
@@ -720,7 +779,10 @@
                 html2canvas:   { scale: 2, useCORS: true },
                 jsPDF:         { unit: 'in', format: 'letter', orientation: 'portrait' }
             };
-            html2pdf().from(element).set(opt).save();
+            html2pdf().from(element).set(opt).save().then(() => {
+                appState.paidDocuments[getDocumentKey()] = false;
+                updateLivePreview();
+            });
         }
 
         function setDocType(type) {
@@ -975,9 +1037,20 @@
             let cContact = appState.clientContact.trim() || '[Client Email / Phone]';
             let cAddress = appState.clientAddress.trim() || '[Client Address]';
 
-            let logoHtml = appState.senderLogo ? `<img src="${appState.senderLogo}" alt="Logo" class="h-12 max-w-[160px] object-contain mb-2">` : '';
+            // Logo Alignment Implementation
+            let logoAlignClass = 'items-start text-left';
+            let logoImgAlign = 'mr-auto';
+            if (appState.logoAlign === 'center') {
+                logoAlignClass = 'items-center text-center';
+                logoImgAlign = 'mx-auto';
+            } else if (appState.logoAlign === 'right') {
+                logoAlignClass = 'items-end text-right';
+                logoImgAlign = 'ml-auto';
+            }
 
-            // Signature block generator
+            let logoHtml = appState.senderLogo ? `<img src="${appState.senderLogo}" alt="Logo" class="h-12 max-w-[160px] object-contain mb-2 ${logoImgAlign}">` : '';
+
+            // 3-Column Bottom Corner Placement Generator (Left Corner, Center, Right Corner)
             let signatureHtml = '';
             if (appState.showSignature) {
                 let sigVisual = '';
@@ -987,44 +1060,57 @@
                     sigVisual = `<div class="h-12 w-40 border-b border-dashed border-zinc-300 mb-1 flex items-end"><span class="text-[9px] text-zinc-400 italic no-print">Sign here if printing blank</span></div>`;
                 }
 
-                let sealBadge = appState.showSeal ? `
-                    <div class="flex flex-col items-center justify-center">
-                        <div class="h-20 w-20 rounded-full border-4 flex flex-col items-center justify-center text-center p-1 relative shadow-inner" style="border-color: ${appState.themePrimary}; color: ${appState.themePrimary}; background-color: ${appState.themePrimary}08;">
-                            <i class="fa-solid fa-certificate text-xl mb-0.5"></i>
-                            <span class="text-[8px] font-black uppercase tracking-tighter leading-none no-print">OFFICIAL SEAL</span>
-                        </div>
+                // Components HTML
+                let sigContent = `
+                    <div class="flex flex-col items-start">
+                        <div class="font-bold text-zinc-700 uppercase tracking-wider mb-2">Authorized Signatory</div>
+                        ${sigVisual}
+                        <div class="border-t border-zinc-400 pt-1 font-semibold text-zinc-900 w-44">${appState.authName || '[Authorized Name]'}</div>
+                        <div class="text-[11px] text-zinc-500">${appState.authTitle || '[Designation]'}</div>
                     </div>
-                ` : '<div></div>';
+                `;
 
-                let stampBox = appState.showStamp ? `
-                    <div class="flex flex-col items-center justify-center">
+                let stampContent = appState.showStamp ? `
+                    <div class="flex flex-col items-center">
                         <div class="h-20 w-32 border-2 border-dashed rounded-lg flex flex-col items-center justify-center p-1 text-center bg-zinc-50" style="border-color: ${appState.themePrimary}60; color: ${appState.themePrimary};">
                             <i class="fa-solid fa-stamp text-lg mb-1"></i>
                             <span class="text-[9px] font-bold uppercase tracking-wider no-print">CORP STAMP</span>
                         </div>
                     </div>
-                ` : '<div></div>';
+                ` : '';
+
+                let sealContent = appState.showSeal ? `
+                    <div class="flex flex-col items-end">
+                        <div class="h-20 w-20 rounded-full border-4 flex flex-col items-center justify-center text-center p-1 relative shadow-inner" style="border-color: ${appState.themePrimary}; color: ${appState.themePrimary}; background-color: ${appState.themePrimary}08;">
+                            <i class="fa-solid fa-certificate text-xl mb-0.5"></i>
+                            <span class="text-[8px] font-black uppercase tracking-tighter leading-none no-print">OFFICIAL SEAL</span>
+                        </div>
+                    </div>
+                ` : '';
+
+                // Map items into bottom grid slots based on their assigned corner (left, center, right)
+                let slots = { left: [], center: [], right: [] };
+
+                slots[appState.sigAlign].push(sigContent);
+                if (appState.showStamp) slots[appState.stampAlign].push(stampContent);
+                if (appState.showSeal) slots[appState.sealAlign].push(sealContent);
 
                 signatureHtml = `
                     <div class="grid grid-cols-3 gap-4 pt-4 mt-4 border-t border-zinc-200 items-end text-xs w-full">
-                        <div>
-                            <div class="font-bold text-zinc-700 uppercase tracking-wider mb-2">Authorized Signatory</div>
-                            ${sigVisual}
-                            <div class="border-t border-zinc-400 pt-1 font-semibold text-zinc-900 w-44">${appState.authName || '[Authorized Name]'}</div>
-                            <div class="text-[11px] text-zinc-500">${appState.authTitle || '[Designation]'}</div>
-                        </div>
-                        ${stampBox}
-                        ${sealBadge}
+                        <div class="flex flex-col justify-end items-start text-left">${slots.left.join('')}</div>
+                        <div class="flex flex-col justify-end items-center text-center">${slots.center.join('')}</div>
+                        <div class="flex flex-col justify-end items-end text-right">${slots.right.join('')}</div>
                     </div>
                 `;
             }
 
             // Certificate Variants
             if (appState.docType === 'Certificate') {
+                let certHeaderFlex = appState.logoAlign === 'center' ? 'items-center text-center' : (appState.logoAlign === 'right' ? 'items-end text-right' : 'items-start text-left');
                 if (appState.variant === 'minimal') {
                     return `
                         <div class="flex flex-col items-center text-center justify-between h-full p-6 border border-zinc-300 rounded-xl bg-zinc-50/50 w-full">
-                            <div>
+                            <div class="w-full flex flex-col ${certHeaderFlex}">
                                 ${logoHtml}
                                 <div class="text-xs font-mono tracking-widest text-zinc-400 uppercase mb-2">${sName}</div>
                                 <h2 class="text-3xl font-light tracking-wide text-zinc-900 mb-4" style="color: ${appState.themeDark}">${appState.certTitle}</h2>
@@ -1040,7 +1126,7 @@
                 } else if (appState.variant === 'gold') {
                     return `
                         <div class="flex flex-col items-center text-center justify-between h-full p-8 border-4 rounded-2xl shadow-lg w-full" style="border-color: #d97706; background: linear-gradient(to bottom, #fffdfa, #fffbeb);">
-                            <div>
+                            <div class="w-full flex flex-col ${certHeaderFlex}">
                                 ${logoHtml}
                                 <div class="text-xs font-bold uppercase text-amber-700 tracking-widest mb-2">${sName}</div>
                                 <h2 class="text-4xl font-cinzel font-bold text-amber-900 mb-3">${appState.certTitle}</h2>
@@ -1056,7 +1142,7 @@
                 } else if (appState.variant === 'parchment') {
                     return `
                         <div class="flex flex-col items-center text-center justify-between h-full p-8 border-8 border-double rounded-3xl bg-amber-50/30 w-full" style="border-color: ${appState.themePrimary};">
-                            <div>
+                            <div class="w-full flex flex-col ${certHeaderFlex}">
                                 ${logoHtml}
                                 <div class="text-sm font-black uppercase tracking-widest text-zinc-500 mb-2">${sName} Presentation</div>
                                 <h2 class="text-3xl font-serif font-bold text-zinc-900 mb-4" style="color: ${appState.themeDark}">${appState.certTitle}</h2>
@@ -1072,7 +1158,7 @@
                 }
                 return `
                     <div class="flex flex-col items-center text-center justify-between h-full p-8 border-4 rounded-3xl shadow-md w-full" style="border-color: ${appState.themePrimary};">
-                        <div>
+                        <div class="w-full flex flex-col ${certHeaderFlex}">
                             ${logoHtml}
                             <div class="text-xs font-black uppercase tracking-widest text-zinc-400 mb-2">${sName}</div>
                             <div class="text-3xl font-cinzel font-bold text-zinc-900 mb-3" style="color: ${appState.themeDark}">${appState.certTitle}</div>
@@ -1109,7 +1195,6 @@
                 `;
             }
 
-            // Standard Document Variants (Invoice, Quotation, Receipt, Proposal, Delivery)
             let variant = appState.variant;
             let isDelivery = appState.docType === 'Delivery';
 
@@ -1118,12 +1203,12 @@
                 return `
                     <div>
                         <div class="flex justify-between items-start border-b pb-4 mb-6" style="border-color: ${appState.themePrimary}">
-                            <div>
+                            <div class="flex flex-col ${logoAlignClass} flex-1">
                                 ${logoHtml}
                                 <div class="text-lg font-black text-zinc-900">${sName}</div>
                                 <div class="text-xs text-zinc-500">${sContact} | ${sAddress}</div>
                             </div>
-                            <div class="text-right">
+                            <div class="text-right shrink-0">
                                 <div class="text-2xl font-black uppercase tracking-wider" style="color: ${appState.themePrimary}">${appState.docType}</div>
                                 <div class="text-xs font-mono font-bold text-zinc-700 mt-1">${appState.docNumber || 'DOC-001'}</div>
                                 <div class="text-xs text-zinc-500">Date: ${appState.date}</div>
@@ -1187,12 +1272,12 @@
                 return `
                     <div>
                         <div class="bg-zinc-900 text-zinc-100 p-6 rounded-xl mb-6 flex justify-between items-center shadow">
-                            <div>
+                            <div class="flex flex-col ${logoAlignClass} flex-1">
                                 ${logoHtml}
                                 <div class="text-xl font-black">${sName}</div>
                                 <div class="text-[11px] text-zinc-400">${sContact} • ${sAddress}</div>
                             </div>
-                            <div class="text-right">
+                            <div class="text-right shrink-0">
                                 <div class="text-2xl font-black uppercase tracking-widest" style="color: ${appState.themePrimary}">${appState.docType}</div>
                                 <div class="text-xs font-mono text-zinc-300 mt-1">${appState.docNumber || 'REF-001'}</div>
                             </div>
@@ -1256,12 +1341,12 @@
                 return `
                     <div>
                         <div class="border-b-4 border-zinc-900 pb-3 mb-6 flex justify-between items-end">
-                            <div>
+                            <div class="flex flex-col ${logoAlignClass} flex-1">
                                 ${logoHtml}
                                 <div class="text-xl font-serif font-bold text-zinc-900">${sName}</div>
                                 <div class="text-[11px] text-zinc-500">${sContact} • ${sAddress}</div>
                             </div>
-                            <div class="text-right font-mono">
+                            <div class="text-right font-mono shrink-0">
                                 <div class="text-xl font-bold uppercase">${appState.docType}</div>
                                 <div class="text-xs text-zinc-600">Ref: ${appState.docNumber || '001'}</div>
                                 <div class="text-xs text-zinc-500">${appState.date}</div>
@@ -1315,12 +1400,12 @@
             return `
                 <div>
                     <div class="grid grid-cols-2 gap-6 pb-6 mb-6 border-b-2 border-zinc-200 items-center">
-                        <div>
+                        <div class="flex flex-col ${logoAlignClass} flex-1">
                             ${logoHtml}
                             <div class="text-xl font-extrabold text-zinc-900">${sName}</div>
                             <div class="text-xs text-zinc-500 mt-1">${sContact}</div>
                         </div>
-                        <div class="text-right bg-zinc-50 p-4 rounded-xl border border-zinc-200">
+                        <div class="text-right bg-zinc-50 p-4 rounded-xl border border-zinc-200 shrink-0">
                             <div class="text-xs font-bold uppercase tracking-wider text-zinc-400">${appState.docType} Ref</div>
                             <div class="text-lg font-black text-zinc-900 font-mono mt-0.5">${appState.docNumber || 'DOC-004'}</div>
                             <div class="text-xs text-zinc-500 mt-1">Date: ${appState.date}</div>
