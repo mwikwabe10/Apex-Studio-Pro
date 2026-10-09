@@ -57,7 +57,7 @@
 <body class="bg-zinc-950 text-zinc-100 font-sans h-full flex flex-col antialiased selection:bg-emerald-500 selection:text-zinc-950">
 
     <!-- Top Navigation Bar -->
-    <header class="border-b border-zinc-800 bg-zinc-900/85 backdrop-blur sticky top-0 z-30 px-6 py-3 flex items-center justify-between">
+    <header class="border-b border-zinc-800 bg-zinc-900/90 backdrop-blur sticky top-0 z-30 px-6 py-3.5 flex items-center justify-between shadow-md">
         <div class="flex items-center space-x-3">
             <div id="nav-brand-badge" class="bg-gradient-to-tr from-emerald-600 to-emerald-400 text-zinc-950 p-2.5 rounded-xl font-black text-sm tracking-tighter flex items-center justify-center shadow-lg">
                 <i class="fa-solid fa-file-shield text-base"></i>
@@ -72,11 +72,11 @@
         </div>
 
         <div class="flex items-center space-x-3">
-            <button onclick="resetFormState()" class="bg-zinc-800 hover:bg-zinc-700 text-zinc-300 px-3 py-1.5 rounded-lg text-xs font-semibold transition flex items-center space-x-1.5 border border-zinc-700" title="Reset Form">
+            <button onclick="resetFormState()" class="bg-zinc-800/80 hover:bg-zinc-700 text-zinc-300 px-3.5 py-2 rounded-xl text-xs font-semibold transition flex items-center space-x-1.5 border border-zinc-700/80 shadow-sm" title="Reset Form">
                 <i class="fa-solid fa-rotate-right text-[10px]"></i>
                 <span class="hidden sm:inline">Reset Form</span>
             </button>
-            <button onclick="handleDownloadAction()" id="header-pay-btn" class="bg-amber-500 hover:bg-amber-400 text-zinc-950 px-4 py-1.5 rounded-lg text-xs font-bold transition flex items-center space-x-2 shadow-lg">
+            <button onclick="handleDownloadAction()" id="header-pay-btn" class="bg-amber-500 hover:bg-amber-400 text-zinc-950 px-4 py-2 rounded-xl text-xs font-bold transition flex items-center space-x-2 shadow-lg shadow-amber-500/20">
                 <i class="fa-solid fa-lock text-[11px]"></i>
                 <span>Pay & Download PDF</span>
             </button>
@@ -87,49 +87,59 @@
     <main class="flex-1 grid grid-cols-1 lg:grid-cols-12 overflow-hidden">
         
         <!-- Left Panel: Controls & Customization (5 Cols) -->
-        <section class="lg:col-span-5 bg-zinc-900 border-r border-zinc-800 flex flex-col h-full overflow-y-auto p-6 space-y-6">
+        <section class="lg:col-span-5 bg-gradient-to-b from-zinc-950 via-zinc-900/40 to-zinc-950 border-r border-zinc-800/80 flex flex-col h-full overflow-y-auto p-4 space-y-3">
             
-            <!-- Document Type Selector -->
-            <div>
-                <label class="block text-xs font-bold text-zinc-400 uppercase tracking-wider mb-2">Select Document Type</label>
-                <div class="grid grid-cols-3 gap-2 bg-zinc-950 p-1.5 rounded-xl border border-zinc-800">
-                    <button type="button" id="btn-type-Invoice" onclick="setDocType('Invoice')" class="py-2 text-[11px] font-bold rounded-lg transition bg-emerald-500 text-zinc-950 shadow">Invoice</button>
-                    <button type="button" id="btn-type-Quotation" onclick="setDocType('Quotation')" class="py-2 text-[11px] font-bold rounded-lg transition text-zinc-400 hover:text-zinc-200">Quotation</button>
-                    <button type="button" id="btn-type-Receipt" onclick="setDocType('Receipt')" class="py-2 text-[11px] font-bold rounded-lg transition text-zinc-400 hover:text-zinc-200">Receipt</button>
-                    <button type="button" id="btn-type-Certificate" onclick="setDocType('Certificate')" class="py-2 text-[11px] font-bold rounded-lg transition text-zinc-400 hover:text-zinc-200">Certificate</button>
-                    <button type="button" id="btn-type-Proposal" onclick="setDocType('Proposal')" class="py-2 text-[11px] font-bold rounded-lg transition text-zinc-400 hover:text-zinc-200">Proposal</button>
-                    <button type="button" id="btn-type-Delivery" onclick="setDocType('Delivery')" class="py-2 text-[11px] font-bold rounded-lg transition text-zinc-400 hover:text-zinc-200">Delivery Note</button>
-                </div>
-            </div>
-
-            <!-- Sub-Layout Variant Selector -->
-            <div class="bg-zinc-950 p-3.5 rounded-xl border border-zinc-800 space-y-2">
-                <div class="flex items-center justify-between">
-                    <label id="layout-label-text" class="text-xs font-bold text-emerald-400 uppercase tracking-wider flex items-center space-x-1.5">
-                        <i class="fa-solid fa-layer-group text-xs"></i>
-                        <span>Design Layouts (4 Options)</span>
-                    </label>
-                    <span id="variant-type-badge" class="text-[10px] font-mono bg-zinc-900 text-zinc-400 px-2 py-0.5 rounded border border-zinc-800">Layout 1</span>
-                </div>
-                <div id="sublayout-buttons-container" class="grid grid-cols-2 gap-2"></div>
-            </div>
-
-            <!-- Color Theme & Font Family Customizer -->
-            <div class="grid grid-cols-2 gap-4">
-                <div>
-                    <label class="block text-xs font-bold text-zinc-400 uppercase tracking-wider mb-2">Accent Theme</label>
-                    <div class="grid grid-cols-3 gap-2">
-                        <button type="button" onclick="setThemeColor('emerald', '#10b981', '#065f46')" class="h-7 rounded-lg bg-emerald-500 border-2 border-zinc-950 shadow hover:scale-105 transition" title="Emerald"></button>
-                        <button type="button" onclick="setThemeColor('indigo', '#6366f1', '#3730a3')" class="h-7 rounded-lg bg-indigo-500 border-2 border-zinc-950 shadow hover:scale-105 transition" title="Indigo"></button>
-                        <button type="button" onclick="setThemeColor('amber', '#f59e0b', '#b45309')" class="h-7 rounded-lg bg-amber-500 border-2 border-zinc-950 shadow hover:scale-105 transition" title="Amber"></button>
-                        <button type="button" onclick="setThemeColor('rose', '#f43f5e', '#9f1239')" class="h-7 rounded-lg bg-rose-500 border-2 border-zinc-950 shadow hover:scale-105 transition" title="Rose"></button>
-                        <button type="button" onclick="setThemeColor('cyan', '#06b6d4', '#155e75')" class="h-7 rounded-lg bg-cyan-500 border-2 border-zinc-950 shadow hover:scale-105 transition" title="Cyan"></button>
-                        <button type="button" onclick="setThemeColor('slate', '#64748b', '#1e293b')" class="h-7 rounded-lg bg-slate-600 border-2 border-zinc-950 shadow hover:scale-105 transition" title="Slate"></button>
+            <!-- 1. Document & Layout Type Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                <div class="bg-gradient-to-br from-zinc-900/95 via-zinc-900/90 to-emerald-950/20 border border-emerald-500/30 rounded-2xl p-3 shadow-lg space-y-2">
+                    <div class="flex items-center space-x-1.5 text-[11px] font-bold text-emerald-300 uppercase tracking-wider">
+                        <i class="fa-solid fa-file-lines text-emerald-400 text-xs"></i>
+                        <span>Document Type</span>
+                    </div>
+                    <div class="grid grid-cols-2 gap-1.5 bg-zinc-950/80 p-1 rounded-xl border border-zinc-800">
+                        <button type="button" id="btn-type-Invoice" onclick="setDocType('Invoice')" class="py-1.5 text-[10px] font-bold rounded-lg transition bg-emerald-500 text-zinc-950 shadow">Invoice</button>
+                        <button type="button" id="btn-type-Quotation" onclick="setDocType('Quotation')" class="py-1.5 text-[10px] font-bold rounded-lg transition text-zinc-400 hover:text-zinc-200">Quotation</button>
+                        <button type="button" id="btn-type-Receipt" onclick="setDocType('Receipt')" class="py-1.5 text-[10px] font-bold rounded-lg transition text-zinc-400 hover:text-zinc-200">Receipt</button>
+                        <button type="button" id="btn-type-Certificate" onclick="setDocType('Certificate')" class="py-1.5 text-[10px] font-bold rounded-lg transition text-zinc-400 hover:text-zinc-200">Certificate</button>
+                        <button type="button" id="btn-type-Proposal" onclick="setDocType('Proposal')" class="py-1.5 text-[10px] font-bold rounded-lg transition text-zinc-400 hover:text-zinc-200">Proposal</button>
+                        <button type="button" id="btn-type-Delivery" onclick="setDocType('Delivery')" class="py-1.5 text-[10px] font-bold rounded-lg transition text-zinc-400 hover:text-zinc-200">Delivery</button>
                     </div>
                 </div>
-                <div>
-                    <label class="block text-xs font-bold text-zinc-400 uppercase tracking-wider mb-2">Font Family</label>
-                    <select id="font-family-select" onchange="updateLivePreview()" class="w-full bg-zinc-950 border border-zinc-800 rounded-xl px-3 py-2 text-xs text-zinc-200 focus:outline-none">
+
+                <div class="bg-gradient-to-br from-zinc-900/95 via-zinc-900/90 to-cyan-950/20 border border-cyan-500/30 rounded-2xl p-3 shadow-lg space-y-2">
+                    <div class="flex items-center justify-between">
+                        <label class="text-[11px] font-bold text-cyan-300 uppercase tracking-wider flex items-center space-x-1.5">
+                            <i class="fa-solid fa-layer-group text-xs text-cyan-400"></i>
+                            <span>Layout Styles</span>
+                        </label>
+                        <span id="variant-type-badge" class="text-[9px] font-mono bg-zinc-950 text-cyan-300 px-2 py-0.5 rounded border border-cyan-500/20 font-bold">Layout 1</span>
+                    </div>
+                    <div id="sublayout-buttons-container" class="grid grid-cols-2 gap-1.5"></div>
+                </div>
+            </div>
+
+            <!-- 2. Theme & Styling Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                <div class="bg-gradient-to-br from-zinc-900/95 via-zinc-900/90 to-indigo-950/20 border border-indigo-500/30 rounded-2xl p-3 shadow-lg space-y-2">
+                    <label class="block text-[11px] font-bold text-indigo-300 uppercase tracking-wider flex items-center space-x-1.5">
+                        <i class="fa-solid fa-palette text-indigo-400 text-xs"></i>
+                        <span>Accent Theme</span>
+                    </label>
+                    <div class="grid grid-cols-6 gap-1.5 pt-1">
+                        <button type="button" onclick="setThemeColor('emerald', '#10b981', '#065f46')" class="h-6 rounded-lg bg-emerald-500 border border-zinc-950 hover:scale-105 transition" title="Emerald"></button>
+                        <button type="button" onclick="setThemeColor('indigo', '#6366f1', '#3730a3')" class="h-6 rounded-lg bg-indigo-500 border border-zinc-950 hover:scale-105 transition" title="Indigo"></button>
+                        <button type="button" onclick="setThemeColor('amber', '#f59e0b', '#b45309')" class="h-6 rounded-lg bg-amber-500 border border-zinc-950 hover:scale-105 transition" title="Amber"></button>
+                        <button type="button" onclick="setThemeColor('rose', '#f43f5e', '#9f1239')" class="h-6 rounded-lg bg-rose-500 border border-zinc-950 hover:scale-105 transition" title="Rose"></button>
+                        <button type="button" onclick="setThemeColor('cyan', '#06b6d4', '#155e75')" class="h-6 rounded-lg bg-cyan-500 border border-zinc-950 hover:scale-105 transition" title="Cyan"></button>
+                        <button type="button" onclick="setThemeColor('slate', '#64748b', '#1e293b')" class="h-6 rounded-lg bg-slate-600 border border-zinc-950 hover:scale-105 transition" title="Slate"></button>
+                    </div>
+                </div>
+                <div class="bg-gradient-to-br from-zinc-900/95 via-zinc-900/90 to-purple-950/20 border border-purple-500/30 rounded-2xl p-3 shadow-lg space-y-2">
+                    <label class="block text-[11px] font-bold text-purple-300 uppercase tracking-wider flex items-center space-x-1.5">
+                        <i class="fa-solid fa-font text-purple-400 text-xs"></i>
+                        <span>Font Family</span>
+                    </label>
+                    <select id="font-family-select" onchange="updateLivePreview()" class="w-full bg-zinc-950 border border-zinc-800 rounded-xl px-2.5 py-1.5 text-xs text-zinc-200 focus:outline-none focus:ring-1 focus:ring-purple-500/40">
                         <option value="font-sans">Modern Sans (Plus Jakarta)</option>
                         <option value="font-serif">Classic Serif (Playfair)</option>
                         <option value="font-mono">Monospace (JetBrains)</option>
@@ -138,236 +148,215 @@
                 </div>
             </div>
 
-            <!-- Certificate Specific Customizer -->
-            <div id="certificate-type-config" class="space-y-3 bg-zinc-950 p-3.5 rounded-xl border border-zinc-800 hidden">
-                <label class="block text-xs font-bold text-emerald-400 uppercase tracking-wider">Certificate Type / Category</label>
-                <div class="grid grid-cols-2 gap-2 mb-2">
-                    <button type="button" onclick="setCertPreset('Certificate of Achievement')" class="bg-zinc-900 hover:bg-zinc-800 text-zinc-300 text-[11px] font-bold py-1.5 px-2 rounded border border-zinc-800 transition">Achievement</button>
-                    <button type="button" onclick="setCertPreset('Certificate of Participation')" class="bg-zinc-900 hover:bg-zinc-800 text-zinc-300 text-[11px] font-bold py-1.5 px-2 rounded border border-zinc-800 transition">Participation</button>
-                    <button type="button" onclick="setCertPreset('Certificate of Excellence')" class="bg-zinc-900 hover:bg-zinc-800 text-zinc-300 text-[11px] font-bold py-1.5 px-2 rounded border border-zinc-800 transition">Excellence</button>
-                    <button type="button" onclick="setCertPreset('Certificate of Completion')" class="bg-zinc-900 hover:bg-zinc-800 text-zinc-300 text-[11px] font-bold py-1.5 px-2 rounded border border-zinc-800 transition">Completion</button>
+            <!-- Conditional Context Cards -->
+            <div id="certificate-type-config" class="bg-gradient-to-br from-zinc-900/95 via-zinc-900/90 to-amber-950/20 border border-amber-500/30 rounded-2xl p-3 shadow-lg space-y-2 hidden">
+                <label class="block text-[11px] font-bold text-amber-300 uppercase tracking-wider flex items-center space-x-1.5">
+                    <i class="fa-solid fa-award text-amber-400 text-xs"></i>
+                    <span>Certificate Configuration</span>
+                </label>
+                <div class="grid grid-cols-4 gap-1">
+                    <button type="button" onclick="setCertPreset('Certificate of Achievement')" class="bg-zinc-950 hover:bg-zinc-800 text-zinc-300 text-[10px] font-bold py-1.5 px-1 rounded-lg border border-zinc-800 transition truncate">Achievement</button>
+                    <button type="button" onclick="setCertPreset('Certificate of Participation')" class="bg-zinc-950 hover:bg-zinc-800 text-zinc-300 text-[10px] font-bold py-1.5 px-1 rounded-lg border border-zinc-800 transition truncate">Participation</button>
+                    <button type="button" onclick="setCertPreset('Certificate of Excellence')" class="bg-zinc-950 hover:bg-zinc-800 text-zinc-300 text-[10px] font-bold py-1.5 px-1 rounded-lg border border-zinc-800 transition truncate">Excellence</button>
+                    <button type="button" onclick="setCertPreset('Certificate of Completion')" class="bg-zinc-950 hover:bg-zinc-800 text-zinc-300 text-[10px] font-bold py-1.5 px-1 rounded-lg border border-zinc-800 transition truncate">Completion</button>
                 </div>
-                <div>
-                    <label class="block text-[10px] text-zinc-400 mb-1">Custom Certificate Title</label>
-                    <input type="text" id="cert-title-input" value="Certificate of Achievement" oninput="updateLivePreview()" placeholder="e.g. Certificate of Merit" class="w-full bg-zinc-900 border border-zinc-800 rounded-lg px-2.5 py-1.5 text-xs text-zinc-200 font-bold focus:outline-none">
-                </div>
+                <input type="text" id="cert-title-input" value="Certificate of Achievement" oninput="updateLivePreview()" placeholder="Custom Title..." class="w-full bg-zinc-950 border border-zinc-800 rounded-xl px-2.5 py-1.5 text-xs text-zinc-200 font-bold focus:outline-none">
             </div>
 
-            <!-- Extended Document Info -->
-            <div id="extended-info-section" class="space-y-4 pt-2 border-t border-zinc-800 hidden">
-                <label class="block text-xs font-bold text-zinc-400 uppercase tracking-wider">Extended Structural Content</label>
-                <div>
-                    <label class="block text-[11px] font-medium text-zinc-400 mb-1">Introduction / Executive Overview</label>
-                    <textarea id="doc-intro" rows="2" oninput="updateLivePreview()" placeholder="State the main objective or introduction..." class="w-full bg-zinc-950 border border-zinc-800 rounded-xl p-3 text-xs text-zinc-200 focus:outline-none"></textarea>
-                </div>
-                <div>
-                    <label class="block text-[11px] font-medium text-zinc-400 mb-1">Company Profile / Background</label>
-                    <textarea id="company-profile" rows="2" oninput="updateLivePreview()" placeholder="Brief overview of your company background..." class="w-full bg-zinc-950 border border-zinc-800 rounded-xl p-3 text-xs text-zinc-200 focus:outline-none"></textarea>
-                </div>
+            <div id="extended-info-section" class="bg-gradient-to-br from-zinc-900/95 via-zinc-900/90 to-purple-950/20 border border-purple-500/30 rounded-2xl p-3 shadow-lg space-y-2 hidden">
+                <label class="block text-[11px] font-bold text-purple-300 uppercase tracking-wider flex items-center space-x-1.5">
+                    <i class="fa-solid fa-align-left text-purple-400 text-xs"></i>
+                    <span>Structural Content (Proposal)</span>
+                </label>
+                <textarea id="doc-intro" rows="2" oninput="updateLivePreview()" placeholder="Executive Overview..." class="w-full bg-zinc-950 border border-zinc-800 rounded-xl p-2 text-xs text-zinc-200 focus:outline-none"></textarea>
+                <textarea id="company-profile" rows="2" oninput="updateLivePreview()" placeholder="Company Profile..." class="w-full bg-zinc-950 border border-zinc-800 rounded-xl p-2 text-xs text-zinc-200 focus:outline-none"></textarea>
             </div>
 
-            <!-- Receipt Payment Config -->
-            <div id="receipt-payment-config" class="space-y-3 bg-zinc-950 p-3 rounded-xl border border-zinc-800 hidden">
-                <label class="block text-xs font-bold text-emerald-400 uppercase tracking-wider">Receipt Payment Status</label>
+            <div id="receipt-payment-config" class="bg-gradient-to-br from-zinc-900/95 via-zinc-900/90 to-emerald-950/20 border border-emerald-500/30 rounded-2xl p-3 shadow-lg space-y-2 hidden">
+                <label class="block text-[11px] font-bold text-emerald-300 uppercase tracking-wider flex items-center space-x-1.5">
+                    <i class="fa-solid fa-receipt text-emerald-400 text-xs"></i>
+                    <span>Receipt Payment Status</span>
+                </label>
                 <div class="grid grid-cols-2 gap-2">
-                    <div>
-                        <label class="block text-[10px] text-zinc-400 mb-1">Status Mode</label>
-                        <select id="receipt-status-mode" onchange="updateLivePreview()" class="w-full bg-zinc-900 border border-zinc-800 rounded-lg px-2 py-1.5 text-xs text-zinc-200 focus:outline-none">
-                            <option value="full">Paid in Full</option>
-                            <option value="partial">Partial Payment</option>
-                        </select>
-                    </div>
-                    <div>
-                        <label class="block text-[10px] text-zinc-400 mb-1">Amount Paid</label>
-                        <input type="number" id="amount-paid" value="0" min="0" oninput="updateLivePreview()" class="w-full bg-zinc-900 border border-zinc-800 rounded-lg px-2.5 py-1.5 text-xs text-zinc-200 font-mono focus:outline-none" placeholder="0.00">
-                    </div>
+                    <select id="receipt-status-mode" onchange="updateLivePreview()" class="w-full bg-zinc-950 border border-zinc-800 rounded-xl px-2 py-1.5 text-xs text-zinc-200 focus:outline-none">
+                        <option value="full">Paid in Full</option>
+                        <option value="partial">Partial Payment</option>
+                    </select>
+                    <input type="number" id="amount-paid" value="0" min="0" oninput="updateLivePreview()" class="w-full bg-zinc-950 border border-zinc-800 rounded-xl px-2.5 py-1.5 text-xs text-zinc-200 font-mono focus:outline-none" placeholder="Amount Paid">
                 </div>
             </div>
 
-            <!-- Meta Details -->
-            <div class="space-y-4 pt-2 border-t border-zinc-800">
+            <!-- 3. Metadata Card -->
+            <div class="bg-gradient-to-br from-zinc-900/95 via-zinc-900/90 to-rose-950/20 border border-rose-500/30 rounded-2xl p-3 shadow-lg space-y-2.5">
                 <div class="flex items-center justify-between">
-                    <label class="text-xs font-bold text-zinc-400 uppercase tracking-wider">Document Metadata</label>
-                    <select id="currency" onchange="updateLivePreview()" class="bg-zinc-950 border border-zinc-800 rounded-lg px-2 py-1 text-xs text-zinc-200 font-mono focus:outline-none">
-                        <option value="KES">KES (Ksh)</option>
-                        <option value="USD">USD ($)</option>
-                        <option value="EUR">EUR (€)</option>
-                        <option value="GBP">GBP (£)</option>
+                    <label class="text-[11px] font-bold text-rose-300 uppercase tracking-wider flex items-center space-x-1.5">
+                        <i class="fa-solid fa-sliders text-rose-400 text-xs"></i>
+                        <span>Document Metadata</span>
+                    </label>
+                    <select id="currency" onchange="updateLivePreview()" class="bg-zinc-950 border border-zinc-800 rounded-lg px-2 py-0.5 text-[11px] text-zinc-200 font-mono focus:outline-none">
+                        <option value="KES">KES</option>
+                        <option value="USD">USD</option>
+                        <option value="EUR">EUR</option>
+                        <option value="GBP">GBP</option>
                     </select>
                 </div>
-                <div class="grid grid-cols-2 gap-3">
+                <div class="grid grid-cols-3 gap-2">
                     <div>
-                        <label id="doc-number-label" class="block text-[11px] font-medium text-zinc-400 mb-1">Document #</label>
-                        <input type="text" id="doc-number" value="" oninput="updateLivePreview()" placeholder="e.g. INV-001" class="w-full bg-zinc-950 border border-zinc-800 rounded-xl px-3 py-2 text-xs text-zinc-200 font-mono focus:outline-none">
+                        <div class="flex items-center justify-between mb-0.5">
+                            <label id="doc-number-label" class="text-[10px] text-zinc-400 uppercase">Number</label>
+                            <select id="doc-id-type" onchange="updateIdentifierType()" class="bg-zinc-950 text-rose-400 text-[9px] font-bold border-0 focus:outline-none">
+                                <option value="Document #">No.</option>
+                                <option value="Serial No.">Serial</option>
+                                <option value="Certificate ID">ID</option>
+                            </select>
+                        </div>
+                        <input type="text" id="doc-number" value="" oninput="updateLivePreview()" placeholder="INV-001" class="w-full bg-zinc-950 border border-zinc-800 rounded-xl px-2.5 py-1.5 text-xs text-zinc-200 font-mono focus:outline-none">
                     </div>
                     <div>
-                        <label id="date-label" class="block text-[11px] font-medium text-zinc-400 mb-1">Date</label>
-                        <input type="date" id="doc-date" onchange="updateLivePreview()" class="w-full bg-zinc-950 border border-zinc-800 rounded-xl px-3 py-2 text-xs text-zinc-200 font-mono focus:outline-none">
+                        <label id="date-label" class="block text-[10px] text-zinc-400 uppercase mb-0.5">Date</label>
+                        <input type="date" id="doc-date" onchange="updateLivePreview()" class="w-full bg-zinc-950 border border-zinc-800 rounded-xl px-2 py-1.5 text-[11px] text-zinc-200 font-mono focus:outline-none">
                     </div>
-                </div>
-                <div id="due-date-container">
-                    <label class="block text-[11px] font-medium text-zinc-400 mb-1">Due / Validity Date</label>
-                    <input type="date" id="due-date" onchange="updateLivePreview()" class="w-full bg-zinc-950 border border-zinc-800 rounded-xl px-3 py-2 text-xs text-zinc-200 font-mono focus:outline-none">
+                    <div id="due-date-container">
+                        <label class="block text-[10px] text-zinc-400 uppercase mb-0.5">Due Date</label>
+                        <input type="date" id="due-date" onchange="updateLivePreview()" class="w-full bg-zinc-950 border border-zinc-800 rounded-xl px-2 py-1.5 text-[11px] text-zinc-200 font-mono focus:outline-none">
+                    </div>
                 </div>
             </div>
 
-            <!-- Issuer & Client Info -->
-            <div class="space-y-4 pt-2 border-t border-zinc-800">
-                <label class="block text-xs font-bold text-zinc-400 uppercase tracking-wider">Issuer & Recipient</label>
-                <div class="space-y-2 bg-zinc-950 p-3 rounded-xl border border-zinc-800">
+            <!-- 4. Issuer Information Card -->
+            <div class="bg-gradient-to-br from-zinc-900/95 via-zinc-900/90 to-blue-950/20 border border-blue-500/30 rounded-2xl p-3 shadow-lg space-y-2.5">
+                <label class="block text-[11px] font-bold text-blue-300 uppercase tracking-wider flex items-center space-x-1.5">
+                    <i class="fa-solid fa-building text-blue-400 text-xs"></i>
+                    <span>Issuer Information</span>
+                </label>
+                
+                <div class="space-y-2 bg-zinc-950 p-2.5 rounded-xl border border-zinc-800">
                     <div class="flex items-center justify-between">
-                        <span class="text-[11px] font-bold text-zinc-300">Logo Position / Alignment</span>
-                        <div class="flex space-x-1 bg-zinc-900 p-1 rounded-lg border border-zinc-800">
-                            <button type="button" id="align-left" onclick="setLogoAlign('left')" class="px-2 py-0.5 text-[10px] rounded bg-zinc-800 text-zinc-200 font-bold">Left</button>
-                            <button type="button" id="align-center" onclick="setLogoAlign('center')" class="px-2 py-0.5 text-[10px] rounded text-zinc-400 hover:text-zinc-200">Center</button>
-                            <button type="button" id="align-right" onclick="setLogoAlign('right')" class="px-2 py-0.5 text-[10px] rounded text-zinc-400 hover:text-zinc-200">Right</button>
+                        <span class="text-[10px] font-bold text-zinc-300 uppercase">Company Details</span>
+                        <div class="flex space-x-1 bg-zinc-900 p-0.5 rounded border border-zinc-800">
+                            <button type="button" id="align-left" onclick="setLogoAlign('left')" class="px-2 py-0.5 text-[9px] rounded bg-zinc-800 text-zinc-200 font-bold">L</button>
+                            <button type="button" id="align-center" onclick="setLogoAlign('center')" class="px-2 py-0.5 text-[9px] rounded text-zinc-400">C</button>
+                            <button type="button" id="align-right" onclick="setLogoAlign('right')" class="px-2 py-0.5 text-[9px] rounded text-zinc-400">R</button>
                         </div>
                     </div>
-                    <input type="text" id="sender-name" value="" oninput="updateLivePreview()" placeholder="[Your Organization Name]" class="w-full bg-zinc-900 border border-zinc-800 rounded-lg px-2.5 py-1.5 text-xs text-zinc-200 focus:outline-none">
+                    <input type="text" id="sender-name" value="" oninput="updateLivePreview()" placeholder="[Your Organization Name]" class="w-full bg-zinc-900 border border-zinc-800 rounded-lg px-2.5 py-1 text-xs text-zinc-200 focus:outline-none">
                     
-                    <!-- Logo Upload with Clear Button -->
+                    <!-- Organization Logo Upload & Remove -->
                     <div class="space-y-1">
                         <div class="flex items-center justify-between">
-                            <span class="text-[10px] text-zinc-400">Company Logo</span>
+                            <span class="text-[10px] text-zinc-400 font-semibold">Organization Logo</span>
                             <button type="button" onclick="clearLogoImage()" id="clear-logo-btn" class="text-[10px] text-rose-400 hover:text-rose-300 hidden"><i class="fa-solid fa-xmark mr-1"></i>Remove Logo</button>
                         </div>
-                        <div class="flex items-center space-x-2">
-                            <input type="text" id="sender-logo" value="" oninput="updateLivePreview()" placeholder="[Paste Logo Image URL]" class="w-full bg-zinc-900 border border-zinc-800 rounded-lg px-2.5 py-1.5 text-xs text-zinc-200 focus:outline-none">
-                            <label class="bg-zinc-800 hover:bg-zinc-700 text-zinc-300 px-3 py-1.5 rounded-lg text-xs cursor-pointer transition shrink-0 border border-zinc-700" title="Upload Logo">
+                        <div class="flex items-center space-x-1.5">
+                            <input type="text" id="sender-logo" value="" oninput="updateLivePreview()" placeholder="[Logo URL or Upload]" class="w-full bg-zinc-900 border border-zinc-800 rounded-lg px-2 py-1 text-[11px] text-zinc-200 focus:outline-none">
+                            <label class="bg-zinc-800 hover:bg-zinc-700 text-zinc-300 px-2.5 py-1 rounded-lg text-[10px] cursor-pointer transition shrink-0 border border-zinc-700 shadow-sm" title="Upload Logo">
                                 <i class="fa-solid fa-upload"></i>
                                 <input type="file" id="logo-file-input" accept="image/*" onchange="handleLogoUpload(event)" class="hidden">
                             </label>
                         </div>
                     </div>
 
-                    <input type="text" id="sender-contact" value="" oninput="updateLivePreview()" placeholder="[Email / Phone]" class="w-full bg-zinc-900 border border-zinc-800 rounded-lg px-2.5 py-1.5 text-xs text-zinc-200 focus:outline-none">
-                    <input type="text" id="sender-address" value="" oninput="updateLivePreview()" placeholder="[City / Address]" class="w-full bg-zinc-900 border border-zinc-800 rounded-lg px-2.5 py-1.5 text-xs text-zinc-200 focus:outline-none">
+                    <div class="grid grid-cols-2 gap-1.5">
+                        <input type="text" id="partner-logos" value="" oninput="updateLivePreview()" placeholder="Partner Logo URLs" class="w-full bg-zinc-900 border border-zinc-800 rounded-lg px-2 py-1 text-[11px] text-zinc-200 focus:outline-none">
+                        <input type="text" id="sender-contact" value="" oninput="updateLivePreview()" placeholder="Email / Phone" class="w-full bg-zinc-900 border border-zinc-800 rounded-lg px-2 py-1 text-[11px] text-zinc-200 focus:outline-none">
+                    </div>
+                    <input type="text" id="sender-address" value="" oninput="updateLivePreview()" placeholder="City / Address" class="w-full bg-zinc-900 border border-zinc-800 rounded-lg px-2 py-1 text-[11px] text-zinc-200 focus:outline-none">
                 </div>
 
-                <!-- Client Info -->
-                <div class="space-y-2 bg-zinc-950 p-3 rounded-xl border border-sky-500/40 shadow-inner">
-                    <div class="text-[11px] font-bold text-sky-400 flex items-center space-x-1.5">
-                        <i class="fa-solid fa-user-shield text-xs"></i>
-                        <span>Client / Recipient (Triggers Payment Lock)</span>
+                <div class="space-y-2 bg-zinc-950 p-2.5 rounded-xl border border-sky-500/40">
+                    <div class="text-[10px] font-bold text-sky-400 uppercase flex items-center space-x-1">
+                        <i class="fa-solid fa-user-shield"></i>
+                        <span>Client / Recipient (Payment Lock Trigger)</span>
                     </div>
-                    <input type="text" id="client-name" value="" oninput="handleClientBillingChange()" placeholder="[Client / Recipient Name]" class="w-full bg-zinc-900 border border-zinc-800 rounded-lg px-2.5 py-1.5 text-xs text-zinc-200 font-bold focus:outline-none">
-                    <input type="text" id="client-contact" value="" oninput="handleClientBillingChange()" placeholder="[Client Email / Phone]" class="w-full bg-zinc-900 border border-zinc-800 rounded-lg px-2.5 py-1.5 text-xs text-zinc-200 focus:outline-none">
-                    <input type="text" id="client-address" value="" oninput="handleClientBillingChange()" placeholder="[Client Address]" class="w-full bg-zinc-900 border border-zinc-800 rounded-lg px-2.5 py-1.5 text-xs text-zinc-200 focus:outline-none">
+                    <input type="text" id="client-name" value="" oninput="handleClientBillingChange()" placeholder="[Recipient / Client Name]" class="w-full bg-zinc-900 border border-zinc-800 rounded-lg px-2.5 py-1 text-xs text-zinc-200 font-bold focus:outline-none">
+                    <div class="grid grid-cols-2 gap-1.5">
+                        <input type="text" id="client-contact" value="" oninput="handleClientBillingChange()" placeholder="Email / Phone" class="w-full bg-zinc-900 border border-zinc-800 rounded-lg px-2 py-1 text-[11px] text-zinc-200 focus:outline-none">
+                        <input type="text" id="client-address" value="" oninput="handleClientBillingChange()" placeholder="Address" class="w-full bg-zinc-900 border border-zinc-800 rounded-lg px-2 py-1 text-[11px] text-zinc-200 focus:outline-none">
+                    </div>
                 </div>
             </div>
 
-            <!-- Dynamic Line Items -->
-            <div class="space-y-3 pt-2 border-t border-zinc-800">
+            <!-- 5. Line Items & Financials Card -->
+            <div class="bg-gradient-to-br from-zinc-900/95 via-zinc-900/90 to-teal-950/20 border border-teal-500/30 rounded-2xl p-3 shadow-lg space-y-2.5">
                 <div class="flex items-center justify-between">
                     <div>
-                        <label id="items-section-title" class="text-xs font-bold text-zinc-400 uppercase tracking-wider">Line Items / Scope</label>
-                        <div class="text-[10px] text-emerald-400">Customized layout per style</div>
+                        <label id="items-section-title" class="text-[11px] font-bold text-teal-300 uppercase tracking-wider flex items-center space-x-1.5">
+                            <i class="fa-solid fa-list-check text-teal-400 text-xs"></i>
+                            <span>Line Items & Scope</span>
+                        </label>
                     </div>
-                    <button type="button" onclick="addLineItem()" class="text-xs text-emerald-400 hover:text-emerald-300 font-bold flex items-center space-x-1">
-                        <i class="fa-solid fa-plus text-[10px]"></i>
+                    <button type="button" onclick="addLineItem()" class="text-[10px] text-teal-300 hover:text-teal-200 font-bold flex items-center space-x-1 bg-teal-500/10 border border-teal-500/20 px-2 py-1 rounded transition">
+                        <i class="fa-solid fa-plus text-[9px]"></i>
                         <span>Add Entry</span>
                     </button>
                 </div>
-                <div id="line-items-container" class="space-y-2"></div>
-            </div>
-
-            <!-- Tax & Discount -->
-            <div id="financial-tax-box" class="grid grid-cols-2 gap-3 pt-2 border-t border-zinc-800">
-                <div>
-                    <label class="block text-[11px] font-medium text-zinc-400 mb-1">Tax Rate (%)</label>
-                    <input type="number" id="tax-rate" value="0" min="0" max="100" oninput="updateLivePreview()" class="w-full bg-zinc-950 border border-zinc-800 rounded-xl px-3 py-2 text-xs text-zinc-200 font-mono focus:outline-none" placeholder="0">
-                </div>
-                <div>
-                    <label class="block text-[11px] font-medium text-zinc-400 mb-1">Discount Amount</label>
-                    <input type="number" id="discount-amount" value="0" min="0" oninput="updateLivePreview()" class="w-full bg-zinc-950 border border-zinc-800 rounded-xl px-3 py-2 text-xs text-zinc-200 font-mono focus:outline-none" placeholder="0">
-                </div>
-            </div>
-
-            <!-- Notes & Terms -->
-            <div class="pt-2 border-t border-zinc-800">
-                <label id="notes-label" class="block text-xs font-bold text-zinc-400 uppercase tracking-wider mb-1">Notes / Terms</label>
-                <textarea id="doc-notes" rows="3" oninput="updateLivePreview()" placeholder="Enter notes or terms here..." class="w-full bg-zinc-950 border border-zinc-800 rounded-xl p-3 text-xs text-zinc-200 focus:outline-none"></textarea>
-            </div>
-
-            <!-- Signature, Seal & Official Stamp Settings -->
-            <div class="space-y-4 pt-2 border-t border-zinc-800">
-                <div class="flex items-center justify-between">
-                    <label class="text-xs font-bold text-zinc-400 uppercase tracking-wider">Signatures, Seals & Official Stamps</label>
-                    <label class="relative inline-flex items-center cursor-pointer">
-                        <input type="checkbox" id="show-signature" checked onchange="updateLivePreview()" class="sr-only peer">
-                        <div class="w-7 h-4 bg-zinc-800 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-zinc-300 after:border after:rounded-full after:h-3 after:w-3 after:transition-all peer-checked:bg-emerald-500"></div>
-                    </label>
-                </div>
-
-                <!-- Independent Bottom Corner Alignment Controls -->
-                <div class="space-y-2 bg-zinc-950 p-3 rounded-xl border border-zinc-800">
-                    <div class="text-[11px] font-bold text-zinc-300 mb-1">Independent Element Corner Alignment</div>
-                    
-                    <!-- Signature Block Corner -->
-                    <div class="flex items-center justify-between py-1">
-                        <span class="text-[10px] text-zinc-400">Signature Block</span>
-                        <div class="flex space-x-1 bg-zinc-900 p-0.5 rounded border border-zinc-800">
-                            <button type="button" id="sig-align-left" onclick="setSignoffElementAlign('sig', 'left')" class="px-2 py-0.5 text-[9px] rounded bg-zinc-800 text-zinc-200 font-bold">L</button>
-                            <button type="button" id="sig-align-center" onclick="setSignoffElementAlign('sig', 'center')" class="px-2 py-0.5 text-[9px] rounded text-zinc-400 hover:text-zinc-200">C</button>
-                            <button type="button" id="sig-align-right" onclick="setSignoffElementAlign('sig', 'right')" class="px-2 py-0.5 text-[9px] rounded text-zinc-400 hover:text-zinc-200">R</button>
-                        </div>
-                    </div>
-
-                    <!-- Official Seal Corner -->
-                    <div class="flex items-center justify-between py-1 border-t border-zinc-900">
-                        <span class="text-[10px] text-zinc-400">Official Seal</span>
-                        <div class="flex space-x-1 bg-zinc-900 p-0.5 rounded border border-zinc-800">
-                            <button type="button" id="seal-align-left" onclick="setSignoffElementAlign('seal', 'left')" class="px-2 py-0.5 text-[9px] rounded text-zinc-400 hover:text-zinc-200">L</button>
-                            <button type="button" id="seal-align-center" onclick="setSignoffElementAlign('seal', 'center')" class="px-2 py-0.5 text-[9px] rounded text-zinc-400 hover:text-zinc-200">C</button>
-                            <button type="button" id="seal-align-right" onclick="setSignoffElementAlign('seal', 'right')" class="px-2 py-0.5 text-[9px] rounded bg-zinc-800 text-zinc-200 font-bold">R</button>
-                        </div>
-                    </div>
-
-                    <!-- Corporate Stamp Corner -->
-                    <div class="flex items-center justify-between py-1 border-t border-zinc-900">
-                        <span class="text-[10px] text-zinc-400">Corporate Stamp</span>
-                        <div class="flex space-x-1 bg-zinc-900 p-0.5 rounded border border-zinc-800">
-                            <button type="button" id="stamp-align-left" onclick="setSignoffElementAlign('stamp', 'left')" class="px-2 py-0.5 text-[9px] rounded text-zinc-400 hover:text-zinc-200">L</button>
-                            <button type="button" id="stamp-align-center" onclick="setSignoffElementAlign('stamp', 'center')" class="px-2 py-0.5 text-[9px] rounded text-zinc-400 hover:text-zinc-200">C</button>
-                            <button type="button" id="stamp-align-right" onclick="setSignoffElementAlign('stamp', 'right')" class="px-2 py-0.5 text-[9px] rounded bg-zinc-800 text-zinc-200 font-bold">R</button>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="grid grid-cols-2 gap-2">
+                <div id="line-items-container" class="space-y-1.5 max-h-48 overflow-y-auto pr-1"></div>
+                
+                <div id="financial-tax-box" class="grid grid-cols-2 gap-2 pt-1 border-t border-zinc-800">
                     <div>
-                        <label class="block text-[10px] text-zinc-400 mb-1">Signatory Name</label>
-                        <input type="text" id="auth-name" value="" oninput="updateLivePreview()" placeholder="[Authorized Name]" class="w-full bg-zinc-950 border border-zinc-800 rounded-lg px-2 py-1.5 text-xs text-zinc-200 focus:outline-none">
+                        <label class="block text-[10px] text-zinc-400 uppercase mb-0.5">Tax Rate (%)</label>
+                        <input type="number" id="tax-rate" value="0" min="0" max="100" oninput="updateLivePreview()" class="w-full bg-zinc-950 border border-zinc-800 rounded-lg px-2.5 py-1 text-xs text-zinc-200 font-mono focus:outline-none" placeholder="0">
                     </div>
                     <div>
-                        <label class="block text-[10px] text-zinc-400 mb-1">Designation</label>
-                        <input type="text" id="auth-title" value="" oninput="updateLivePreview()" placeholder="[Designation]" class="w-full bg-zinc-950 border border-zinc-800 rounded-lg px-2 py-1.5 text-xs text-zinc-200 focus:outline-none">
+                        <label class="block text-[10px] text-zinc-400 uppercase mb-0.5">Discount Amount</label>
+                        <input type="number" id="discount-amount" value="0" min="0" oninput="updateLivePreview()" class="w-full bg-zinc-950 border border-zinc-800 rounded-lg px-2.5 py-1 text-xs text-zinc-200 font-mono focus:outline-none" placeholder="0">
                     </div>
                 </div>
+            </div>
 
-                <!-- Device Signature Upload -->
-                <div class="space-y-2 bg-zinc-950 p-3 rounded-xl border border-zinc-800">
+            <!-- 6. Notes, Terms & Signatures / Seals Control -->
+            <div class="bg-gradient-to-br from-zinc-900/95 via-zinc-900/90 to-yellow-950/20 border border-yellow-500/30 rounded-2xl p-3 shadow-lg space-y-2.5">
+                <label id="notes-label" class="block text-[11px] font-bold text-yellow-300 uppercase tracking-wider flex items-center space-x-1.5">
+                    <i class="fa-solid fa-note-sticky text-yellow-400 text-xs"></i>
+                    <span>Notes & Terms</span>
+                </label>
+                <textarea id="doc-notes" rows="2" oninput="updateLivePreview()" placeholder="Enter notes or terms here..." class="w-full bg-zinc-950 border border-zinc-800 rounded-xl p-2 text-xs text-zinc-200 focus:outline-none"></textarea>
+
+                <div class="pt-2 border-t border-zinc-800 space-y-2.5">
                     <div class="flex items-center justify-between">
-                        <label class="text-[11px] font-bold text-zinc-300">Electronic Signature Image</label>
-                        <button type="button" onclick="clearSignatureImage()" id="clear-sig-btn" class="text-[10px] text-rose-400 hover:text-rose-300 hidden"><i class="fa-solid fa-xmark mr-1"></i>Remove</button>
-                    </div>
-                    <div class="flex items-center space-x-2">
-                        <input type="text" id="auth-sig-url" value="" oninput="updateLivePreview()" placeholder="[Paste Signature URL]" class="w-full bg-zinc-900 border border-zinc-800 rounded-lg px-2.5 py-1.5 text-xs text-zinc-200 focus:outline-none">
-                        <label class="bg-zinc-800 hover:bg-zinc-700 text-zinc-300 px-3 py-1.5 rounded-lg text-xs cursor-pointer transition shrink-0 border border-zinc-700" title="Upload from Device">
-                            <i class="fa-solid fa-signature"></i>
-                            <input type="file" id="sig-file-input" accept="image/*" onchange="handleSigUpload(event)" class="hidden">
+                        <span class="text-[11px] font-bold text-emerald-300 uppercase">Signatures & Seals</span>
+                        <label class="relative inline-flex items-center cursor-pointer">
+                            <input type="checkbox" id="show-signature" checked onchange="updateLivePreview()" class="sr-only peer">
+                            <div class="w-7 h-4 bg-zinc-800 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-zinc-300 after:border after:rounded-full after:h-3 after:w-3 after:transition-all peer-checked:bg-emerald-500"></div>
                         </label>
                     </div>
-                </div>
 
-                <div class="grid grid-cols-2 gap-2">
-                    <div class="flex items-center space-x-2 bg-zinc-950 p-2.5 rounded-xl border border-zinc-800">
-                        <input type="checkbox" id="show-seal" checked onchange="updateLivePreview()" class="rounded text-emerald-500 focus:ring-0">
-                        <label for="show-seal" class="text-[11px] text-zinc-300 font-medium">Include Official Seal Badge</label>
+                    <div class="grid grid-cols-2 gap-2">
+                        <div>
+                            <label class="block text-[10px] text-zinc-400 uppercase mb-0.5">Signatory Name</label>
+                            <input type="text" id="auth-name" value="" oninput="updateLivePreview()" placeholder="[Authorized Name]" class="w-full bg-zinc-950 border border-zinc-800 rounded-lg px-2.5 py-1 text-xs text-zinc-200 focus:outline-none">
+                        </div>
+                        <div>
+                            <label class="block text-[10px] text-zinc-400 uppercase mb-0.5">Designation</label>
+                            <input type="text" id="auth-title" value="" oninput="updateLivePreview()" placeholder="[Designation]" class="w-full bg-zinc-950 border border-zinc-800 rounded-lg px-2.5 py-1 text-xs text-zinc-200 focus:outline-none">
+                        </div>
                     </div>
-                    <div class="flex items-center space-x-2 bg-zinc-950 p-2.5 rounded-xl border border-zinc-800">
-                        <input type="checkbox" id="show-stamp" checked onchange="updateLivePreview()" class="rounded text-emerald-500 focus:ring-0">
-                        <label for="show-stamp" class="text-[11px] text-zinc-300 font-medium">Include Corporate Stamp Box</label>
+
+                    <!-- Electronic Signature Image Upload & Remove -->
+                    <div class="space-y-1 bg-zinc-950 p-2 rounded-xl border border-zinc-800">
+                        <div class="flex items-center justify-between">
+                            <span class="text-[10px] text-zinc-300 font-bold">Electronic Signature Image</span>
+                            <button type="button" onclick="clearSignatureImage()" id="clear-sig-btn" class="text-[10px] text-rose-400 hover:text-rose-300 hidden"><i class="fa-solid fa-xmark mr-1"></i>Remove</button>
+                        </div>
+                        <div class="flex items-center space-x-1.5">
+                            <input type="text" id="auth-sig-url" value="" oninput="updateLivePreview()" placeholder="[Paste Signature URL]" class="w-full bg-zinc-900 border border-zinc-800 rounded-lg px-2.5 py-1 text-[11px] text-zinc-200 focus:outline-none">
+                            <label class="bg-zinc-800 hover:bg-zinc-700 text-zinc-300 px-2.5 py-1 rounded-lg text-xs cursor-pointer transition shrink-0 border border-zinc-700 shadow-sm" title="Upload Signature File">
+                                <i class="fa-solid fa-signature"></i>
+                                <input type="file" id="sig-file-input" accept="image/*" onchange="handleSigUpload(event)" class="hidden">
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Seal & Stamp Toggles -->
+                    <div class="grid grid-cols-2 gap-2 pt-1">
+                        <label class="flex items-center space-x-2 text-[11px] text-zinc-300 cursor-pointer bg-zinc-950 p-2 rounded-xl border border-zinc-800">
+                            <input type="checkbox" id="show-official-seal" checked onchange="updateLivePreview()" class="rounded bg-zinc-900 border-zinc-700 text-emerald-500 focus:ring-0">
+                            <span class="font-bold">Official Seal Badge</span>
+                        </label>
+                        <label class="flex items-center space-x-2 text-[11px] text-zinc-300 cursor-pointer bg-zinc-950 p-2 rounded-xl border border-zinc-800">
+                            <input type="checkbox" id="show-corp-stamp" checked onchange="updateLivePreview()" class="rounded bg-zinc-900 border-zinc-700 text-emerald-500 focus:ring-0">
+                            <span class="font-bold">Corporate Stamp Box</span>
+                        </label>
                     </div>
                 </div>
             </div>
@@ -489,12 +478,11 @@
             date: new Date().toISOString().split('T')[0],
             dueDate: new Date(Date.now() + 30*24*60*60*1000).toISOString().split('T')[0],
             docNumber: 'INV-2026-001',
+            docIdType: 'Document #',
             senderName: '',
             senderLogo: '',
+            partnerLogos: '',
             logoAlign: 'left',
-            sigAlign: 'left',
-            sealAlign: 'right',
-            stampAlign: 'center',
             senderContact: '',
             senderAddress: '',
             clientName: '',
@@ -508,11 +496,11 @@
             companyProfile: 'Apex Studio Pro Ltd is a premier technology & geospatial intelligence firm specializing in enterprise software architecture, spatial analytics, and digital transformation.',
             notes: 'Please make payment via bank transfer or mobile money within the stipulated due date. Thank you for your partnership!',
             showSignature: true,
+            showOfficialSeal: true,
+            showCorpStamp: true,
             authName: '',
             authTitle: '',
             authSigUrl: '',
-            showSeal: true,
-            showStamp: true,
             certTitle: 'Certificate of Achievement',
             themePrimary: '#10b981',
             themeDark: '#065f46',
@@ -541,6 +529,7 @@
                 appState.clientAddress = '';
                 appState.senderName = '';
                 appState.senderLogo = '';
+                appState.partnerLogos = '';
                 appState.senderContact = '';
                 appState.senderAddress = '';
                 appState.taxRate = 0;
@@ -564,10 +553,13 @@
 
         function syncStateToDOM() {
             document.getElementById('doc-number').value = appState.docNumber;
+            document.getElementById('doc-id-type').value = appState.docIdType;
+            document.getElementById('doc-number-label').textContent = appState.docIdType;
             document.getElementById('doc-date').value = appState.date;
             document.getElementById('due-date').value = appState.dueDate;
             document.getElementById('sender-name').value = appState.senderName;
             document.getElementById('sender-logo').value = appState.senderLogo;
+            document.getElementById('partner-logos').value = appState.partnerLogos;
             document.getElementById('sender-contact').value = appState.senderContact;
             document.getElementById('sender-address').value = appState.senderAddress;
             document.getElementById('client-name').value = appState.clientName;
@@ -583,10 +575,10 @@
             document.getElementById('auth-name').value = appState.authName;
             document.getElementById('auth-title').value = appState.authTitle;
             document.getElementById('auth-sig-url').value = appState.authSigUrl;
-            document.getElementById('show-seal').checked = appState.showSeal;
-            document.getElementById('show-stamp').checked = appState.showStamp;
             document.getElementById('cert-title-input').value = appState.certTitle;
             document.getElementById('font-family-select').value = appState.fontFamily;
+            document.getElementById('show-official-seal').checked = appState.showOfficialSeal;
+            document.getElementById('show-corp-stamp').checked = appState.showCorpStamp;
 
             const clearSigBtn = document.getElementById('clear-sig-btn');
             if (appState.authSigUrl) clearSigBtn.classList.remove('hidden');
@@ -595,6 +587,12 @@
             const clearLogoBtn = document.getElementById('clear-logo-btn');
             if (appState.senderLogo) clearLogoBtn.classList.remove('hidden');
             else clearLogoBtn.classList.add('hidden');
+        }
+
+        function updateIdentifierType() {
+            appState.docIdType = document.getElementById('doc-id-type').value;
+            document.getElementById('doc-number-label').textContent = appState.docIdType;
+            updateLivePreview();
         }
 
         function setThemeColor(name, primary, dark) {
@@ -620,25 +618,9 @@
             ['left', 'center', 'right'].forEach(a => {
                 const btn = document.getElementById(`align-${a}`);
                 if (a === align) {
-                    btn.className = 'px-2 py-0.5 text-[10px] rounded bg-zinc-800 text-zinc-200 font-bold';
+                    btn.className = 'px-2.5 py-0.5 text-[9px] rounded bg-zinc-800 text-zinc-200 font-bold';
                 } else {
-                    btn.className = 'px-2 py-0.5 text-[10px] rounded text-zinc-400 hover:text-zinc-200';
-                }
-            });
-            updateLivePreview();
-        }
-
-        function setSignoffElementAlign(element, align) {
-            if (element === 'sig') appState.sigAlign = align;
-            if (element === 'seal') appState.sealAlign = align;
-            if (element === 'stamp') appState.stampAlign = align;
-
-            ['left', 'center', 'right'].forEach(a => {
-                const btn = document.getElementById(`${element}-align-${a}`);
-                if (a === align) {
-                    btn.className = 'px-2 py-0.5 text-[9px] rounded bg-zinc-800 text-zinc-200 font-bold';
-                } else {
-                    btn.className = 'px-2 py-0.5 text-[9px] rounded text-zinc-400 hover:text-zinc-200';
+                    btn.className = 'px-2.5 py-0.5 text-[9px] rounded text-zinc-400';
                 }
             });
             updateLivePreview();
@@ -671,7 +653,7 @@
                 const reader = new FileReader();
                 reader.onload = function(e) {
                     appState.authSigUrl = e.target.result;
-                    document.getElementById('auth-sig-url').value = '[Device Signature Uploaded]';
+                    document.getElementById('auth-sig-url').value = '[Signature Uploaded]';
                     document.getElementById('clear-sig-btn').classList.remove('hidden');
                     updateLivePreview();
                 };
@@ -739,7 +721,7 @@
             let handler = PaystackPop.setup({
                 key: PAYSTACK_PUBLIC_KEY,
                 email: customerEmail,
-                amount: 100 * 100, // KES 100 in subunits
+                amount: 100 * 100,
                 currency: 'KES',
                 ref: 'APEX_' + Math.floor((Math.random() * 1000000000) + 1),
                 metadata: {
@@ -793,16 +775,15 @@
             ['Invoice', 'Quotation', 'Receipt', 'Certificate', 'Proposal', 'Delivery'].forEach(t => {
                 const btn = document.getElementById(`btn-type-${t}`);
                 if (t === type) {
-                    btn.className = 'py-2 text-[11px] font-bold rounded-lg transition bg-emerald-500 text-zinc-950 shadow';
+                    btn.className = 'py-1.5 text-[10px] font-bold rounded-lg transition bg-emerald-500 text-zinc-950 shadow';
                 } else {
-                    btn.className = 'py-2 text-[11px] font-bold rounded-lg transition text-zinc-400 hover:text-zinc-200';
+                    btn.className = 'py-1.5 text-[10px] font-bold rounded-lg transition text-zinc-400 hover:text-zinc-200';
                 }
             });
 
             renderSubLayoutButtons();
 
             const dateLabel = document.getElementById('date-label');
-            const numLabel = document.getElementById('doc-number-label');
             const dueContainer = document.getElementById('due-date-container');
             const receiptConfig = document.getElementById('receipt-payment-config');
             const financialBox = document.getElementById('financial-tax-box');
@@ -813,70 +794,64 @@
 
             if (type === 'Invoice') {
                 dateLabel.textContent = 'Invoice Date';
-                numLabel.textContent = 'Invoice Number';
                 appState.docNumber = appState.docNumber || 'INV-2026-001';
                 dueContainer.style.display = 'block';
                 receiptConfig.classList.add('hidden');
                 financialBox.style.display = 'grid';
-                itemsTitle.textContent = 'Line Items & Pricing';
-                notesLabel.textContent = 'Notes & Payment Terms';
+                itemsTitle.innerHTML = `<i class="fa-solid fa-list-check text-teal-400 text-xs mr-1.5"></i>Line Items & Pricing`;
+                notesLabel.innerHTML = `<i class="fa-solid fa-note-sticky text-yellow-400 text-xs mr-1.5"></i>Notes & Payment Terms`;
                 extendedSection.classList.add('hidden');
                 certConfig.classList.add('hidden');
             } else if (type === 'Quotation') {
                 dateLabel.textContent = 'Issue Date';
-                numLabel.textContent = 'Quotation Number';
                 appState.docNumber = appState.docNumber || 'QUO-2026-001';
                 dueContainer.style.display = 'block';
                 receiptConfig.classList.add('hidden');
                 financialBox.style.display = 'grid';
-                itemsTitle.textContent = 'Quotation Items & Pricing';
-                notesLabel.textContent = 'Quotation Terms & Validity';
+                itemsTitle.innerHTML = `<i class="fa-solid fa-list-check text-teal-400 text-xs mr-1.5"></i>Quotation Items & Pricing`;
+                notesLabel.innerHTML = `<i class="fa-solid fa-note-sticky text-yellow-400 text-xs mr-1.5"></i>Quotation Terms & Validity`;
                 extendedSection.classList.add('hidden');
                 certConfig.classList.add('hidden');
             } else if (type === 'Receipt') {
                 dateLabel.textContent = 'Payment Date';
-                numLabel.textContent = 'Receipt Number';
                 appState.docNumber = appState.docNumber || 'REC-2026-001';
                 dueContainer.style.display = 'none';
                 receiptConfig.classList.remove('hidden');
                 financialBox.style.display = 'grid';
                 appState.taxRate = 0;
                 document.getElementById('tax-rate').value = 0;
-                itemsTitle.textContent = 'Paid Items & Services';
-                notesLabel.textContent = 'Receipt Notes';
+                itemsTitle.innerHTML = `<i class="fa-solid fa-list-check text-teal-400 text-xs mr-1.5"></i>Paid Items & Services`;
+                notesLabel.innerHTML = `<i class="fa-solid fa-note-sticky text-yellow-400 text-xs mr-1.5"></i>Receipt Notes`;
                 extendedSection.classList.add('hidden');
                 certConfig.classList.add('hidden');
             } else if (type === 'Certificate') {
                 dateLabel.textContent = 'Award Date';
-                numLabel.textContent = 'Certificate ID';
                 appState.docNumber = appState.docNumber || 'CERT-2026-001';
                 dueContainer.style.display = 'none';
                 receiptConfig.classList.add('hidden');
                 financialBox.style.display = 'none';
-                itemsTitle.textContent = 'Award Criteria / Modules Completed';
-                notesLabel.textContent = 'Certificate Citation / Recognition Text';
+                itemsTitle.innerHTML = `<i class="fa-solid fa-list-check text-teal-400 text-xs mr-1.5"></i>Award Criteria / Modules`;
+                notesLabel.innerHTML = `<i class="fa-solid fa-note-sticky text-yellow-400 text-xs mr-1.5"></i>Certificate Citation`;
                 extendedSection.classList.add('hidden');
                 certConfig.classList.remove('hidden');
             } else if (type === 'Proposal') {
                 dateLabel.textContent = 'Proposal Date';
-                numLabel.textContent = 'Proposal Ref';
                 appState.docNumber = appState.docNumber || 'PROP-2026-001';
                 dueContainer.style.display = 'block';
                 receiptConfig.classList.add('hidden');
                 financialBox.style.display = 'grid';
-                itemsTitle.textContent = 'Project Phases & Deliverables';
-                notesLabel.textContent = 'Terms & Conditions';
+                itemsTitle.innerHTML = `<i class="fa-solid fa-list-check text-teal-400 text-xs mr-1.5"></i>Project Phases & Deliverables`;
+                notesLabel.innerHTML = `<i class="fa-solid fa-note-sticky text-yellow-400 text-xs mr-1.5"></i>Terms & Conditions`;
                 extendedSection.classList.remove('hidden');
                 certConfig.classList.add('hidden');
             } else if (type === 'Delivery') {
                 dateLabel.textContent = 'Dispatch Date';
-                numLabel.textContent = 'Dispatch Note #';
                 appState.docNumber = appState.docNumber || 'DN-2026-001';
                 dueContainer.style.display = 'none';
                 receiptConfig.classList.add('hidden');
                 financialBox.style.display = 'none';
-                itemsTitle.textContent = 'Items Dispatched';
-                notesLabel.textContent = 'Delivery Notes & Instructions';
+                itemsTitle.innerHTML = `<i class="fa-solid fa-list-check text-teal-400 text-xs mr-1.5"></i>Items Dispatched`;
+                notesLabel.innerHTML = `<i class="fa-solid fa-note-sticky text-yellow-400 text-xs mr-1.5"></i>Delivery Notes & Instructions`;
                 extendedSection.classList.add('hidden');
                 certConfig.classList.add('hidden');
             }
@@ -895,10 +870,9 @@
                 const btn = document.createElement('button');
                 btn.type = 'button';
                 const isSelected = appState.variant === v.id;
-                btn.className = `py-2 px-2.5 text-[11px] font-bold rounded-lg transition border ${isSelected ? 'bg-zinc-800 text-zinc-100 border-zinc-600 shadow' : 'bg-zinc-900 text-zinc-400 border-zinc-800 hover:text-zinc-200'}`;
-                if (isSelected) btn.style.borderColor = appState.themePrimary;
+                btn.className = `py-1.5 px-2 text-[10px] font-bold rounded-lg transition border ${isSelected ? 'bg-cyan-500 text-zinc-950 border-cyan-400 shadow-sm' : 'bg-zinc-950/80 text-zinc-400 border-zinc-800 hover:text-zinc-200'}`;
                 
-                btn.innerHTML = `<div class="truncate">${v.name}</div>`;
+                btn.innerHTML = `<div class="truncate">${v.name.replace(/^\d+\.\s*/, '')}</div>`;
                 btn.onclick = () => {
                     appState.variant = v.id;
                     renderSubLayoutButtons();
@@ -914,22 +888,22 @@
             container.innerHTML = '';
             appState.items.forEach((item, index) => {
                 const div = document.createElement('div');
-                div.className = 'flex items-center space-x-2 bg-zinc-950 p-2.5 rounded-xl border border-zinc-800';
+                div.className = 'flex items-center space-x-1.5 bg-zinc-950/80 p-2 rounded-xl border border-zinc-800';
                 let isNoPrice = appState.docType === 'Certificate' || appState.docType === 'Delivery';
 
                 div.innerHTML = `
                     <div class="flex-1">
-                        <input type="text" value="${item.desc}" oninput="updateItem(${index}, 'desc', this.value)" placeholder="${isNoPrice ? 'Criterion / Item...' : 'Description...'}" class="w-full bg-zinc-900 border border-zinc-800 rounded-lg px-2.5 py-1.5 text-xs text-zinc-200 focus:outline-none">
+                        <input type="text" value="${item.desc}" oninput="updateItem(${index}, 'desc', this.value)" placeholder="${isNoPrice ? 'Criterion...' : 'Description...'}" class="w-full bg-zinc-900 border border-zinc-800 rounded-lg px-2 py-1 text-[11px] text-zinc-200 focus:outline-none">
                     </div>
-                    <div class="w-16">
-                        <input type="number" value="${item.qty}" min="1" oninput="updateItem(${index}, 'qty', this.value)" class="w-full bg-zinc-900 border border-zinc-800 rounded-lg px-2.5 py-1.5 text-xs text-zinc-200 font-mono text-center focus:outline-none" title="Quantity">
+                    <div class="w-12">
+                        <input type="number" value="${item.qty}" min="1" oninput="updateItem(${index}, 'qty', this.value)" class="w-full bg-zinc-900 border border-zinc-800 rounded-lg px-1.5 py-1 text-[11px] text-zinc-200 font-mono text-center focus:outline-none" title="Qty">
                     </div>
                     ${!isNoPrice ? `
-                    <div class="w-24">
-                        <input type="number" value="${item.price}" min="0" oninput="updateItem(${index}, 'price', this.value)" class="w-full bg-zinc-900 border border-zinc-800 rounded-lg px-2.5 py-1.5 text-xs text-zinc-200 font-mono text-right focus:outline-none" title="Unit Price">
+                    <div class="w-20">
+                        <input type="number" value="${item.price}" min="0" oninput="updateItem(${index}, 'price', this.value)" class="w-full bg-zinc-900 border border-zinc-800 rounded-lg px-1.5 py-1 text-[11px] text-zinc-200 font-mono text-right focus:outline-none" title="Price">
                     </div>` : ''}
-                    <button type="button" onclick="removeLineItem(${index})" class="text-zinc-500 hover:text-rose-400 p-1.5 transition" title="Delete">
-                        <i class="fa-solid fa-trash-can text-xs"></i>
+                    <button type="button" onclick="removeLineItem(${index})" class="text-zinc-500 hover:text-rose-400 p-1 transition" title="Delete">
+                        <i class="fa-solid fa-trash-can text-[11px]"></i>
                     </button>
                 `;
                 container.appendChild(div);
@@ -960,6 +934,7 @@
             appState.date = document.getElementById('doc-date').value;
             appState.dueDate = document.getElementById('due-date').value;
             appState.docNumber = document.getElementById('doc-number').value;
+            appState.docIdType = document.getElementById('doc-id-type').value;
             appState.senderName = document.getElementById('sender-name').value;
             
             const logoVal = document.getElementById('sender-logo').value;
@@ -967,6 +942,12 @@
                 appState.senderLogo = logoVal;
             }
 
+            const sigVal = document.getElementById('auth-sig-url').value;
+            if (sigVal && sigVal !== '[Signature Uploaded]') {
+                appState.authSigUrl = sigVal;
+            }
+
+            appState.partnerLogos = document.getElementById('partner-logos').value;
             appState.senderContact = document.getElementById('sender-contact').value;
             appState.senderAddress = document.getElementById('sender-address').value;
             appState.clientName = document.getElementById('client-name').value;
@@ -980,10 +961,10 @@
             appState.companyProfile = document.getElementById('company-profile').value;
             appState.notes = document.getElementById('doc-notes').value;
             appState.showSignature = document.getElementById('show-signature').checked;
+            appState.showOfficialSeal = document.getElementById('show-official-seal').checked;
+            appState.showCorpStamp = document.getElementById('show-corp-stamp').checked;
             appState.authName = document.getElementById('auth-name').value;
             appState.authTitle = document.getElementById('auth-title').value;
-            appState.showSeal = document.getElementById('show-seal').checked;
-            appState.showStamp = document.getElementById('show-stamp').checked;
             appState.certTitle = document.getElementById('cert-title-input').value || 'Certificate of Achievement';
 
             let subtotal = appState.items.reduce((acc, item) => acc + (item.qty * item.price), 0);
@@ -1000,7 +981,6 @@
             const curSyms = { KES: 'Ksh ', USD: '$', EUR: '€', GBP: '£' };
             const curSym = curSyms[appState.currency] || appState.currency;
 
-            // Apply selected font family to document wrapper
             const docWrapper = document.getElementById('document-wrapper');
             docWrapper.className = `max-w-3xl mx-auto w-full bg-white text-zinc-900 rounded-2xl shadow-2xl p-10 relative flex flex-col justify-between min-h-[900px] transition-all duration-300 ${appState.fontFamily}`;
 
@@ -1033,11 +1013,10 @@
             let sName = appState.senderName.trim() || '[Your Organization Name]';
             let sContact = appState.senderContact.trim() || '[Email / Phone]';
             let sAddress = appState.senderAddress.trim() || '[City / Address]';
-            let cName = appState.clientName.trim() || '[Client Name]';
-            let cContact = appState.clientContact.trim() || '[Client Email / Phone]';
-            let cAddress = appState.clientAddress.trim() || '[Client Address]';
+            let cName = appState.clientName.trim() || '[Recipient / Awardee Name]';
+            let cContact = appState.clientContact.trim() || '[Recipient Email / Phone]';
+            let cAddress = appState.clientAddress.trim() || '[Recipient Address]';
 
-            // Logo Alignment Implementation
             let logoAlignClass = 'items-start text-left';
             let logoImgAlign = 'mr-auto';
             if (appState.logoAlign === 'center') {
@@ -1049,410 +1028,204 @@
             }
 
             let logoHtml = appState.senderLogo ? `<img src="${appState.senderLogo}" alt="Logo" class="h-12 max-w-[160px] object-contain mb-2 ${logoImgAlign}">` : '';
+            let partnerLogosHtml = '';
+            if (appState.partnerLogos.trim()) {
+                let pUrls = appState.partnerLogos.split(',').map(u => u.trim()).filter(Boolean);
+                if (pUrls.length > 0) {
+                    let partnerImgs = pUrls.map(url => `<img src="${url}" class="h-10 max-w-[120px] object-contain" alt="Partner Logo">`).join('');
+                    let pAlignClass = appState.logoAlign === 'center' ? 'justify-center' : (appState.logoAlign === 'right' ? 'justify-end' : 'justify-start');
+                    partnerLogosHtml = `<div class="flex items-center space-x-3 my-2 ${pAlignClass}">${partnerImgs}</div>`;
+                }
+            }
 
-            // 3-Column Bottom Corner Placement Generator (Left Corner, Center, Right Corner)
             let signatureHtml = '';
             if (appState.showSignature) {
                 let sigVisual = '';
                 if (appState.authSigUrl) {
-                    sigVisual = `<img src="${appState.authSigUrl}" class="h-12 max-w-[160px] object-contain mb-1" alt="Signature">`;
+                    sigVisual = `<img src="${appState.authSigUrl}" class="h-14 max-w-[160px] object-contain mb-1" alt="Signature">`;
                 } else {
-                    sigVisual = `<div class="h-12 w-40 border-b border-dashed border-zinc-300 mb-1 flex items-end"><span class="text-[9px] text-zinc-400 italic no-print">Sign here if printing blank</span></div>`;
+                    sigVisual = `<div class="h-14 w-44 border-b border-dashed border-zinc-400 mb-2 flex items-end"><span class="text-[10px] text-zinc-400 italic no-print pb-1">Sign here if printing blank</span></div>`;
                 }
 
-                // Components HTML
-                let sigContent = `
+                let stampBoxHtml = appState.showCorpStamp ? `
+                    <div class="flex flex-col items-center justify-center">
+                        <div class="font-bold text-zinc-700 uppercase tracking-wider mb-2 text-xs opacity-0">Corp Stamp</div>
+                        <div class="h-24 w-36 border-2 border-dashed border-emerald-400/70 rounded-xl flex flex-col items-center justify-center text-emerald-600 bg-emerald-50/20 p-2 text-center">
+                            <i class="fa-solid fa-stamp text-lg mb-1"></i>
+                            <span class="text-[10px] font-bold tracking-wider">CORP STAMP</span>
+                        </div>
+                    </div>
+                ` : '<div></div>';
+
+                let sealBoxHtml = appState.showOfficialSeal ? `
+                    <div class="flex flex-col items-center justify-end">
+                        <div class="font-bold text-zinc-700 uppercase tracking-wider mb-2 text-xs opacity-0">Official Seal</div>
+                        <div class="h-24 w-24 rounded-full border-4 border-emerald-500 flex flex-col items-center justify-center text-emerald-600 bg-emerald-50/30 p-2 text-center shadow-sm">
+                            <i class="fa-solid fa-certificate text-xl mb-0.5"></i>
+                            <span class="text-[9px] font-bold uppercase tracking-tight">OFFICIAL SEAL</span>
+                        </div>
+                    </div>
+                ` : '<div></div>';
+
+                let sigColHtml = `
                     <div class="flex flex-col items-start">
-                        <div class="font-bold text-zinc-700 uppercase tracking-wider mb-2">Authorized Signatory</div>
+                        <div class="font-bold text-zinc-700 uppercase tracking-wider mb-2 text-xs">AUTHORIZED SIGNATORY</div>
                         ${sigVisual}
-                        <div class="border-t border-zinc-400 pt-1 font-semibold text-zinc-900 w-44">${appState.authName || '[Authorized Name]'}</div>
+                        <div class="border-t border-zinc-400 pt-1 font-semibold text-zinc-900 w-44 text-xs">${appState.authName || '[Authorized Name]'}</div>
                         <div class="text-[11px] text-zinc-500">${appState.authTitle || '[Designation]'}</div>
                     </div>
                 `;
 
-                let stampContent = appState.showStamp ? `
-                    <div class="flex flex-col items-center">
-                        <div class="h-20 w-32 border-2 border-dashed rounded-lg flex flex-col items-center justify-center p-1 text-center bg-zinc-50" style="border-color: ${appState.themePrimary}60; color: ${appState.themePrimary};">
-                            <i class="fa-solid fa-stamp text-lg mb-1"></i>
-                            <span class="text-[9px] font-bold uppercase tracking-wider no-print">CORP STAMP</span>
-                        </div>
+                let certAbsoluteBottomBar = appState.docType === 'Certificate' ? `
+                    <div class="w-full flex justify-between items-center text-xs font-mono text-zinc-700 border-t-2 border-zinc-300 pt-4 mt-6 font-bold">
+                        <span>${appState.docIdType}: <span class="text-zinc-900 font-extrabold">${appState.docNumber || 'CERT-2026-001'}</span></span>
+                        <span>Award Date: <span class="text-zinc-900 font-extrabold">${appState.date || '2026-10-09'}</span></span>
                     </div>
                 ` : '';
-
-                let sealContent = appState.showSeal ? `
-                    <div class="flex flex-col items-end">
-                        <div class="h-20 w-20 rounded-full border-4 flex flex-col items-center justify-center text-center p-1 relative shadow-inner" style="border-color: ${appState.themePrimary}; color: ${appState.themePrimary}; background-color: ${appState.themePrimary}08;">
-                            <i class="fa-solid fa-certificate text-xl mb-0.5"></i>
-                            <span class="text-[8px] font-black uppercase tracking-tighter leading-none no-print">OFFICIAL SEAL</span>
-                        </div>
-                    </div>
-                ` : '';
-
-                // Map items into bottom grid slots based on their assigned corner (left, center, right)
-                let slots = { left: [], center: [], right: [] };
-
-                slots[appState.sigAlign].push(sigContent);
-                if (appState.showStamp) slots[appState.stampAlign].push(stampContent);
-                if (appState.showSeal) slots[appState.sealAlign].push(sealContent);
 
                 signatureHtml = `
-                    <div class="grid grid-cols-3 gap-4 pt-4 mt-4 border-t border-zinc-200 items-end text-xs w-full">
-                        <div class="flex flex-col justify-end items-start text-left">${slots.left.join('')}</div>
-                        <div class="flex flex-col justify-end items-center text-center">${slots.center.join('')}</div>
-                        <div class="flex flex-col justify-end items-end text-right">${slots.right.join('')}</div>
+                    <div class="w-full pt-6 mt-8 border-t border-zinc-200">
+                        <div class="grid grid-cols-3 gap-6 items-end text-xs w-full mb-2">
+                            ${sigColHtml}
+                            ${stampBoxHtml}
+                            ${sealBoxHtml}
+                        </div>
+                        ${certAbsoluteBottomBar}
                     </div>
                 `;
             }
 
-            // Certificate Variants
             if (appState.docType === 'Certificate') {
                 let certHeaderFlex = appState.logoAlign === 'center' ? 'items-center text-center' : (appState.logoAlign === 'right' ? 'items-end text-right' : 'items-start text-left');
                 if (appState.variant === 'minimal') {
                     return `
-                        <div class="flex flex-col items-center text-center justify-between h-full p-6 border border-zinc-300 rounded-xl bg-zinc-50/50 w-full">
-                            <div class="w-full flex flex-col ${certHeaderFlex}">
-                                ${logoHtml}
-                                <div class="text-xs font-mono tracking-widest text-zinc-400 uppercase mb-2">${sName}</div>
-                                <h2 class="text-3xl font-light tracking-wide text-zinc-900 mb-4" style="color: ${appState.themeDark}">${appState.certTitle}</h2>
-                            </div>
-                            <div class="my-auto py-4">
-                                <p class="text-xs text-zinc-500 italic mb-2">Presented to</p>
-                                <div class="text-2xl font-bold text-zinc-900 mb-4 border-b pb-1 px-6" style="border-color: ${appState.themePrimary}">${cName}</div>
-                                <p class="text-xs text-zinc-600 max-w-md mx-auto leading-relaxed">${appState.notes || appState.intro}</p>
-                            </div>
+                        <div class="flex flex-col justify-between h-full p-6 border border-zinc-300 rounded-xl bg-zinc-50/50 w-full">
+                            <div class="w-full flex flex-col ${certHeaderFlex}">${logoHtml}${partnerLogosHtml}<div class="text-xs font-mono tracking-widest text-zinc-400 uppercase mb-2">${sName}</div><h2 class="text-3xl font-light tracking-wide text-zinc-900 mb-2" style="color: ${appState.themeDark}">${appState.certTitle}</h2></div>
+                            <div class="my-auto py-4 text-center"><p class="text-xs text-zinc-500 italic mb-2">This is proudly presented to</p><div class="text-2xl font-bold text-zinc-900 mb-4 border-b pb-1 px-6 inline-block" style="border-color: ${appState.themePrimary}">${cName}</div><p class="text-xs text-zinc-600 max-w-md mx-auto leading-relaxed mb-4">${appState.notes || appState.intro}</p></div>
                             <div class="w-full">${signatureHtml}</div>
                         </div>
                     `;
                 } else if (appState.variant === 'gold') {
                     return `
-                        <div class="flex flex-col items-center text-center justify-between h-full p-8 border-4 rounded-2xl shadow-lg w-full" style="border-color: #d97706; background: linear-gradient(to bottom, #fffdfa, #fffbeb);">
-                            <div class="w-full flex flex-col ${certHeaderFlex}">
-                                ${logoHtml}
-                                <div class="text-xs font-bold uppercase text-amber-700 tracking-widest mb-2">${sName}</div>
-                                <h2 class="text-4xl font-cinzel font-bold text-amber-900 mb-3">${appState.certTitle}</h2>
-                            </div>
-                            <div class="my-auto py-4">
-                                <p class="text-xs italic text-amber-800/70 mb-3">This certificate is proudly awarded to</p>
-                                <div class="text-3xl font-serif font-bold text-zinc-900 mb-4 border-b-2 border-amber-500 pb-1 px-8">${cName}</div>
-                                <p class="text-xs text-zinc-700 max-w-lg mx-auto leading-relaxed">${appState.notes || appState.intro}</p>
-                            </div>
+                        <div class="flex flex-col justify-between h-full p-8 border-4 rounded-2xl shadow-lg w-full" style="border-color: #d97706; background: linear-gradient(to bottom, #fffdfa, #fffbeb);">
+                            <div class="w-full flex flex-col ${certHeaderFlex}">${logoHtml}${partnerLogosHtml}<div class="text-xs font-bold uppercase text-amber-700 tracking-widest mb-2">${sName}</div><h2 class="text-4xl font-cinzel font-bold text-amber-900 mb-2">${appState.certTitle}</h2></div>
+                            <div class="my-auto py-4 text-center"><p class="text-xs italic text-amber-800/70 mb-3">This certificate is proudly awarded to</p><div class="text-3xl font-serif font-bold text-zinc-900 mb-4 border-b-2 border-amber-500 pb-1 px-8 inline-block">${cName}</div><p class="text-xs text-zinc-700 max-w-lg mx-auto leading-relaxed mb-4">${appState.notes || appState.intro}</p></div>
                             <div class="w-full">${signatureHtml}</div>
                         </div>
                     `;
                 } else if (appState.variant === 'parchment') {
                     return `
-                        <div class="flex flex-col items-center text-center justify-between h-full p-8 border-8 border-double rounded-3xl bg-amber-50/30 w-full" style="border-color: ${appState.themePrimary};">
-                            <div class="w-full flex flex-col ${certHeaderFlex}">
-                                ${logoHtml}
-                                <div class="text-sm font-black uppercase tracking-widest text-zinc-500 mb-2">${sName} Presentation</div>
-                                <h2 class="text-3xl font-serif font-bold text-zinc-900 mb-4" style="color: ${appState.themeDark}">${appState.certTitle}</h2>
-                            </div>
-                            <div class="my-auto py-4">
-                                <div class="text-xs italic text-zinc-500 mb-2">Honoring excellence and dedication of</div>
-                                <div class="text-2xl font-bold font-serif text-zinc-900 border-b-2 pb-1 px-10 mb-4" style="border-color: ${appState.themePrimary}">${cName}</div>
-                                <p class="text-xs text-zinc-600 max-w-md mx-auto leading-relaxed">${appState.notes || appState.intro}</p>
-                            </div>
+                        <div class="flex flex-col justify-between h-full p-8 border-8 border-double rounded-3xl bg-amber-50/30 w-full" style="border-color: ${appState.themePrimary};">
+                            <div class="w-full flex flex-col ${certHeaderFlex}">${logoHtml}${partnerLogosHtml}<div class="text-sm font-black uppercase tracking-widest text-zinc-500 mb-2">${sName} Presentation</div><h2 class="text-3xl font-serif font-bold text-zinc-900 mb-2" style="color: ${appState.themeDark}">${appState.certTitle}</h2></div>
+                            <div class="my-auto py-4 text-center"><div class="text-xs italic text-zinc-500 mb-2">Honoring excellence and dedication of</div><div class="text-2xl font-bold font-serif text-zinc-900 border-b-2 pb-1 px-10 mb-4 inline-block" style="border-color: ${appState.themePrimary}">${cName}</div><p class="text-xs text-zinc-600 max-w-md mx-auto leading-relaxed mb-4">${appState.notes || appState.intro}</p></div>
                             <div class="w-full">${signatureHtml}</div>
                         </div>
                     `;
                 }
                 return `
-                    <div class="flex flex-col items-center text-center justify-between h-full p-8 border-4 rounded-3xl shadow-md w-full" style="border-color: ${appState.themePrimary};">
+                    <div class="flex flex-col justify-between h-full p-8 border-4 rounded-3xl shadow-md w-full" style="border-color: ${appState.themePrimary};">
                         <div class="w-full flex flex-col ${certHeaderFlex}">
                             ${logoHtml}
+                            ${partnerLogosHtml}
                             <div class="text-xs font-black uppercase tracking-widest text-zinc-400 mb-2">${sName}</div>
-                            <div class="text-3xl font-cinzel font-bold text-zinc-900 mb-3" style="color: ${appState.themeDark}">${appState.certTitle}</div>
+                            <div class="text-3xl font-cinzel font-bold text-zinc-900 mb-2" style="color: ${appState.themeDark}">${appState.certTitle}</div>
                         </div>
-                        <div class="my-auto py-4">
-                            <div class="text-xs italic text-zinc-500 mb-4">This is proudly presented to</div>
-                            <div class="text-2xl font-bold font-serif text-zinc-900 border-b-2 pb-1 px-8 mb-4" style="border-color: ${appState.themePrimary}">${cName}</div>
-                            <p class="text-xs text-zinc-600 max-w-lg mx-auto leading-relaxed">${appState.notes || appState.intro}</p>
+                        <div class="my-auto py-4 text-center">
+                            <div class="text-xs italic text-zinc-500 mb-3">This is proudly presented to</div>
+                            <div class="text-2xl font-bold font-serif text-zinc-900 border-b-2 pb-1 px-8 mb-4 inline-block" style="border-color: ${appState.themePrimary}">${cName}</div>
+                            <p class="text-xs text-zinc-600 max-w-lg mx-auto leading-relaxed mb-4">${appState.notes || appState.intro}</p>
                         </div>
                         <div class="w-full">${signatureHtml}</div>
                     </div>
                 `;
             }
 
-            // Receipt financial summary block generator
             let receiptFinancialBlock = '';
             if (appState.docType === 'Receipt') {
                 let amtPaid = appState.amountPaid;
                 let balanceDue = Math.max(0, total - amtPaid);
-                let statusBadgeText = appState.receiptStatusMode === 'partial' ? 'PARTIALLY PAID' : 'PAID IN FULL';
-                let statusBadgeStyle = `background-color: ${appState.themePrimary}10; color: ${appState.themePrimary}; border-color: ${appState.themePrimary}30;`;
-
                 receiptFinancialBlock = `
                     <div class="flex justify-between items-center mb-6 bg-zinc-50 p-4 rounded-xl border border-zinc-200">
-                        <div>
-                            <span class="inline-block px-3 py-1 rounded-full text-[10px] font-mono font-bold border" style="${statusBadgeStyle}">${statusBadgeText}</span>
-                        </div>
+                        <div><span class="inline-block px-3 py-1 rounded-full text-[10px] font-mono font-bold bg-emerald-50 text-emerald-700 border border-emerald-200">PAID IN FULL</span></div>
                         <div class="w-64 space-y-1 text-xs">
                             <div class="flex justify-between text-zinc-600"><span>Total Billed:</span><span class="font-mono font-bold">${curSym}${total.toLocaleString()}</span></div>
-                            <div class="flex justify-between font-bold" style="color: ${appState.themePrimary}"><span>Amount Paid:</span><span class="font-mono font-bold">${curSym}${amtPaid.toLocaleString()}</span></div>
+                            <div class="flex justify-between font-bold text-emerald-600"><span>Amount Paid:</span><span class="font-mono font-bold">${curSym}${amtPaid.toLocaleString()}</span></div>
                             <div class="flex justify-between pt-1 border-t border-zinc-300 font-bold text-zinc-900"><span>Balance Due:</span><span class="font-mono">${curSym}${balanceDue.toLocaleString()}</span></div>
                         </div>
                     </div>
                 `;
             }
 
-            let variant = appState.variant;
             let isDelivery = appState.docType === 'Delivery';
+            let variant = appState.variant;
 
-            // Variant 1: Modern / Clean Header / Dispatch Note / Tech / Enterprise / Standard Receipt
-            if (variant === 'modern' || variant === 'tech' || variant === 'standard' || variant === 'enterprise' || variant === 'dispatch') {
-                return `
-                    <div>
-                        <div class="flex justify-between items-start border-b pb-4 mb-6" style="border-color: ${appState.themePrimary}">
-                            <div class="flex flex-col ${logoAlignClass} flex-1">
-                                ${logoHtml}
-                                <div class="text-lg font-black text-zinc-900">${sName}</div>
-                                <div class="text-xs text-zinc-500">${sContact} | ${sAddress}</div>
-                            </div>
-                            <div class="text-right shrink-0">
-                                <div class="text-2xl font-black uppercase tracking-wider" style="color: ${appState.themePrimary}">${appState.docType}</div>
-                                <div class="text-xs font-mono font-bold text-zinc-700 mt-1">${appState.docNumber || 'DOC-001'}</div>
-                                <div class="text-xs text-zinc-500">Date: ${appState.date}</div>
-                            </div>
-                        </div>
-
-                        <div class="bg-zinc-50 p-4 rounded-xl border border-zinc-200 mb-6 text-xs flex justify-between">
-                            <div>
-                                <div class="font-bold text-zinc-700 uppercase tracking-wider mb-1">Billed / Delivered To:</div>
-                                <div class="font-bold text-zinc-900 text-sm">${cName}</div>
-                                <div class="text-zinc-600">${cContact}</div>
-                                <div class="text-zinc-600">${cAddress}</div>
-                            </div>
-                            <div class="text-right">
-                                <div class="text-zinc-500">Currency: <strong class="text-zinc-900">${appState.currency}</strong></div>
-                                <div class="text-[10px] text-zinc-400 font-mono mt-1">Layout: ${variant.toUpperCase()}</div>
-                            </div>
-                        </div>
-
-                        <table class="w-full text-left border-collapse mb-6 text-xs">
-                            <thead>
-                                <tr class="bg-zinc-100 text-zinc-900">
-                                    <th class="py-2.5 px-3 rounded-l-md font-bold">Description</th>
-                                    <th class="py-2.5 px-3 text-center font-bold">Qty</th>
-                                    ${!isDelivery ? `<th class="py-2.5 px-3 text-right font-bold">Unit Price</th><th class="py-2.5 px-3 text-right rounded-r-md font-bold">Amount</th>` : `<th class="py-2.5 px-3 text-right rounded-r-md font-bold">Status</th>`}
-                                </tr>
-                            </thead>
-                            <tbody class="divide-y divide-zinc-200">
-                                ${appState.items.map(item => `
-                                    <tr>
-                                        <td class="py-2.5 px-3 text-zinc-800 font-medium">${item.desc || '[Item Description]'}</td>
-                                        <td class="py-2.5 px-3 text-center text-zinc-600 font-mono">${item.qty}</td>${!isDelivery ? `
-                                            <td class="py-2.5 px-3 text-right text-zinc-600 font-mono">${curSym}${item.price.toLocaleString()}</td>
-                                            <td class="py-2.5 px-3 text-right font-bold font-mono" style="color: ${appState.themePrimary}">${curSym}${(item.qty * item.price).toLocaleString()}</td>
-                                        ` : `<td class="py-2.5 px-3 text-right font-bold" style="color: ${appState.themePrimary}">Dispatched</td>`}
-                                    </tr>
-                                `).join('')}
-                            </tbody>
-                        </table>
-                    </div>
-                    <div>
-                        ${appState.docType === 'Receipt' ? receiptFinancialBlock : (!isDelivery ? `
-                        <div class="flex justify-end mb-6">
-                            <div class="w-64 space-y-1.5 text-xs">
-                                <div class="flex justify-between py-1 text-zinc-600"><span>Subtotal:</span><span class="font-mono font-semibold">${curSym}${subtotal.toLocaleString()}</span></div>${discount > 0 ? `<div class="flex justify-between py-1 font-semibold" style="color: ${appState.themePrimary}"><span>Discount:</span><span class="font-mono">-${curSym}${discount.toLocaleString()}</span></div>` : ''}
-                                ${tax > 0 ? `<div class="flex justify-between py-1 text-zinc-600"><span>Tax (${appState.taxRate}%):</span><span class="font-mono font-semibold">${curSym}${tax.toLocaleString()}</span></div>` : ''}
-                                <div class="flex justify-between py-2.5 border-t border-zinc-300 text-sm font-black text-zinc-900"><span>Total Due:</span><span class="font-mono" style="color: ${appState.themePrimary}">${curSym}${total.toLocaleString()}</span></div>
-                            </div>
-                        </div>` : '')}
-                        <div class="border-t border-zinc-200 pt-3 text-[11px] text-zinc-500 space-y-2">
-                            <div class="font-bold text-zinc-700 uppercase tracking-wider">Notes & Terms</div>
-                            <p class="leading-relaxed">${appState.notes || '[Enter notes or terms here...]'}</p>
-                            ${signatureHtml}
-                        </div>
-                    </div>
-                `;
-            }
-
-            // Variant 2: Corporate Dark Header / Architectural Grid / Voucher Slip / Logistics Sheet / Technical SOW
             if (variant === 'corporate' || variant === 'grid' || variant === 'card' || variant === 'logistics' || variant === 'technical') {
                 return `
                     <div>
                         <div class="bg-zinc-900 text-zinc-100 p-6 rounded-xl mb-6 flex justify-between items-center shadow">
-                            <div class="flex flex-col ${logoAlignClass} flex-1">
-                                ${logoHtml}
-                                <div class="text-xl font-black">${sName}</div>
-                                <div class="text-[11px] text-zinc-400">${sContact} • ${sAddress}</div>
-                            </div>
-                            <div class="text-right shrink-0">
-                                <div class="text-2xl font-black uppercase tracking-widest" style="color: ${appState.themePrimary}">${appState.docType}</div>
-                                <div class="text-xs font-mono text-zinc-300 mt-1">${appState.docNumber || 'REF-001'}</div>
-                            </div>
+                            <div class="flex flex-col ${logoAlignClass} flex-1">${logoHtml}${partnerLogosHtml}<div class="text-xl font-black">${sName}</div><div class="text-[11px] text-zinc-400">${sContact} • ${sAddress}</div></div>
+                            <div class="text-right shrink-0"><div class="text-2xl font-black uppercase tracking-widest" style="color: ${appState.themePrimary}">${appState.docType}</div><div class="text-xs font-mono text-zinc-300 mt-1">${appState.docIdType}: ${appState.docNumber || 'REF-001'}</div></div>
                         </div>
-
                         <div class="grid grid-cols-2 gap-4 mb-6 text-xs border border-zinc-200 p-4 rounded-xl">
-                            <div>
-                                <span class="font-bold text-zinc-500 uppercase">Issued To:</span>
-                                <div class="font-bold text-zinc-900 text-sm mt-0.5">${cName}</div>
-                                <div class="text-zinc-600">${cContact}</div>
-                                <div class="text-zinc-600">${cAddress}</div>
-                            </div>
-                            <div class="text-right">
-                                <span class="font-bold text-zinc-500 uppercase">Date & Reference:</span>
-                                <div class="font-mono text-zinc-800 mt-0.5">${appState.date}</div>
-                                <div class="text-xs text-zinc-500 mt-1">Currency: ${appState.currency}</div>
-                            </div>
+                            <div><span class="font-bold text-zinc-500 uppercase">Issued To:</span><div class="font-bold text-zinc-900 text-sm mt-0.5">${cName}</div><div class="text-zinc-600">${cContact}</div><div class="text-zinc-600">${cAddress}</div></div>
+                            <div class="text-right"><span class="font-bold text-zinc-500 uppercase">Date & Reference:</span><div class="font-mono text-zinc-800 mt-0.5">${appState.date}</div><div class="text-xs text-zinc-500 mt-1">Currency: ${appState.currency}</div></div>
                         </div>
-
                         <table class="w-full text-left border-collapse mb-6 text-xs">
-                            <thead>
-                                <tr class="bg-zinc-900 text-zinc-100">
-                                    <th class="py-2.5 px-3 rounded-l-lg font-bold">Description</th>
-                                    <th class="py-2.5 px-3 text-center font-bold">Qty</th>
-                                    ${!isDelivery ? `<th class="py-2.5 px-3 text-right font-bold">Unit Price</th><th class="py-2.5 px-3 text-right rounded-r-lg font-bold">Amount</th>` : `<th class="py-2.5 px-3 text-right rounded-r-lg font-bold">Status</th>`}
-                                </tr>
-                            </thead>
+                            <thead><tr class="bg-zinc-900 text-zinc-100"><th class="py-2.5 px-3 rounded-l-lg font-bold">Description</th><th class="py-2.5 px-3 text-center font-bold">Qty</th>${!isDelivery ? `<th class="py-2.5 px-3 text-right font-bold">Unit Price</th><th class="py-2.5 px-3 text-right rounded-r-lg font-bold">Amount</th>` : `<th class="py-2.5 px-3 text-right rounded-r-lg font-bold">Status</th>`}</tr></thead>
                             <tbody class="divide-y divide-zinc-200">
-                                ${appState.items.map(item => `
-                                    <tr>
-                                        <td class="py-2.5 px-3 font-medium text-zinc-900">${item.desc || '[Item Description]'}</td>
-                                        <td class="py-2.5 px-3 text-center font-mono text-zinc-600">${item.qty}</td>${!isDelivery ? `
-                                            <td class="py-2.5 px-3 text-right font-mono text-zinc-600">${curSym}${item.price.toLocaleString()}</td>
-                                            <td class="py-2.5 px-3 text-right font-mono font-bold text-zinc-900">${curSym}${(item.qty * item.price).toLocaleString()}</td>
-                                        ` : `<td class="py-2.5 px-3 text-right font-bold" style="color: ${appState.themePrimary}">Dispatched</td>`}
-                                    </tr>
-                                `).join('')}
+                                ${appState.items.map(item => `<tr><td class="py-2.5 px-3 font-medium text-zinc-900">${item.desc || '[Description]'}</td><td class="py-2.5 px-3 text-center font-mono text-zinc-600">${item.qty}</td>${!isDelivery ? `<td class="py-2.5 px-3 text-right font-mono text-zinc-600">${curSym}${item.price.toLocaleString()}</td><td class="py-2.5 px-3 text-right font-mono font-bold text-zinc-900">${curSym}${(item.qty * item.price).toLocaleString()}</td>` : `<td class="py-2.5 px-3 text-right font-bold" style="color: ${appState.themePrimary}">Dispatched</td>`}</tr>`).join('')}
                             </tbody>
                         </table>
                     </div>
                     <div>
-                        ${appState.docType === 'Receipt' ? receiptFinancialBlock : (!isDelivery ? `
-                        <div class="flex justify-end mb-6">
-                            <div class="w-64 bg-zinc-50 p-4 rounded-xl border border-zinc-200 space-y-1.5 text-xs">
-                                <div class="flex justify-between text-zinc-600"><span>Subtotal:</span><span class="font-mono font-bold">${curSym}${subtotal.toLocaleString()}</span></div>${discount > 0 ? `<div class="flex justify-between font-bold" style="color: ${appState.themePrimary}"><span>Discount:</span><span class="font-mono">-${curSym}${discount.toLocaleString()}</span></div>` : ''}
-                                ${tax > 0 ? `<div class="flex justify-between text-zinc-600"><span>Tax (${appState.taxRate}%):</span><span class="font-mono font-bold">${curSym}${tax.toLocaleString()}</span></div>` : ''}
-                                <div class="flex justify-between pt-2 border-t border-zinc-300 text-sm font-black text-zinc-900"><span>Total:</span><span class="font-mono" style="color: ${appState.themePrimary}">${curSym}${total.toLocaleString()}</span></div>
-                            </div>
-                        </div>` : '')}
-                        <div class="border-t border-zinc-200 pt-3 text-[11px] text-zinc-500 space-y-2">
-                            <div class="font-bold text-zinc-700 uppercase tracking-wider">Terms & Conditions</div>
-                            <p class="leading-relaxed">${appState.notes || '[Enter notes or terms here...]'}</p>
-                            ${signatureHtml}
-                        </div>
+                        ${appState.docType === 'Receipt' ? receiptFinancialBlock : (!isDelivery ? `<div class="flex justify-end mb-6"><div class="w-64 bg-zinc-50 p-4 rounded-xl border border-zinc-200 space-y-1.5 text-xs"><div class="flex justify-between text-zinc-600"><span>Subtotal:</span><span class="font-mono font-bold">${curSym}${subtotal.toLocaleString()}</span></div>${discount > 0 ? `<div class="flex justify-between font-bold" style="color: ${appState.themePrimary}"><span>Discount:</span><span class="font-mono">-${curSym}${discount.toLocaleString()}</span></div>` : ''}${tax > 0 ? `<div class="flex justify-between text-zinc-600"><span>Tax (${appState.taxRate}%):</span><span class="font-mono font-bold">${curSym}${tax.toLocaleString()}</span></div>` : ''}<div class="flex justify-between pt-2 border-t border-zinc-300 text-sm font-black text-zinc-900"><span>Total:</span><span class="font-mono" style="color: ${appState.themePrimary}">${curSym}${total.toLocaleString()}</span></div></div></div>` : '')}
+                        <div class="border-t border-zinc-200 pt-3 text-[11px] text-zinc-500 space-y-2"><div class="font-bold text-zinc-700 uppercase tracking-wider">Terms & Conditions</div><p class="leading-relaxed">${appState.notes || '[Enter notes or terms here...]'}</p>${signatureHtml}</div>
                     </div>
                 `;
             }
 
-            // Variant 3: Compact Ledger / Executive Brief / Ledger Statement / Warehouse Inventory / Consulting Grid
             if (variant === 'ledger' || variant === 'executive' || variant === 'warehouse' || variant === 'consulting') {
                 return `
                     <div>
                         <div class="border-b-4 border-zinc-900 pb-3 mb-6 flex justify-between items-end">
-                            <div class="flex flex-col ${logoAlignClass} flex-1">
-                                ${logoHtml}
-                                <div class="text-xl font-serif font-bold text-zinc-900">${sName}</div>
-                                <div class="text-[11px] text-zinc-500">${sContact} • ${sAddress}</div>
-                            </div>
-                            <div class="text-right font-mono shrink-0">
-                                <div class="text-xl font-bold uppercase">${appState.docType}</div>
-                                <div class="text-xs text-zinc-600">Ref: ${appState.docNumber || '001'}</div>
-                                <div class="text-xs text-zinc-500">${appState.date}</div>
-                            </div>
+                            <div class="flex flex-col ${logoAlignClass} flex-1">${logoHtml}${partnerLogosHtml}<div class="text-xl font-serif font-bold text-zinc-900">${sName}</div><div class="text-[11px] text-zinc-500">${sContact} • ${sAddress}</div></div>
+                            <div class="text-right font-mono shrink-0"><div class="text-xl font-bold uppercase">${appState.docType}</div><div class="text-xs text-zinc-600">${appState.docIdType}: ${appState.docNumber || '001'}</div><div class="text-xs text-zinc-500">${appState.date}</div></div>
                         </div>
-
-                        <div class="mb-6 text-xs font-mono bg-zinc-100 p-3 rounded border border-zinc-300">
-                            <strong>RECIPIENT:</strong> ${cName} | ${cContact} | ${cAddress}
-                        </div>
-
+                        <div class="mb-6 text-xs font-mono bg-zinc-100 p-3 rounded border border-zinc-300"><strong>RECIPIENT:</strong> ${cName} | ${cContact} | ${cAddress}</div>
                         <table class="w-full text-left border-collapse mb-6 text-xs font-mono">
-                            <thead>
-                                <tr class="border-b-2 border-zinc-900">
-                                    <th class="py-2 px-2 font-bold">DESCRIPTION</th>
-                                    <th class="py-2 px-2 text-center font-bold">QTY</th>
-                                    ${!isDelivery ? `<th class="py-2 px-2 text-right font-bold">UNIT PRICE</th><th class="py-2 px-2 text-right font-bold">TOTAL</th>` : `<th class="py-2 px-2 text-right font-bold">STATUS</th>`}
-                                </tr>
-                            </thead>
+                            <thead><tr class="border-b-2 border-zinc-900"><th class="py-2 px-2 font-bold">DESCRIPTION</th><th class="py-2 px-2 text-center font-bold">QTY</th>${!isDelivery ? `<th class="py-2 px-2 text-right font-bold">UNIT PRICE</th><th class="py-2 px-2 text-right font-bold">TOTAL</th>` : `<th class="py-2 px-2 text-right font-bold">STATUS</th>`}</tr></thead>
                             <tbody class="divide-y divide-zinc-200">
-                                ${appState.items.map(item => `
-                                    <tr class="hover:bg-zinc-50">
-                                        <td class="py-2 px-2 text-zinc-900">${item.desc || '[Description]'}</td>
-                                        <td class="py-2 px-2 text-center text-zinc-600">${item.qty}</td>${!isDelivery ? `
-                                            <td class="py-2 px-2 text-right text-zinc-600">${curSym}${item.price.toLocaleString()}</td>
-                                            <td class="py-2 px-2 text-right font-bold text-zinc-900">${curSym}${(item.qty * item.price).toLocaleString()}</td>
-                                        ` : `<td class="py-2 px-2 text-right font-bold" style="color: ${appState.themePrimary}">Dispatched</td>`}
-                                    </tr>
-                                `).join('')}
+                                ${appState.items.map(item => `<tr class="hover:bg-zinc-50"><td class="py-2 px-2 text-zinc-900">${item.desc || '[Description]'}</td><td class="py-2 px-2 text-center text-zinc-600">${item.qty}</td>${!isDelivery ? `<td class="py-2 px-2 text-right text-zinc-600">${curSym}${item.price.toLocaleString()}</td><td class="py-2 px-2 text-right font-bold text-zinc-900">${curSym}${(item.qty * item.price).toLocaleString()}</td>` : `<td class="py-2 px-2 text-right font-bold" style="color: ${appState.themePrimary}">Dispatched</td>`}</tr>`).join('')}
                             </tbody>
                         </table>
                     </div>
                     <div>
-                        ${appState.docType === 'Receipt' ? receiptFinancialBlock : (!isDelivery ? `
-                        <div class="flex justify-end mb-6 font-mono text-xs">
-                            <div class="w-72 space-y-1 border-t-2 border-zinc-900 pt-2">
-                                <div class="flex justify-between"><span>SUBTOTAL:</span><span>${curSym}${subtotal.toLocaleString()}</span></div>${discount > 0 ? `<div class="flex justify-between font-semibold" style="color: ${appState.themePrimary}"><span>DISCOUNT:</span><span>-${curSym}${discount.toLocaleString()}</span></div>` : ''}
-                                ${tax > 0 ? `<div class="flex justify-between text-zinc-500"><span>TAX:</span><span>${curSym}${tax.toLocaleString()}</span></div>` : ''}
-                                <div class="flex justify-between font-bold text-sm border-t border-zinc-900 pt-1"><span>TOTAL:</span><span>${curSym}${total.toLocaleString()}</span></div>
-                            </div>
-                        </div>` : '')}
-                        <div class="border-t border-zinc-300 pt-3 text-[11px] text-zinc-600 space-y-2">
-                            <div class="font-bold text-zinc-900 uppercase">Ledger Notes</div>
-                            <p class="font-sans leading-relaxed">${appState.notes || '[Notes...]'}</p>
-                            ${signatureHtml}
-                        </div>
+                        ${appState.docType === 'Receipt' ? receiptFinancialBlock : (!isDelivery ? `<div class="flex justify-end mb-6 font-mono text-xs"><div class="w-72 space-y-1 border-t-2 border-zinc-900 pt-2"><div class="flex justify-between"><span>SUBTOTAL:</span><span>${curSym}${subtotal.toLocaleString()}</span></div>${discount > 0 ? `<div class="flex justify-between font-semibold" style="color: ${appState.themePrimary}"><span>DISCOUNT:</span><span>-${curSym}${discount.toLocaleString()}</span></div>` : ''}${tax > 0 ? `<div class="flex justify-between text-zinc-500"><span>TAX:</span><span>${curSym}${tax.toLocaleString()}</span></div>` : ''}<div class="flex justify-between font-bold text-sm border-t border-zinc-900 pt-1"><span>TOTAL:</span><span>${curSym}${total.toLocaleString()}</span></div></div></div>` : '')}
+                        <div class="border-t border-zinc-300 pt-3 text-[11px] text-zinc-600 space-y-2"><div class="font-bold text-zinc-900 uppercase">Ledger Notes</div><p class="font-sans leading-relaxed">${appState.notes || '[Notes...]'}</p>${signatureHtml}</div>
                     </div>
                 `;
             }
 
-            // Variant 4: Split Column / Modern Cards / Certified Badge / Executive Manifest / Executive Summary
             return `
                 <div>
-                    <div class="grid grid-cols-2 gap-6 pb-6 mb-6 border-b-2 border-zinc-200 items-center">
-                        <div class="flex flex-col ${logoAlignClass} flex-1">
-                            ${logoHtml}
-                            <div class="text-xl font-extrabold text-zinc-900">${sName}</div>
-                            <div class="text-xs text-zinc-500 mt-1">${sContact}</div>
-                        </div>
-                        <div class="text-right bg-zinc-50 p-4 rounded-xl border border-zinc-200 shrink-0">
-                            <div class="text-xs font-bold uppercase tracking-wider text-zinc-400">${appState.docType} Ref</div>
-                            <div class="text-lg font-black text-zinc-900 font-mono mt-0.5">${appState.docNumber || 'DOC-004'}</div>
-                            <div class="text-xs text-zinc-500 mt-1">Date: ${appState.date}</div>
-                        </div>
+                    <div class="flex justify-between items-start border-b pb-4 mb-6" style="border-color: ${appState.themePrimary}">
+                        <div class="flex flex-col ${logoAlignClass} flex-1">${logoHtml}${partnerLogosHtml}<div class="text-lg font-black text-zinc-900">${sName}</div><div class="text-xs text-zinc-500">${sContact} | ${sAddress}</div></div>
+                        <div class="text-right shrink-0"><div class="text-2xl font-black uppercase tracking-wider" style="color: ${appState.themePrimary}">${appState.docType}</div><div class="text-xs font-mono font-bold text-zinc-700 mt-1">${appState.docIdType}: ${appState.docNumber || 'DOC-001'}</div><div class="text-xs text-zinc-500">Date: ${appState.date}</div></div>
                     </div>
-
-                    <div class="p-4 rounded-xl border mb-6 text-xs" style="background-color: ${appState.themePrimary}10; border-color: ${appState.themePrimary}40;">
-                        <div class="font-bold uppercase tracking-wider mb-1" style="color: ${appState.themeDark}">Recipient Information</div>
-                        <div class="font-bold text-sm" style="color: ${appState.themeDark}">${cName}</div>
-                        <div style="color: ${appState.themeDark}; opacity: 0.8;">${cContact} • ${cAddress}</div>
+                    <div class="bg-zinc-50 p-4 rounded-xl border border-zinc-200 mb-6 text-xs flex justify-between">
+                        <div><div class="font-bold text-zinc-700 uppercase tracking-wider mb-1">Billed To:</div><div class="font-bold text-zinc-900 text-sm">${cName}</div><div class="text-zinc-600">${cContact}</div><div class="text-zinc-600">${cAddress}</div></div>
+                        <div class="text-right"><div class="text-zinc-500">Currency: <strong class="text-zinc-900">${appState.currency}</strong></div></div>
                     </div>
-
                     <table class="w-full text-left border-collapse mb-6 text-xs">
-                        <thead>
-                            <tr class="bg-zinc-900 text-zinc-100 rounded-lg">
-                                <th class="py-2.5 px-3 rounded-l-lg font-bold">Scope / Description</th>
-                                <th class="py-2.5 px-3 text-center font-bold">Qty</th>
-                                ${!isDelivery ? `<th class="py-2.5 px-3 text-right font-bold">Unit Price</th><th class="py-2.5 px-3 text-right rounded-r-lg font-bold">Total</th>` : `<th class="py-2.5 px-3 text-right rounded-r-lg font-bold">Status</th>`}
-                            </tr>
-                        </thead>
+                        <thead><tr class="bg-zinc-100 text-zinc-900"><th class="py-2.5 px-3 rounded-l-md font-bold">Description</th><th class="py-2.5 px-3 text-center font-bold">Qty</th>${!isDelivery ? `<th class="py-2.5 px-3 text-right font-bold">Unit Price</th><th class="py-2.5 px-3 text-right rounded-r-md font-bold">Amount</th>` : `<th class="py-2.5 px-3 text-right rounded-r-md font-bold">Status</th>`}</tr></thead>
                         <tbody class="divide-y divide-zinc-200">
-                            ${appState.items.map(item => `
-                                <tr>
-                                    <td class="py-2.5 px-3 font-semibold text-zinc-900">${item.desc || '[Description]'}</td>
-                                    <td class="py-2.5 px-3 text-center font-mono text-zinc-600">${item.qty}</td>${!isDelivery ? `
-                                        <td class="py-2.5 px-3 text-right font-mono text-zinc-600">${curSym}${item.price.toLocaleString()}</td>
-                                        <td class="py-2.5 px-3 text-right font-mono font-bold" style="color: ${appState.themePrimary}">${curSym}${(item.qty * item.price).toLocaleString()}</td>
-                                    ` : `<td class="py-2.5 px-3 text-right font-bold" style="color: ${appState.themePrimary}">Dispatched</td>`}
-                                </tr>
-                            `).join('')}
+                            ${appState.items.map(item => `<tr><td class="py-2.5 px-3 text-zinc-800 font-medium">${item.desc || '[Description]'}</td><td class="py-2.5 px-3 text-center text-zinc-600 font-mono">${item.qty}</td>${!isDelivery ? `<td class="py-2.5 px-3 text-right text-zinc-600 font-mono">${curSym}${item.price.toLocaleString()}</td><td class="py-2.5 px-3 text-right font-bold font-mono" style="color: ${appState.themePrimary}">${curSym}${(item.qty * item.price).toLocaleString()}</td>` : `<td class="py-2.5 px-3 text-right font-bold" style="color: ${appState.themePrimary}">Dispatched</td>`}</tr>`).join('')}
                         </tbody>
                     </table>
                 </div>
                 <div>
-                    ${appState.docType === 'Receipt' ? receiptFinancialBlock : (!isDelivery ? `
-                    <div class="flex justify-end mb-6">
-                        <div class="w-64 bg-zinc-50 p-4 rounded-xl border border-zinc-200 space-y-1.5 text-xs">
-                            <div class="flex justify-between text-zinc-600"><span>Subtotal:</span><span class="font-mono font-bold">${curSym}${subtotal.toLocaleString()}</span></div>${discount > 0 ? `<div class="flex justify-between font-bold" style="color: ${appState.themePrimary}"><span>Discount:</span><span class="font-mono">-${curSym}${discount.toLocaleString()}</span></div>` : ''}
-                            ${tax > 0 ? `<div class="flex justify-between text-zinc-600"><span>Tax (${appState.taxRate}%):</span><span class="font-mono font-bold">${curSym}${tax.toLocaleString()}</span></div>` : ''}
-                            <div class="flex justify-between pt-2 border-t border-zinc-200 text-sm font-black text-zinc-900"><span>Total:</span><span class="font-mono" style="color: ${appState.themePrimary}">${curSym}${total.toLocaleString()}</span></div>
-                        </div>
-                    </div>` : '')}
-                    <div class="border-t border-zinc-200 pt-3 text-[11px] text-zinc-500 space-y-2">
-                        <div class="font-bold text-zinc-700 uppercase tracking-wider">Terms & Notes</div>
-                        <p class="leading-relaxed">${appState.notes || '[Notes...]'}</p>
-                        ${signatureHtml}
-                    </div>
+                    ${appState.docType === 'Receipt' ? receiptFinancialBlock : (!isDelivery ? `<div class="flex justify-end mb-6"><div class="w-64 space-y-1.5 text-xs"><div class="flex justify-between py-1 text-zinc-600"><span>Subtotal:</span><span class="font-mono font-semibold">${curSym}${subtotal.toLocaleString()}</span></div>${discount > 0 ? `<div class="flex justify-between py-1 font-semibold" style="color: ${appState.themePrimary}"><span>Discount:</span><span class="font-mono">-${curSym}${discount.toLocaleString()}</span></div>` : ''}${tax > 0 ? `<div class="flex justify-between py-1 text-zinc-600"><span>Tax (${appState.taxRate}%):</span><span class="font-mono font-semibold">${curSym}${tax.toLocaleString()}</span></div>` : ''}<div class="flex justify-between py-2.5 border-t border-zinc-300 text-sm font-black text-zinc-900"><span>Total Due:</span><span class="font-mono" style="color: ${appState.themePrimary}">${curSym}${total.toLocaleString()}</span></div></div></div>` : '')}
+                    <div class="border-t border-zinc-200 pt-3 text-[11px] text-zinc-500 space-y-2"><div class="font-bold text-zinc-700 uppercase tracking-wider">Notes & Terms</div><p class="leading-relaxed">${appState.notes || '[Enter notes or terms here...]'}</p>${signatureHtml}</div>
                 </div>
             `;
         }
