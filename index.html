@@ -48,7 +48,7 @@
                 margin: 0 !important; padding: 0 !important; box-shadow: none !important; border: none !important;
             }
             .no-print { display: none !important; }
-            header, section.lg\:col-span-5, .max-w-3xl.mx-auto.w-full.mb-4, .max-w-3xl.mx-auto.w-full.mt-6, #payment-modal {
+            header, section.lg\:col-span-5, .max-w-3xl.mx-auto.w-full.mb-4, .max-w-3xl.mx-auto.w-full.mt-6, #payment-modal, #guide-modal {
                 display: none !important;
             }
         }
@@ -72,6 +72,10 @@
         </div>
 
         <div class="flex items-center space-x-3">
+            <button onclick="openGuideModal()" class="bg-zinc-800/80 hover:bg-zinc-700 text-cyan-400 px-3.5 py-2 rounded-xl text-xs font-bold transition flex items-center space-x-1.5 border border-cyan-500/30 shadow-sm" title="How It Works">
+                <i class="fa-solid fa-circle-question text-xs"></i>
+                <span class="hidden sm:inline">How It Works</span>
+            </button>
             <button onclick="resetFormState()" class="bg-zinc-800/80 hover:bg-zinc-700 text-zinc-300 px-3.5 py-2 rounded-xl text-xs font-semibold transition flex items-center space-x-1.5 border border-zinc-700/80 shadow-sm" title="Reset Form">
                 <i class="fa-solid fa-rotate-right text-[10px]"></i>
                 <span class="hidden sm:inline">Reset Form</span>
@@ -214,11 +218,11 @@
                     </div>
                     <div>
                         <label id="date-label" class="block text-[10px] text-zinc-400 uppercase mb-0.5">Date</label>
-                        <input type="date" id="doc-date" onchange="updateLivePreview()" class="w-full bg-zinc-950 border border-zinc-800 rounded-xl px-2 py-1.5 text-[11px] text-zinc-200 font-mono focus:outline-none">
+                        <input type="date" id="doc-date" onchange="updateLivePreview()" class="w-full bg-zinc-950 border border-zinc-800 rounded-xl px-2.5 py-1.5 text-[11px] text-zinc-200 font-mono focus:outline-none">
                     </div>
                     <div id="due-date-container">
                         <label class="block text-[10px] text-zinc-400 uppercase mb-0.5">Due Date</label>
-                        <input type="date" id="due-date" onchange="updateLivePreview()" class="w-full bg-zinc-950 border border-zinc-800 rounded-xl px-2 py-1.5 text-[11px] text-zinc-200 font-mono focus:outline-none">
+                        <input type="date" id="due-date" onchange="updateLivePreview()" class="w-full bg-zinc-950 border border-zinc-800 rounded-xl px-2.5 py-1.5 text-[11px] text-zinc-200 font-mono focus:outline-none">
                     </div>
                 </div>
             </div>
@@ -270,8 +274,8 @@
                     </div>
                     <input type="text" id="client-name" value="" oninput="handleClientBillingChange()" placeholder="[Recipient / Client Name]" class="w-full bg-zinc-900 border border-zinc-800 rounded-lg px-2.5 py-1 text-xs text-zinc-200 font-bold focus:outline-none">
                     <div class="grid grid-cols-2 gap-1.5">
-                        <input type="text" id="client-contact" value="" oninput="handleClientBillingChange()" placeholder="Email / Phone" class="w-full bg-zinc-900 border border-zinc-800 rounded-lg px-2 py-1 text-[11px] text-zinc-200 focus:outline-none">
-                        <input type="text" id="client-address" value="" oninput="handleClientBillingChange()" placeholder="Address" class="w-full bg-zinc-900 border border-zinc-800 rounded-lg px-2 py-1 text-[11px] text-zinc-200 focus:outline-none">
+                        <input type="text" id="client-contact" value="" oninput="handleClientBillingChange()" placeholder="Email / Phone" class="w-full bg-zinc-900 border border-zinc-800 rounded-lg px-2.5 py-1 text-[11px] text-zinc-200 focus:outline-none">
+                        <input type="text" id="client-address" value="" oninput="handleClientBillingChange()" placeholder="Address" class="w-full bg-zinc-900 border border-zinc-800 rounded-lg px-2.5 py-1 text-[11px] text-zinc-200 focus:outline-none">
                     </div>
                 </div>
             </div>
@@ -395,6 +399,47 @@
             </div>
         </section>
     </main>
+
+    <!-- How It Works / Quick Guide Modal -->
+    <div id="guide-modal" class="fixed inset-0 z-50 bg-zinc-950/80 backdrop-blur-sm flex items-center justify-center hidden p-4">
+        <div class="bg-zinc-900 border border-zinc-800 rounded-2xl max-w-lg w-full p-6 space-y-6 shadow-2xl relative">
+            <button onclick="closeGuideModal()" class="absolute top-4 right-4 text-zinc-400 hover:text-zinc-200 transition">
+                <i class="fa-solid fa-xmark text-sm"></i>
+            </button>
+            <div class="flex items-center space-x-3">
+                <div class="bg-cyan-500/10 text-cyan-400 p-3 rounded-xl border border-cyan-500/20">
+                    <i class="fa-solid fa-circle-question text-lg"></i>
+                </div>
+                <div>
+                    <h3 class="font-bold text-sm text-zinc-100">How Apex Studio Pro Works</h3>
+                    <p class="text-xs text-zinc-400">Quick 4-step guide to generating and exporting documents.</p>
+                </div>
+            </div>
+            
+            <div class="space-y-3 text-xs text-zinc-300">
+                <div class="flex items-start space-x-3 bg-zinc-950 p-3 rounded-xl border border-zinc-800">
+                    <div class="bg-emerald-500 text-zinc-950 font-black h-5 w-5 rounded-full flex items-center justify-center shrink-0">1</div>
+                    <div><strong class="text-white">Select Document & Layout:</strong> Choose whether you are creating an Invoice, Quotation, Receipt, Certificate, Proposal, or Delivery Note, and pick a professional design style.</div>
+                </div>
+                <div class="flex items-start space-x-3 bg-zinc-950 p-3 rounded-xl border border-zinc-800">
+                    <div class="bg-emerald-500 text-zinc-950 font-black h-5 w-5 rounded-full flex items-center justify-center shrink-0">2</div>
+                    <div><strong class="text-white">Fill in Details & Line Items:</strong> Add your issuer information, client details (which activate the verification lock), and line items. The live preview updates instantly.</div>
+                </div>
+                <div class="flex items-start space-x-3 bg-zinc-950 p-3 rounded-xl border border-zinc-800">
+                    <div class="bg-emerald-500 text-zinc-950 font-black h-5 w-5 rounded-full flex items-center justify-center shrink-0">3</div>
+                    <div><strong class="text-white">Configure Seals & Signatures:</strong> Use the master toggle to show or hide the signature block, corporate stamp box, official seal, and serial identifiers.</div>
+                </div>
+                <div class="flex items-start space-x-3 bg-zinc-950 p-3 rounded-xl border border-zinc-800">
+                    <div class="bg-emerald-500 text-zinc-950 font-black h-5 w-5 rounded-full flex items-center justify-center shrink-0">4</div>
+                    <div><strong class="text-white">Pay & Download PDF:</strong> Complete the secure verification fee via Paystack to remove watermarks and download your high-resolution PDF.</div>
+                </div>
+            </div>
+
+            <button type="button" onclick="closeGuideModal()" class="w-full bg-cyan-500 hover:bg-cyan-400 text-zinc-950 font-bold py-2.5 rounded-xl text-xs transition shadow-lg">
+                Got it, Let's Build!
+            </button>
+        </div>
+    </div>
 
     <!-- Payment Gateway Modal -->
     <div id="payment-modal" class="fixed inset-0 z-50 bg-zinc-950/80 backdrop-blur-sm flex items-center justify-center hidden p-4">
@@ -520,6 +565,14 @@
             renderLineItems();
             updateLivePreview();
         });
+
+        function openGuideModal() {
+            document.getElementById('guide-modal').classList.remove('hidden');
+        }
+
+        function closeGuideModal() {
+            document.getElementById('guide-modal').classList.add('hidden');
+        }
 
         function resetFormState() {
             if(confirm("Are you sure you want to completely clear and reset all fields?")) {
@@ -1225,7 +1278,7 @@
                 </div>
                 <div>
                     ${appState.docType === 'Receipt' ? receiptFinancialBlock : (!isDelivery ? `<div class="flex justify-end mb-6"><div class="w-64 space-y-1.5 text-xs"><div class="flex justify-between py-1 text-zinc-600"><span>Subtotal:</span><span class="font-mono font-semibold">${curSym}${subtotal.toLocaleString()}</span></div>${discount > 0 ? `<div class="flex justify-between py-1 font-semibold" style="color: ${appState.themePrimary}"><span>Discount:</span><span class="font-mono">-${curSym}${discount.toLocaleString()}</span></div>` : ''}${tax > 0 ? `<div class="flex justify-between py-1 text-zinc-600"><span>Tax (${appState.taxRate}%):</span><span class="font-mono font-semibold">${curSym}${tax.toLocaleString()}</span></div>` : ''}<div class="flex justify-between py-2.5 border-t border-zinc-300 text-sm font-black text-zinc-900"><span>Total Due:</span><span class="font-mono" style="color: ${appState.themePrimary}">${curSym}${total.toLocaleString()}</span></div></div></div>` : '')}
-                    <div class="border-t border-zinc-200 pt-3 text-[11px] text-zinc-500 space-y-2"><div class="font-bold text-zinc-700 uppercase tracking-wider">Notes & Terms</div><p class="leading-relaxed">${appState.notes || '[Enter notes or terms here...]'}</p>${signatureHtml}</div>
+                    <div class="border-t border-zinc-200 pt-3 text-[11px] text-zinc-500 space-y-2"><div class="font-bold text-zinc-700 uppercase tracking-wider">Notes & Terms</div><p class="leading-relaxed">${appState.notes || '[Enter notes or terms here...]'}</p><div class="w-full">${signatureHtml}</div></div>
                 </div>
             `;
         }
