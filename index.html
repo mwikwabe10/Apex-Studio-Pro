@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" class="h-full">
+<html lang="en" class="h-full dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -39,28 +39,23 @@
         .unpaid-preview { user-select: none; -webkit-user-select: none; }
         .paid-preview { user-select: text; }
         ::-webkit-scrollbar { width: 6px; height: 6px; }
-        ::-webkit-scrollbar-track { background: var(--sb-track, #09090b); }
-        ::-webkit-scrollbar-thumb { background: var(--sb-thumb, #27272a); border-radius: 3px; }
-        input[type="date"]::-webkit-calendar-picker-indicator { cursor: pointer; opacity: 0.8; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: rgba(100, 116, 139, 0.3); border-radius: 3px; }
+        
+        input[type="date"]::-webkit-calendar-picker-indicator { 
+            cursor: pointer; 
+            filter: invert(0.8); 
+            opacity: 0.9; 
+        }
+        html:not(.dark) input[type="date"]::-webkit-calendar-picker-indicator { 
+            filter: invert(0); 
+        }
+
         .neon-card {
-            background: var(--card-bg, linear-gradient(145deg, rgba(24, 24, 27, 0.95), rgba(9, 9, 11, 0.98)));
-            border: 1.5px solid var(--hub-accent, rgba(6, 182, 212, 0.35));
-            box-shadow: 0 0 25px rgba(6, 182, 212, 0.08), inset 0 0 15px rgba(6, 182, 212, 0.03);
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
         .neon-card:hover {
-            border-color: var(--hub-accent-hover, rgba(6, 182, 212, 0.8));
-            box-shadow: 0 0 35px rgba(6, 182, 212, 0.25), inset 0 0 20px rgba(6, 182, 212, 0.08);
             transform: translateY(-4px);
-        }
-        .neon-btn {
-            background: linear-gradient(135deg, #06b6d4, #3b82f6);
-            box-shadow: 0 0 15px rgba(6, 182, 212, 0.4);
-            transition: all 0.2s ease;
-        }
-        .neon-btn:hover {
-            box-shadow: 0 0 25px rgba(6, 182, 212, 0.7);
-            filter: brightness(1.1);
         }
         @media print {
             body * { visibility: hidden; }
@@ -74,34 +69,33 @@
         }
     </style>
 </head>
-<body id="app-body" class="bg-zinc-950 text-zinc-100 font-sans h-full flex flex-col antialiased selection:bg-cyan-500 selection:text-zinc-950" style="--sb-track: #09090b; --sb-thumb: #27272a;">
+<body id="app-body" class="bg-zinc-50 dark:bg-zinc-950 text-zinc-900 dark:text-zinc-100 font-sans h-full flex flex-col antialiased transition-colors duration-300">
 
     <!-- Top Navigation Bar -->
-    <header class="border-b border-zinc-800 dark:border-zinc-800 bg-zinc-900/90 dark:bg-zinc-900/90 backdrop-blur sticky top-0 z-30 px-4 sm:px-8 py-3.5 flex items-center justify-between shadow-xl transition-colors duration-200" id="top-header">
+    <header class="border-b border-zinc-200 dark:border-zinc-800 bg-white/80 dark:bg-zinc-900/90 backdrop-blur sticky top-0 z-30 px-4 sm:px-8 py-3.5 flex items-center justify-between shadow-sm transition-colors duration-200">
         <div class="flex items-center space-x-3 cursor-pointer group" onclick="switchView('hub')">
-            <div id="nav-logo-box" class="bg-gradient-to-tr from-cyan-600 via-blue-600 to-indigo-600 text-zinc-950 p-2.5 rounded-2xl font-black text-sm tracking-tighter flex items-center justify-center shadow-lg shadow-cyan-500/30 group-hover:scale-105 transition">
-                <i class="fa-solid fa-layer-group text-base text-white"></i>
+            <div id="nav-logo-box" class="bg-gradient-to-tr from-cyan-600 via-blue-600 to-indigo-600 text-white p-2.5 rounded-2xl font-black text-sm tracking-tighter flex items-center justify-center shadow-lg shadow-cyan-500/20 group-hover:scale-105 transition">
+                <i class="fa-solid fa-layer-group text-base"></i>
             </div>
             <div>
-                <h1 class="font-extrabold text-base sm:text-lg text-zinc-100 dark:text-zinc-100 flex items-center space-x-2 tracking-tight">
+                <h1 class="font-extrabold text-base sm:text-lg flex items-center space-x-2 tracking-tight">
                     <span>Apex Studio Pro</span>
-                    <span id="nav-badge" class="bg-cyan-500/10 text-cyan-400 text-[10px] font-mono px-2 py-0.5 rounded-full border border-cyan-500/30 font-bold uppercase tracking-wider">Enterprise Hub</span>
+                    <span class="bg-cyan-500/10 text-cyan-600 dark:text-cyan-400 text-[10px] font-mono px-2 py-0.5 rounded-full border border-cyan-500/30 font-bold uppercase tracking-wider">Enterprise Hub</span>
                 </h1>
-                <p class="text-[11px] text-zinc-400 font-medium">Professional Document Automation & Verification Suite</p>
+                <p class="text-[11px] text-zinc-500 dark:text-zinc-400 font-medium">Professional Document Automation & Verification Suite</p>
             </div>
         </div>
 
         <div class="flex items-center space-x-3">
-            <button onclick="toggleSiteTheme()" id="theme-toggle-btn" class="bg-zinc-800/80 hover:bg-zinc-700 text-zinc-300 px-3.5 py-2 rounded-xl text-xs font-bold transition flex items-center space-x-2 border border-zinc-700 shadow-sm" title="Toggle Light/Dark Mode">
-                <i id="theme-icon" class="fa-solid fa-sun text-amber-400"></i>
-                <span id="theme-text" class="hidden sm:inline">Light Mode</span>
+            <button onclick="toggleTheme()" class="bg-zinc-100 dark:bg-zinc-800 hover:bg-zinc-200 dark:hover:bg-zinc-700 text-zinc-700 dark:text-zinc-300 p-2.5 rounded-xl text-xs font-bold transition flex items-center justify-center border border-zinc-300 dark:border-zinc-700 shadow-sm" title="Toggle Dark/Light Mode">
+                <i id="theme-icon" class="fa-solid fa-sun text-amber-500 dark:text-cyan-400 text-sm"></i>
             </button>
-            <button onclick="switchView('hub')" class="bg-cyan-500/10 text-cyan-400 hover:bg-cyan-500/20 px-4 py-2 rounded-xl text-xs font-bold transition flex items-center space-x-2 border border-cyan-500/30 shadow-sm">
+            <button onclick="switchView('hub')" class="bg-cyan-500/10 text-cyan-600 dark:text-cyan-400 hover:bg-cyan-500/20 px-4 py-2 rounded-xl text-xs font-bold transition flex items-center space-x-2 border border-cyan-500/30 shadow-sm">
                 <i class="fa-solid fa-grid-2 text-xs"></i>
                 <span class="hidden sm:inline">Dashboard Hub</span>
             </button>
-            <button onclick="openGuideModal()" class="bg-zinc-800/80 hover:bg-zinc-700 text-zinc-300 px-4 py-2 rounded-xl text-xs font-semibold transition flex items-center space-x-1.5 border border-zinc-700 shadow-sm">
-                <i class="fa-solid fa-circle-question text-xs text-cyan-400"></i>
+            <button onclick="openGuideModal()" class="bg-zinc-100 dark:bg-zinc-800 hover:bg-zinc-200 dark:hover:bg-zinc-700 text-zinc-700 dark:text-zinc-300 px-4 py-2 rounded-xl text-xs font-semibold transition flex items-center space-x-1.5 border border-zinc-300 dark:border-zinc-700 shadow-sm">
+                <i class="fa-solid fa-circle-question text-xs text-cyan-500 dark:text-cyan-400"></i>
                 <span class="hidden sm:inline">How It Works</span>
             </button>
         </div>
@@ -109,252 +103,231 @@
 
     <!-- HUB VIEW: Dashboard Hub -->
     <section id="hub-dashboard" class="flex-1 overflow-y-auto p-4 sm:p-12 max-w-7xl mx-auto w-full space-y-10">
-        <!-- Hero Header -->
-        <div class="flex flex-col md:flex-row items-center justify-between gap-6 bg-gradient-to-r from-zinc-900/95 via-zinc-900/80 to-zinc-950 dark:from-zinc-900/95 dark:via-zinc-900/80 dark:to-zinc-950 p-6 sm:p-8 rounded-3xl border border-zinc-800 shadow-2xl relative overflow-hidden">
+        <div class="flex flex-col md:flex-row items-center justify-between gap-6 bg-white dark:bg-zinc-900 p-6 sm:p-8 rounded-3xl border border-zinc-200 dark:border-zinc-800 shadow-xl relative overflow-hidden">
             <div class="absolute -right-10 -bottom-10 w-64 h-64 bg-cyan-500/5 rounded-full blur-3xl pointer-events-none"></div>
             <div class="space-y-3 text-center md:text-left max-w-2xl">
-                <div class="inline-flex items-center space-x-2 bg-cyan-500/10 border border-cyan-500/30 px-3.5 py-1.5 rounded-full text-cyan-400 text-xs font-semibold tracking-wide">
-                    <i class="fa-solid fa-sparkles text-cyan-400"></i>
+                <div class="inline-flex items-center space-x-2 bg-cyan-500/10 border border-cyan-500/30 px-3.5 py-1.5 rounded-full text-cyan-600 dark:text-cyan-400 text-xs font-semibold tracking-wide">
+                    <i class="fa-solid fa-sparkles"></i>
                     <span>Next-Gen Enterprise Document Platform</span>
                 </div>
-                <h2 class="text-3xl sm:text-4xl font-extrabold tracking-tight text-zinc-900 dark:text-white font-sans leading-tight">Professional Document & Utility Studios</h2>
+                <h2 class="text-3xl sm:text-4xl font-extrabold tracking-tight font-sans leading-tight">Professional Document & Utility Studios</h2>
                 <p class="text-xs sm:text-sm text-zinc-600 dark:text-zinc-400 leading-relaxed">Select a specialized studio below. Each module features fully operational templates, theme colors, QR codes, signatures, seals, and secure payment unlocking.</p>
             </div>
         </div>
 
-        <!-- Document Studios Grid -->
         <div>
             <div class="flex items-center space-x-2 mb-4">
-                <i class="fa-solid fa-folder-open text-cyan-500 dark:text-cyan-400 text-sm"></i>
-                <h3 class="text-xs font-bold uppercase tracking-widest text-zinc-600 dark:text-zinc-400 font-mono">Document Studios</h3>
+                <i class="fa-solid fa-folder-open text-cyan-600 dark:text-cyan-400 text-sm"></i>
+                <h3 class="text-xs font-bold uppercase tracking-widest text-zinc-500 dark:text-zinc-400 font-mono">Document Studios</h3>
             </div>
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                
-                <!-- Card 1: Invoice Generator -->
-                <div onclick="launchStudio('Invoice')" class="neon-card bg-zinc-900/60 dark:bg-zinc-900/60 rounded-2xl p-6 flex flex-col justify-between cursor-pointer group">
+                <div onclick="launchStudio('Invoice')" class="neon-card bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-2xl p-6 flex flex-col justify-between cursor-pointer group shadow-sm hover:shadow-md">
                     <div class="space-y-4">
-                        <div class="h-12 w-12 rounded-2xl bg-cyan-500/10 border border-cyan-500/30 flex items-center justify-center text-cyan-500 dark:text-cyan-400 group-hover:scale-110 transition shadow-inner">
+                        <div class="h-12 w-12 rounded-2xl bg-cyan-500/10 border border-cyan-500/30 flex items-center justify-center text-cyan-600 dark:text-cyan-400 group-hover:scale-110 transition shadow-inner">
                             <i class="fa-solid fa-file-invoice-dollar text-xl"></i>
                         </div>
                         <div>
-                            <h4 class="font-bold text-base text-zinc-900 dark:text-zinc-100 group-hover:text-cyan-600 dark:group-hover:text-cyan-300 transition">Invoice Generator</h4>
-                            <p class="text-xs text-zinc-600 dark:text-zinc-400 mt-1.5 leading-relaxed">Design corporate invoices with dedicated tax calculations, itemizing, QR verification, and payment locking.</p>
+                            <h4 class="font-bold text-base group-hover:text-cyan-500 transition">Invoice Generator</h4>
+                            <p class="text-xs text-zinc-500 dark:text-zinc-400 mt-1.5 leading-relaxed">Design corporate invoices with dedicated tax calculations, itemizing, QR verification, and payment locking.</p>
                         </div>
                     </div>
                     <div class="pt-6">
-                        <button class="w-full neon-btn text-zinc-950 font-bold py-2.5 rounded-xl text-xs flex items-center justify-center space-x-2">
+                        <button class="w-full bg-cyan-600 hover:bg-cyan-500 text-white font-bold py-2.5 rounded-xl text-xs flex items-center justify-center space-x-2 shadow-md">
                             <span>Open Invoice Studio</span>
                             <i class="fa-solid fa-arrow-right text-[10px]"></i>
                         </button>
                     </div>
                 </div>
 
-                <!-- Card 2: Receipt Generator -->
-                <div onclick="launchStudio('Receipt')" class="neon-card bg-zinc-900/60 dark:bg-zinc-900/60 rounded-2xl p-6 flex flex-col justify-between cursor-pointer group">
+                <div onclick="launchStudio('Receipt')" class="neon-card bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-2xl p-6 flex flex-col justify-between cursor-pointer group shadow-sm hover:shadow-md">
                     <div class="space-y-4">
-                        <div class="h-12 w-12 rounded-2xl bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center text-emerald-500 dark:text-emerald-400 group-hover:scale-110 transition shadow-inner">
+                        <div class="h-12 w-12 rounded-2xl bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center text-emerald-600 dark:text-emerald-400 group-hover:scale-110 transition shadow-inner">
                             <i class="fa-solid fa-receipt text-xl"></i>
                         </div>
                         <div>
-                            <h4 class="font-bold text-base text-zinc-900 dark:text-zinc-100 group-hover:text-emerald-600 dark:group-hover:text-emerald-300 transition">Receipt Generator</h4>
-                            <p class="text-xs text-zinc-600 dark:text-zinc-400 mt-1.5 leading-relaxed">Create POS thermal, standardized, voucher, and certified badge receipts with full signature and seal blocks.</p>
+                            <h4 class="font-bold text-base group-hover:text-emerald-500 transition">Receipt Generator</h4>
+                            <p class="text-xs text-zinc-500 dark:text-zinc-400 mt-1.5 leading-relaxed">Create POS thermal, standardized, voucher, and certified badge receipts with full signature and seal blocks.</p>
                         </div>
                     </div>
                     <div class="pt-6">
-                        <button class="w-full bg-gradient-to-r from-emerald-500 to-teal-600 hover:brightness-110 text-zinc-950 font-bold py-2.5 rounded-xl text-xs flex items-center justify-center space-x-2 shadow-lg shadow-emerald-500/20 transition">
+                        <button class="w-full bg-gradient-to-r from-emerald-500 to-teal-600 hover:brightness-110 text-white font-bold py-2.5 rounded-xl text-xs flex items-center justify-center space-x-2 shadow-md shadow-emerald-500/20 transition">
                             <span>Open Receipt Studio</span>
                             <i class="fa-solid fa-arrow-right text-[10px]"></i>
                         </button>
                     </div>
                 </div>
 
-                <!-- Card 3: Quotation Generator -->
-                <div onclick="launchStudio('Quotation')" class="neon-card bg-zinc-900/60 dark:bg-zinc-900/60 rounded-2xl p-6 flex flex-col justify-between cursor-pointer group">
+                <div onclick="launchStudio('Quotation')" class="neon-card bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-2xl p-6 flex flex-col justify-between cursor-pointer group shadow-sm hover:shadow-md">
                     <div class="space-y-4">
-                        <div class="h-12 w-12 rounded-2xl bg-purple-500/10 border border-purple-500/30 flex items-center justify-center text-purple-500 dark:text-purple-400 group-hover:scale-110 transition shadow-inner">
+                        <div class="h-12 w-12 rounded-2xl bg-purple-500/10 border border-purple-500/30 flex items-center justify-center text-purple-600 dark:text-purple-400 group-hover:scale-110 transition shadow-inner">
                             <i class="fa-solid fa-file-contract text-xl"></i>
                         </div>
                         <div>
-                            <h4 class="font-bold text-base text-zinc-900 dark:text-zinc-100 group-hover:text-purple-600 dark:group-hover:text-purple-300 transition">Quotation Studio</h4>
-                            <p class="text-xs text-zinc-600 dark:text-zinc-400 mt-1.5 leading-relaxed">Build client estimates and price proposals with validity terms, QR tags, and professional styling.</p>
+                            <h4 class="font-bold text-base group-hover:text-purple-500 transition">Quotation Studio</h4>
+                            <p class="text-xs text-zinc-500 dark:text-zinc-400 mt-1.5 leading-relaxed">Build client estimates and price proposals with validity terms, QR tags, and professional styling.</p>
                         </div>
                     </div>
                     <div class="pt-6">
-                        <button class="w-full bg-gradient-to-r from-purple-500 to-indigo-600 hover:brightness-110 text-zinc-950 font-bold py-2.5 rounded-xl text-xs flex items-center justify-center space-x-2 shadow-lg shadow-purple-500/20 transition">
+                        <button class="w-full bg-gradient-to-r from-purple-500 to-indigo-600 hover:brightness-110 text-white font-bold py-2.5 rounded-xl text-xs flex items-center justify-center space-x-2 shadow-md shadow-purple-500/20 transition">
                             <span>Open Quotation Studio</span>
                             <i class="fa-solid fa-arrow-right text-[10px]"></i>
                         </button>
                     </div>
                 </div>
 
-                <!-- Card 4: Certificate Studio -->
-                <div onclick="launchStudio('Certificate')" class="neon-card bg-zinc-900/60 dark:bg-zinc-900/60 rounded-2xl p-6 flex flex-col justify-between cursor-pointer group">
+                <div onclick="launchStudio('Certificate')" class="neon-card bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-2xl p-6 flex flex-col justify-between cursor-pointer group shadow-sm hover:shadow-md">
                     <div class="space-y-4">
-                        <div class="h-12 w-12 rounded-2xl bg-amber-500/10 border border-amber-500/30 flex items-center justify-center text-amber-500 dark:text-amber-400 group-hover:scale-110 transition shadow-inner">
+                        <div class="h-12 w-12 rounded-2xl bg-amber-500/10 border border-amber-500/30 flex items-center justify-center text-amber-600 dark:text-amber-400 group-hover:scale-110 transition shadow-inner">
                             <i class="fa-solid fa-award text-xl"></i>
                         </div>
                         <div>
-                            <h4 class="font-bold text-base text-zinc-900 dark:text-zinc-100 group-hover:text-amber-600 dark:group-hover:text-amber-300 transition">Certificate Studio</h4>
-                            <p class="text-xs text-zinc-600 dark:text-zinc-400 mt-1.5 leading-relaxed">Craft award certificates, diplomas, and completion badges with active templates, golden seals, and QR tags.</p>
+                            <h4 class="font-bold text-base group-hover:text-amber-500 transition">Certificate Studio</h4>
+                            <p class="text-xs text-zinc-500 dark:text-zinc-400 mt-1.5 leading-relaxed">Craft award certificates, diplomas, and completion badges with active templates, golden seals, and QR tags.</p>
                         </div>
                     </div>
                     <div class="pt-6">
-                        <button class="w-full bg-gradient-to-r from-amber-500 to-yellow-600 hover:brightness-110 text-zinc-950 font-bold py-2.5 rounded-xl text-xs flex items-center justify-center space-x-2 shadow-lg shadow-amber-500/20 transition">
+                        <button class="w-full bg-gradient-to-r from-amber-500 to-yellow-600 hover:brightness-110 text-white font-bold py-2.5 rounded-xl text-xs flex items-center justify-center space-x-2 shadow-md shadow-amber-500/20 transition">
                             <span>Open Certificate Studio</span>
                             <i class="fa-solid fa-arrow-right text-[10px]"></i>
                         </button>
                     </div>
                 </div>
 
-                <!-- Card 5: Proposal Generator -->
-                <div onclick="launchStudio('Proposal')" class="neon-card bg-zinc-900/60 dark:bg-zinc-900/60 rounded-2xl p-6 flex flex-col justify-between cursor-pointer group">
+                <div onclick="launchStudio('Proposal')" class="neon-card bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-2xl p-6 flex flex-col justify-between cursor-pointer group shadow-sm hover:shadow-md">
                     <div class="space-y-4">
-                        <div class="h-12 w-12 rounded-2xl bg-blue-500/10 border border-blue-500/30 flex items-center justify-center text-blue-500 dark:text-blue-400 group-hover:scale-110 transition shadow-inner">
+                        <div class="h-12 w-12 rounded-2xl bg-blue-500/10 border border-blue-500/30 flex items-center justify-center text-blue-600 dark:text-blue-400 group-hover:scale-110 transition shadow-inner">
                             <i class="fa-solid fa-briefcase text-xl"></i>
                         </div>
                         <div>
-                            <h4 class="font-bold text-base text-zinc-900 dark:text-zinc-100 group-hover:text-blue-600 dark:group-hover:text-blue-300 transition">Business Proposal</h4>
-                            <p class="text-xs text-zinc-600 dark:text-zinc-400 mt-1.5 leading-relaxed">Develop strategic project proposals with executive overviews, scope of work modules, and QR verification.</p>
+                            <h4 class="font-bold text-base group-hover:text-blue-500 transition">Business Proposal</h4>
+                            <p class="text-xs text-zinc-500 dark:text-zinc-400 mt-1.5 leading-relaxed">Develop strategic project proposals with executive overviews, scope of work modules, and QR verification.</p>
                         </div>
                     </div>
                     <div class="pt-6">
-                        <button class="w-full bg-gradient-to-r from-blue-500 to-cyan-600 hover:brightness-110 text-zinc-950 font-bold py-2.5 rounded-xl text-xs flex items-center justify-center space-x-2 shadow-lg shadow-blue-500/20 transition">
+                        <button class="w-full bg-gradient-to-r from-blue-500 to-cyan-600 hover:brightness-110 text-white font-bold py-2.5 rounded-xl text-xs flex items-center justify-center space-x-2 shadow-md shadow-blue-500/20 transition">
                             <span>Open Proposal Studio</span>
                             <i class="fa-solid fa-arrow-right text-[10px]"></i>
                         </button>
                     </div>
                 </div>
 
-                <!-- Card 6: Delivery Note & Manifest -->
-                <div onclick="launchStudio('Delivery')" class="neon-card bg-zinc-900/60 dark:bg-zinc-900/60 rounded-2xl p-6 flex flex-col justify-between cursor-pointer group">
+                <div onclick="launchStudio('Delivery')" class="neon-card bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-2xl p-6 flex flex-col justify-between cursor-pointer group shadow-sm hover:shadow-md">
                     <div class="space-y-4">
-                        <div class="h-12 w-12 rounded-2xl bg-rose-500/10 border border-rose-500/30 flex items-center justify-center text-rose-500 dark:text-rose-400 group-hover:scale-110 transition shadow-inner">
+                        <div class="h-12 w-12 rounded-2xl bg-rose-500/10 border border-rose-500/30 flex items-center justify-center text-rose-600 dark:text-rose-400 group-hover:scale-110 transition shadow-inner">
                             <i class="fa-solid fa-truck-fast text-xl"></i>
                         </div>
                         <div>
-                            <h4 class="font-bold text-base text-zinc-900 dark:text-zinc-100 group-hover:text-rose-600 dark:group-hover:text-rose-300 transition">Delivery Manifest</h4>
-                            <p class="text-xs text-zinc-600 dark:text-zinc-400 mt-1.5 leading-relaxed">Generate logistics dispatch sheets, shipping manifests, and warehouse inventory items with QR tracking.</p>
+                            <h4 class="font-bold text-base group-hover:text-rose-500 transition">Delivery Manifest</h4>
+                            <p class="text-xs text-zinc-500 dark:text-zinc-400 mt-1.5 leading-relaxed">Generate logistics dispatch sheets, shipping manifests, and warehouse inventory items with QR tracking.</p>
                         </div>
                     </div>
                     <div class="pt-6">
-                        <button class="w-full bg-gradient-to-r from-rose-500 to-pink-600 hover:brightness-110 text-zinc-950 font-bold py-2.5 rounded-xl text-xs flex items-center justify-center space-x-2 shadow-lg shadow-rose-500/20 transition">
+                        <button class="w-full bg-gradient-to-r from-rose-500 to-pink-600 hover:brightness-110 text-white font-bold py-2.5 rounded-xl text-xs flex items-center justify-center space-x-2 shadow-md shadow-rose-500/20 transition">
                             <span>Open Delivery Studio</span>
                             <i class="fa-solid fa-arrow-right text-[10px]"></i>
                         </button>
                     </div>
                 </div>
-
             </div>
         </div>
 
-        <!-- Utility Tools Section -->
         <div>
             <div class="flex items-center space-x-2 mb-4">
-                <i class="fa-solid fa-toolbox text-cyan-500 dark:text-cyan-400 text-sm"></i>
-                <h3 class="text-xs font-bold uppercase tracking-widest text-zinc-600 dark:text-zinc-400 font-mono">Productivity Utilities</h3>
+                <i class="fa-solid fa-toolbox text-cyan-600 dark:text-cyan-400 text-sm"></i>
+                <h3 class="text-xs font-bold uppercase tracking-widest text-zinc-500 dark:text-zinc-400 font-mono">Productivity Utilities</h3>
             </div>
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                
-                <!-- Utility 1: QR Code Generator (Paid 50 KES to Download) -->
-                <div onclick="openUtilityModal('qr')" class="neon-card bg-zinc-900/60 dark:bg-zinc-900/60 rounded-2xl p-6 flex flex-col justify-between cursor-pointer group">
+                <div onclick="openUtilityModal('qr')" class="neon-card bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-2xl p-6 flex flex-col justify-between cursor-pointer group shadow-sm hover:shadow-md">
                     <div class="space-y-4">
-                        <div class="h-12 w-12 rounded-2xl bg-cyan-500/10 border border-cyan-500/30 flex items-center justify-center text-cyan-500 dark:text-cyan-400 group-hover:scale-110 transition shadow-inner">
+                        <div class="h-12 w-12 rounded-2xl bg-cyan-500/10 border border-cyan-500/30 flex items-center justify-center text-cyan-600 dark:text-cyan-400 group-hover:scale-110 transition shadow-inner">
                             <i class="fa-solid fa-qrcode text-xl"></i>
                         </div>
                         <div>
-                            <h4 class="font-bold text-base text-zinc-900 dark:text-zinc-100 group-hover:text-cyan-600 dark:group-hover:text-cyan-300 transition">QR Code Generator (Paid Utility)</h4>
-                            <p class="text-xs text-zinc-600 dark:text-zinc-400 mt-1.5 leading-relaxed">Create custom high-resolution QR codes for Websites, Wi-Fi networks, Text notes, or Phone numbers. Requires <strong>KES 50</strong> payment to download.</p>
+                            <h4 class="font-bold text-base group-hover:text-cyan-500 transition">QR Code Customizer & Generator</h4>
+                            <p class="text-xs text-zinc-500 dark:text-zinc-400 mt-1.5 leading-relaxed">Design custom high-resolution QR codes with advanced color pickers, frame styles, and transparent preview protection.</p>
                         </div>
                     </div>
                     <div class="pt-6">
-                        <button class="w-full neon-btn text-zinc-950 font-bold py-2.5 rounded-xl text-xs flex items-center justify-center space-x-2">
-                            <span>Launch QR Generator (KES 50)</span>
+                        <button class="w-full bg-cyan-600 hover:bg-cyan-500 text-white font-bold py-2.5 rounded-xl text-xs flex items-center justify-center space-x-2 shadow-md">
+                            <span>Launch QR Studio</span>
                             <i class="fa-solid fa-arrow-right text-[10px]"></i>
                         </button>
                     </div>
                 </div>
 
-                <!-- Utility 2: AI Text Humanizer -->
-                <div onclick="openUtilityModal('ai')" class="neon-card bg-zinc-900/60 dark:bg-zinc-900/60 rounded-2xl p-6 flex flex-col justify-between cursor-pointer group">
+                <div onclick="openUtilityModal('ai')" class="neon-card bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-2xl p-6 flex flex-col justify-between cursor-pointer group shadow-sm hover:shadow-md">
                     <div class="space-y-4">
-                        <div class="h-12 w-12 rounded-2xl bg-indigo-500/10 border border-indigo-500/30 flex items-center justify-center text-indigo-500 dark:text-indigo-400 group-hover:scale-110 transition shadow-inner">
+                        <div class="h-12 w-12 rounded-2xl bg-indigo-500/10 border border-indigo-500/30 flex items-center justify-center text-indigo-600 dark:text-indigo-400 group-hover:scale-110 transition shadow-inner">
                             <i class="fa-solid fa-robot text-xl"></i>
                         </div>
                         <div>
-                            <h4 class="font-bold text-base text-zinc-900 dark:text-zinc-100 group-hover:text-indigo-600 dark:group-hover:text-indigo-300 transition">AI Text Humanizer</h4>
-                            <p class="text-xs text-zinc-600 dark:text-zinc-400 mt-1.5 leading-relaxed">Transform robotic drafts into natural, engaging, professional executive prose for your terms and descriptions.</p>
+                            <h4 class="font-bold text-base group-hover:text-indigo-500 transition">AI Text Humanizer</h4>
+                            <p class="text-xs text-zinc-500 dark:text-zinc-400 mt-1.5 leading-relaxed">Transform robotic drafts into natural, engaging, professional executive prose for your terms and descriptions.</p>
                         </div>
                     </div>
                     <div class="pt-6">
-                        <button class="w-full bg-gradient-to-r from-indigo-500 to-purple-600 hover:brightness-110 text-zinc-950 font-bold py-2.5 rounded-xl text-xs flex items-center justify-center space-x-2 shadow-lg shadow-indigo-500/20 transition">
+                        <button class="w-full bg-gradient-to-r from-indigo-500 to-purple-600 hover:brightness-110 text-white font-bold py-2.5 rounded-xl text-xs flex items-center justify-center space-x-2 shadow-md shadow-indigo-500/20 transition">
                             <span>Launch AI Humanizer</span>
                             <i class="fa-solid fa-arrow-right text-[10px]"></i>
                         </button>
                     </div>
                 </div>
-
             </div>
         </div>
     </section>
 
-    <!-- STUDIO WORKSPACE VIEW: Dedicated per Document Type -->
+    <!-- STUDIO WORKSPACE VIEW -->
     <main id="studio-workspace" class="flex-1 grid grid-cols-1 lg:grid-cols-12 overflow-hidden hidden">
-        
-        <!-- Left Panel: Controls & Customization (5 Cols) -->
-        <section class="lg:col-span-5 bg-zinc-100 dark:bg-zinc-950 border-r border-zinc-300 dark:border-zinc-800/80 flex flex-col h-full overflow-y-auto p-3 sm:p-4 space-y-3 transition-colors">
-            
-            <button onclick="switchView('hub')" class="bg-zinc-200 dark:bg-zinc-900 hover:bg-zinc-300 dark:hover:bg-zinc-800 text-cyan-700 dark:text-cyan-400 p-2.5 rounded-xl text-xs font-bold transition flex items-center justify-center space-x-2 border border-cyan-500/30 shadow">
+        <section class="lg:col-span-5 bg-white dark:bg-zinc-900 border-r border-zinc-200 dark:border-zinc-800 flex flex-col h-full overflow-y-auto p-3 sm:p-4 space-y-3 transition-colors">
+            <button onclick="switchView('hub')" class="bg-zinc-100 dark:bg-zinc-800 hover:bg-zinc-200 dark:hover:bg-zinc-700 text-cyan-700 dark:text-cyan-400 p-2.5 rounded-xl text-xs font-bold transition flex items-center justify-center space-x-2 border border-cyan-500/30 shadow-sm">
                 <i class="fa-solid fa-arrow-left"></i>
                 <span>Back to Dashboard Hub</span>
             </button>
 
-            <!-- Dedicated Studio Header Badge -->
-            <div class="bg-white dark:bg-zinc-900/90 border border-zinc-300 dark:border-zinc-800 p-3 rounded-2xl flex items-center justify-between shadow-sm">
+            <div class="bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 p-3 rounded-2xl flex items-center justify-between shadow-sm">
                 <div>
                     <div class="text-[10px] text-zinc-500 dark:text-zinc-400 uppercase font-mono">Active Studio Mode</div>
                     <div id="active-studio-title" class="font-black text-sm text-cyan-600 dark:text-cyan-400">Invoice Studio</div>
                 </div>
-                <div class="flex space-x-1">
-                    <button type="button" onclick="resetFormState()" class="bg-zinc-200 dark:bg-zinc-800 hover:bg-zinc-300 dark:hover:bg-zinc-700 text-zinc-700 dark:text-zinc-300 px-2.5 py-1.5 rounded-lg text-[10px] font-bold transition border border-zinc-300 dark:border-zinc-700" title="Reset">
+                <div>
+                    <button type="button" onclick="resetFormState()" class="bg-zinc-200 dark:bg-zinc-800 hover:bg-zinc-300 dark:hover:bg-zinc-700 text-zinc-700 dark:text-zinc-300 px-2.5 py-1.5 rounded-lg text-[10px] font-bold transition border border-zinc-300 dark:border-zinc-700">
                         <i class="fa-solid fa-rotate-right mr-1"></i>Reset
                     </button>
                 </div>
             </div>
 
-            <!-- Dynamic Dedicated Layout Selector -->
-            <div class="bg-white dark:bg-zinc-900 border border-cyan-500/30 rounded-2xl p-3 shadow-sm space-y-2">
+            <div class="bg-zinc-50 dark:bg-zinc-950 border border-cyan-500/30 rounded-2xl p-3 shadow-sm space-y-2">
                 <div class="flex items-center justify-between">
                     <label class="text-[11px] font-bold text-cyan-700 dark:text-cyan-300 uppercase tracking-wider flex items-center space-x-1.5">
-                        <i class="fa-solid fa-layer-group text-xs text-cyan-500 dark:text-cyan-400"></i>
+                        <i class="fa-solid fa-layer-group text-xs text-cyan-600 dark:text-cyan-400"></i>
                         <span id="layout-label-text">Templates</span>
                     </label>
-                    <span id="variant-type-badge" class="text-[9px] font-mono bg-zinc-100 dark:bg-zinc-950 text-cyan-700 dark:text-cyan-300 px-2 py-0.5 rounded border border-cyan-500/20 font-bold">Template 1</span>
+                    <span id="variant-type-badge" class="text-[9px] font-mono bg-white dark:bg-zinc-900 text-cyan-600 dark:text-cyan-300 px-2 py-0.5 rounded border border-cyan-500/20 font-bold">Template 1</span>
                 </div>
                 <div id="sublayout-buttons-container" class="grid grid-cols-2 gap-1.5"></div>
             </div>
 
-            <!-- Theme & Styling Grid -->
             <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
-                <div class="bg-white dark:bg-zinc-900 border border-indigo-500/30 rounded-2xl p-3 shadow-sm space-y-2">
+                <div class="bg-zinc-50 dark:bg-zinc-950 border border-indigo-500/30 rounded-2xl p-3 shadow-sm space-y-2">
                     <label class="block text-[11px] font-bold text-indigo-700 dark:text-indigo-300 uppercase tracking-wider flex items-center space-x-1.5">
-                        <i class="fa-solid fa-palette text-indigo-500 dark:text-indigo-400 text-xs"></i>
+                        <i class="fa-solid fa-palette text-indigo-600 dark:text-indigo-400 text-xs"></i>
                         <span>Accent Theme</span>
                     </label>
                     <div class="grid grid-cols-6 gap-1.5 pt-1">
-                        <button type="button" onclick="setThemeColor('emerald', '#10b981', '#065f46')" class="h-6 rounded-lg bg-emerald-500 border border-zinc-300 dark:border-zinc-950 hover:scale-105 transition" title="Emerald"></button>
-                        <button type="button" onclick="setThemeColor('indigo', '#6366f1', '#3730a3')" class="h-6 rounded-lg bg-indigo-500 border border-zinc-300 dark:border-zinc-950 hover:scale-105 transition" title="Indigo"></button>
-                        <button type="button" onclick="setThemeColor('amber', '#f59e0b', '#b45309')" class="h-6 rounded-lg bg-amber-500 border border-zinc-300 dark:border-zinc-950 hover:scale-105 transition" title="Amber"></button>
-                        <button type="button" onclick="setThemeColor('rose', '#f43f5e', '#9f1239')" class="h-6 rounded-lg bg-rose-500 border border-zinc-300 dark:border-zinc-950 hover:scale-105 transition" title="Rose"></button>
-                        <button type="button" onclick="setThemeColor('cyan', '#06b6d4', '#155e75')" class="h-6 rounded-lg bg-cyan-500 border border-zinc-300 dark:border-zinc-950 hover:scale-105 transition" title="Cyan"></button>
-                        <button type="button" onclick="setThemeColor('slate', '#64748b', '#1e293b')" class="h-6 rounded-lg bg-slate-600 border border-zinc-300 dark:border-zinc-950 hover:scale-105 transition" title="Slate"></button>
+                        <button type="button" onclick="setThemeColor('emerald', '#10b981', '#065f46')" class="h-6 rounded-lg bg-emerald-500 border border-zinc-300 dark:border-zinc-800 hover:scale-105 transition" title="Emerald"></button>
+                        <button type="button" onclick="setThemeColor('indigo', '#6366f1', '#3730a3')" class="h-6 rounded-lg bg-indigo-500 border border-zinc-300 dark:border-zinc-800 hover:scale-105 transition" title="Indigo"></button>
+                        <button type="button" onclick="setThemeColor('amber', '#f59e0b', '#b45309')" class="h-6 rounded-lg bg-amber-500 border border-zinc-300 dark:border-zinc-800 hover:scale-105 transition" title="Amber"></button>
+                        <button type="button" onclick="setThemeColor('rose', '#f43f5e', '#9f1239')" class="h-6 rounded-lg bg-rose-500 border border-zinc-300 dark:border-zinc-800 hover:scale-105 transition" title="Rose"></button>
+                        <button type="button" onclick="setThemeColor('cyan', '#06b6d4', '#155e75')" class="h-6 rounded-lg bg-cyan-500 border border-zinc-300 dark:border-zinc-800 hover:scale-105 transition" title="Cyan"></button>
+                        <button type="button" onclick="setThemeColor('slate', '#64748b', '#1e293b')" class="h-6 rounded-lg bg-slate-600 border border-zinc-300 dark:border-zinc-800 hover:scale-105 transition" title="Slate"></button>
                     </div>
                 </div>
-                <div class="bg-white dark:bg-zinc-900 border border-purple-500/30 rounded-2xl p-3 shadow-sm space-y-2">
+                <div class="bg-zinc-50 dark:bg-zinc-950 border border-purple-500/30 rounded-2xl p-3 shadow-sm space-y-2">
                     <label class="block text-[11px] font-bold text-purple-700 dark:text-purple-300 uppercase tracking-wider flex items-center space-x-1.5">
-                        <i class="fa-solid fa-font text-purple-500 dark:text-purple-400 text-xs"></i>
+                        <i class="fa-solid fa-font text-purple-600 dark:text-purple-400 text-xs"></i>
                         <span>Font Family</span>
                     </label>
-                    <select id="font-family-select" onchange="updateLivePreview()" class="w-full bg-zinc-50 dark:bg-zinc-950 border border-zinc-300 dark:border-zinc-800 rounded-xl px-2.5 py-1.5 text-xs text-zinc-900 dark:text-zinc-200 focus:outline-none">
+                    <select id="font-family-select" onchange="updateLivePreview()" class="w-full bg-white dark:bg-zinc-900 border border-zinc-300 dark:border-zinc-800 rounded-xl px-2.5 py-1.5 text-xs text-zinc-900 dark:text-zinc-200 focus:outline-none">
                         <option value="font-sans">Modern Sans (Outfit)</option>
                         <option value="font-serif">Classic Serif (Playfair)</option>
                         <option value="font-mono">Monospace (JetBrains)</option>
@@ -363,53 +336,51 @@
                 </div>
             </div>
 
-            <!-- Conditional Context Cards -->
-            <div id="certificate-type-config" class="bg-white dark:bg-zinc-900 border border-amber-500/30 rounded-2xl p-3 shadow-sm space-y-2 hidden">
+            <div id="certificate-type-config" class="bg-zinc-50 dark:bg-zinc-950 border border-amber-500/30 rounded-2xl p-3 shadow-sm space-y-2 hidden">
                 <label class="block text-[11px] font-bold text-amber-700 dark:text-amber-300 uppercase tracking-wider flex items-center space-x-1.5">
-                    <i class="fa-solid fa-award text-amber-500 dark:text-amber-400 text-xs"></i>
+                    <i class="fa-solid fa-award text-amber-600 dark:text-amber-400 text-xs"></i>
                     <span>Certificate Configuration</span>
                 </label>
                 <div class="grid grid-cols-2 sm:grid-cols-3 gap-1">
-                    <button type="button" onclick="setCertPreset('Certificate of Achievement')" class="bg-zinc-100 dark:bg-zinc-950 hover:bg-zinc-200 dark:hover:bg-zinc-800 text-zinc-700 dark:text-zinc-300 text-[10px] font-bold py-1.5 px-1 rounded-lg border border-zinc-300 dark:border-zinc-800 transition truncate">Achievement</button>
-                    <button type="button" onclick="setCertPreset('Certificate of Appreciation')" class="bg-zinc-100 dark:bg-zinc-950 hover:bg-zinc-200 dark:hover:bg-zinc-800 text-zinc-700 dark:text-zinc-300 text-[10px] font-bold py-1.5 px-1 rounded-lg border border-zinc-300 dark:border-zinc-800 transition truncate">Appreciation</button>
-                    <button type="button" onclick="setCertPreset('Certificate of Participation')" class="bg-zinc-100 dark:bg-zinc-950 hover:bg-zinc-200 dark:hover:bg-zinc-800 text-zinc-700 dark:text-zinc-300 text-[10px] font-bold py-1.5 px-1 rounded-lg border border-zinc-300 dark:border-zinc-800 transition truncate">Participation</button>
-                    <button type="button" onclick="setCertPreset('Certificate of Excellence')" class="bg-zinc-100 dark:bg-zinc-950 hover:bg-zinc-200 dark:hover:bg-zinc-800 text-zinc-700 dark:text-zinc-300 text-[10px] font-bold py-1.5 px-1 rounded-lg border border-zinc-300 dark:border-zinc-800 transition truncate">Excellence</button>
-                    <button type="button" onclick="setCertPreset('Certificate of Completion')" class="bg-zinc-100 dark:bg-zinc-950 hover:bg-zinc-200 dark:hover:bg-zinc-800 text-zinc-700 dark:text-zinc-300 text-[10px] font-bold py-1.5 px-1 rounded-lg border border-zinc-300 dark:border-zinc-800 transition truncate">Completion</button>
+                    <button type="button" onclick="setCertPreset('Certificate of Achievement')" class="bg-white dark:bg-zinc-900 hover:bg-zinc-100 dark:hover:bg-zinc-800 text-zinc-700 dark:text-zinc-300 text-[10px] font-bold py-1.5 px-1 rounded-lg border border-zinc-300 dark:border-zinc-800 transition truncate">Achievement</button>
+                    <button type="button" onclick="setCertPreset('Certificate of Appreciation')" class="bg-white dark:bg-zinc-900 hover:bg-zinc-100 dark:hover:bg-zinc-800 text-zinc-700 dark:text-zinc-300 text-[10px] font-bold py-1.5 px-1 rounded-lg border border-zinc-300 dark:border-zinc-800 transition truncate">Appreciation</button>
+                    <button type="button" onclick="setCertPreset('Certificate of Participation')" class="bg-white dark:bg-zinc-900 hover:bg-zinc-100 dark:hover:bg-zinc-800 text-zinc-700 dark:text-zinc-300 text-[10px] font-bold py-1.5 px-1 rounded-lg border border-zinc-300 dark:border-zinc-800 transition truncate">Participation</button>
+                    <button type="button" onclick="setCertPreset('Certificate of Excellence')" class="bg-white dark:bg-zinc-900 hover:bg-zinc-100 dark:hover:bg-zinc-800 text-zinc-700 dark:text-zinc-300 text-[10px] font-bold py-1.5 px-1 rounded-lg border border-zinc-300 dark:border-zinc-800 transition truncate">Excellence</button>
+                    <button type="button" onclick="setCertPreset('Certificate of Completion')" class="bg-white dark:bg-zinc-900 hover:bg-zinc-100 dark:hover:bg-zinc-800 text-zinc-700 dark:text-zinc-300 text-[10px] font-bold py-1.5 px-1 rounded-lg border border-zinc-300 dark:border-zinc-800 transition truncate">Completion</button>
                 </div>
-                <input type="text" id="cert-title-input" value="Certificate of Achievement" oninput="updateLivePreview()" placeholder="Custom Title..." class="w-full bg-zinc-50 dark:bg-zinc-950 border border-zinc-300 dark:border-zinc-800 rounded-xl px-2.5 py-1.5 text-xs text-zinc-900 dark:text-zinc-200 font-bold focus:outline-none">
+                <input type="text" id="cert-title-input" value="Certificate of Achievement" oninput="updateLivePreview()" placeholder="Custom Title..." class="w-full bg-white dark:bg-zinc-900 border border-zinc-300 dark:border-zinc-800 rounded-xl px-2.5 py-1.5 text-xs text-zinc-900 dark:text-zinc-200 font-bold focus:outline-none">
             </div>
 
-            <div id="extended-info-section" class="bg-white dark:bg-zinc-900 border border-purple-500/30 rounded-2xl p-3 shadow-sm space-y-2 hidden">
+            <div id="extended-info-section" class="bg-zinc-50 dark:bg-zinc-950 border border-purple-500/30 rounded-2xl p-3 shadow-sm space-y-2 hidden">
                 <label class="block text-[11px] font-bold text-purple-700 dark:text-purple-300 uppercase tracking-wider flex items-center space-x-1.5">
-                    <i class="fa-solid fa-align-left text-purple-500 dark:text-purple-400 text-xs"></i>
+                    <i class="fa-solid fa-align-left text-purple-600 dark:text-purple-400 text-xs"></i>
                     <span>Structural Content (Proposal)</span>
                 </label>
-                <textarea id="doc-intro" rows="2" oninput="updateLivePreview()" placeholder="Executive Overview..." class="w-full bg-zinc-50 dark:bg-zinc-950 border border-zinc-300 dark:border-zinc-800 rounded-xl p-2 text-xs text-zinc-900 dark:text-zinc-200 focus:outline-none"></textarea>
-                <textarea id="company-profile" rows="2" oninput="updateLivePreview()" placeholder="Company Profile..." class="w-full bg-zinc-50 dark:bg-zinc-950 border border-zinc-300 dark:border-zinc-800 rounded-xl p-2 text-xs text-zinc-900 dark:text-zinc-200 focus:outline-none"></textarea>
+                <textarea id="doc-intro" rows="2" oninput="updateLivePreview()" placeholder="Executive Overview..." class="w-full bg-white dark:bg-zinc-900 border border-zinc-300 dark:border-zinc-800 rounded-xl p-2 text-xs text-zinc-900 dark:text-zinc-200 focus:outline-none"></textarea>
+                <textarea id="company-profile" rows="2" oninput="updateLivePreview()" placeholder="Company Profile..." class="w-full bg-white dark:bg-zinc-900 border border-zinc-300 dark:border-zinc-800 rounded-xl p-2 text-xs text-zinc-900 dark:text-zinc-200 focus:outline-none"></textarea>
             </div>
 
-            <div id="receipt-payment-config" class="bg-white dark:bg-zinc-900 border border-emerald-500/30 rounded-2xl p-3 shadow-sm space-y-2 hidden">
+            <div id="receipt-payment-config" class="bg-zinc-50 dark:bg-zinc-950 border border-emerald-500/30 rounded-2xl p-3 shadow-sm space-y-2 hidden">
                 <label class="block text-[11px] font-bold text-emerald-700 dark:text-emerald-300 uppercase tracking-wider flex items-center space-x-1.5">
-                    <i class="fa-solid fa-receipt text-emerald-500 dark:text-emerald-400 text-xs"></i>
+                    <i class="fa-solid fa-receipt text-emerald-600 dark:text-emerald-400 text-xs"></i>
                     <span>Receipt Payment Status</span>
                 </label>
                 <div class="grid grid-cols-2 gap-2">
-                    <select id="receipt-status-mode" onchange="updateLivePreview()" class="w-full bg-zinc-50 dark:bg-zinc-950 border border-zinc-300 dark:border-zinc-800 rounded-xl px-2 py-1.5 text-xs text-zinc-900 dark:text-zinc-200 focus:outline-none">
+                    <select id="receipt-status-mode" onchange="updateLivePreview()" class="w-full bg-white dark:bg-zinc-900 border border-zinc-300 dark:border-zinc-800 rounded-xl px-2 py-1.5 text-xs text-zinc-900 dark:text-zinc-200 focus:outline-none">
                         <option value="full">Paid in Full</option>
                         <option value="partial">Partial Payment</option>
                     </select>
-                    <input type="number" id="amount-paid" value="0" min="0" oninput="updateLivePreview()" class="w-full bg-zinc-50 dark:bg-zinc-950 border border-zinc-300 dark:border-zinc-800 rounded-xl px-2.5 py-1.5 text-xs text-zinc-900 dark:text-zinc-200 font-mono focus:outline-none" placeholder="Amount Paid">
+                    <input type="number" id="amount-paid" value="0" min="0" oninput="updateLivePreview()" class="w-full bg-white dark:bg-zinc-900 border border-zinc-300 dark:border-zinc-800 rounded-xl px-2.5 py-1.5 text-xs text-zinc-900 dark:text-zinc-200 font-mono focus:outline-none" placeholder="Amount Paid">
                 </div>
             </div>
 
-            <!-- Metadata Card -->
-            <div class="bg-white dark:bg-zinc-900 border border-rose-500/30 rounded-2xl p-3 shadow-sm space-y-2.5">
+            <div class="bg-zinc-50 dark:bg-zinc-950 border border-rose-500/30 rounded-2xl p-3 shadow-sm space-y-2.5">
                 <div class="flex items-center justify-between">
                     <label class="text-[11px] font-bold text-rose-700 dark:text-rose-300 uppercase tracking-wider flex items-center space-x-1.5">
-                        <i class="fa-solid fa-sliders text-rose-500 dark:text-rose-400 text-xs"></i>
+                        <i class="fa-solid fa-sliders text-rose-600 dark:text-rose-400 text-xs"></i>
                         <span>Document Metadata</span>
                     </label>
-                    <select id="currency" onchange="updateLivePreview()" class="bg-zinc-50 dark:bg-zinc-950 border border-zinc-300 dark:border-zinc-800 rounded-lg px-2 py-0.5 text-[11px] text-zinc-900 dark:text-zinc-200 font-mono focus:outline-none">
+                    <select id="currency" onchange="updateLivePreview()" class="bg-white dark:bg-zinc-900 border border-zinc-300 dark:border-zinc-800 rounded-lg px-2 py-0.5 text-[11px] text-zinc-900 dark:text-zinc-200 font-mono focus:outline-none">
                         <option value="KES">KES</option>
                         <option value="USD">USD</option>
                         <option value="EUR">EUR</option>
@@ -426,36 +397,35 @@
                                 <option value="Certificate ID">ID</option>
                             </select>
                         </div>
-                        <input type="text" id="doc-number" value="" oninput="updateLivePreview()" placeholder="INV-001" class="w-full bg-zinc-50 dark:bg-zinc-950 border border-zinc-300 dark:border-zinc-800 rounded-xl px-2.5 py-1.5 text-xs text-zinc-900 dark:text-zinc-200 font-mono focus:outline-none">
+                        <input type="text" id="doc-number" value="" oninput="updateLivePreview()" placeholder="INV-001" class="w-full bg-white dark:bg-zinc-900 border border-zinc-300 dark:border-zinc-800 rounded-xl px-2.5 py-1.5 text-xs text-zinc-900 dark:text-zinc-200 font-mono focus:outline-none">
                     </div>
                     <div>
                         <label id="date-label" class="block text-[10px] text-zinc-500 dark:text-zinc-400 uppercase mb-0.5">Date</label>
-                        <input type="date" id="doc-date" onchange="updateLivePreview()" class="w-full bg-zinc-50 dark:bg-zinc-950 border border-zinc-300 dark:border-zinc-800 rounded-xl px-2.5 py-1.5 text-[11px] text-zinc-900 dark:text-zinc-200 font-mono focus:outline-none">
+                        <input type="date" id="doc-date" onchange="updateLivePreview()" class="w-full bg-white dark:bg-zinc-900 border border-zinc-300 dark:border-zinc-800 rounded-xl px-2.5 py-1.5 text-[11px] text-zinc-900 dark:text-zinc-200 font-mono focus:outline-none">
                     </div>
                     <div id="due-date-container">
                         <label class="block text-[10px] text-zinc-500 dark:text-zinc-400 uppercase mb-0.5">Due Date</label>
-                        <input type="date" id="due-date" onchange="updateLivePreview()" class="w-full bg-zinc-50 dark:bg-zinc-950 border border-zinc-300 dark:border-zinc-800 rounded-xl px-2.5 py-1.5 text-[11px] text-zinc-900 dark:text-zinc-200 font-mono focus:outline-none">
+                        <input type="date" id="due-date" onchange="updateLivePreview()" class="w-full bg-white dark:bg-zinc-900 border border-zinc-300 dark:border-zinc-800 rounded-xl px-2.5 py-1.5 text-[11px] text-zinc-900 dark:text-zinc-200 font-mono focus:outline-none">
                     </div>
                 </div>
             </div>
 
-            <!-- Issuer Information Card -->
-            <div class="bg-white dark:bg-zinc-900 border border-blue-500/30 rounded-2xl p-3 shadow-sm space-y-2.5">
+            <div class="bg-zinc-50 dark:bg-zinc-950 border border-blue-500/30 rounded-2xl p-3 shadow-sm space-y-2.5">
                 <label class="block text-[11px] font-bold text-blue-700 dark:text-blue-300 uppercase tracking-wider flex items-center space-x-1.5">
-                    <i class="fa-solid fa-building text-blue-500 dark:text-blue-400 text-xs"></i>
+                    <i class="fa-solid fa-building text-blue-600 dark:text-blue-400 text-xs"></i>
                     <span>Issuer Information</span>
                 </label>
                 
-                <div class="space-y-2 bg-zinc-50 dark:bg-zinc-950 p-2.5 rounded-xl border border-zinc-300 dark:border-zinc-800">
+                <div class="space-y-2 bg-white dark:bg-zinc-900 p-2.5 rounded-xl border border-zinc-300 dark:border-zinc-800">
                     <div class="flex items-center justify-between">
                         <span class="text-[10px] font-bold text-zinc-700 dark:text-zinc-300 uppercase">Company Details</span>
-                        <div class="flex space-x-1 bg-zinc-200 dark:bg-zinc-900 p-0.5 rounded border border-zinc-300 dark:border-zinc-800">
-                            <button type="button" id="align-left" onclick="setLogoAlign('left')" class="px-2 py-0.5 text-[9px] rounded bg-white dark:bg-zinc-800 text-zinc-900 dark:text-zinc-200 font-bold shadow-sm">L</button>
-                            <button type="button" id="align-center" onclick="setLogoAlign('center')" class="px-2 py-0.5 text-[9px] rounded text-zinc-500 dark:text-zinc-400">C</button>
-                            <button type="button" id="align-right" onclick="setLogoAlign('right')" class="px-2 py-0.5 text-[9px] rounded text-zinc-500 dark:text-zinc-400">R</button>
+                        <div class="flex space-x-1 bg-zinc-100 dark:bg-zinc-950 p-0.5 rounded border border-zinc-300 dark:border-zinc-800">
+                            <button type="button" id="align-left" onclick="setLogoAlign('left')" class="px-2.5 py-0.5 text-[9px] rounded bg-white dark:bg-zinc-800 text-zinc-900 dark:text-zinc-200 font-bold shadow-sm">L</button>
+                            <button type="button" id="align-center" onclick="setLogoAlign('center')" class="px-2.5 py-0.5 text-[9px] rounded text-zinc-500 dark:text-zinc-400">C</button>
+                            <button type="button" id="align-right" onclick="setLogoAlign('right')" class="px-2.5 py-0.5 text-[9px] rounded text-zinc-500 dark:text-zinc-400">R</button>
                         </div>
                     </div>
-                    <input type="text" id="sender-name" value="" oninput="updateLivePreview()" placeholder="[Your Organization Name]" class="w-full bg-white dark:bg-zinc-900 border border-zinc-300 dark:border-zinc-800 rounded-lg px-2.5 py-1 text-xs text-zinc-900 dark:text-zinc-200 focus:outline-none">
+                    <input type="text" id="sender-name" value="" oninput="updateLivePreview()" placeholder="[Your Organization Name]" class="w-full bg-zinc-50 dark:bg-zinc-950 border border-zinc-300 dark:border-zinc-800 rounded-lg px-2.5 py-1 text-xs text-zinc-900 dark:text-zinc-200 focus:outline-none">
                     
                     <div class="space-y-1">
                         <div class="flex items-center justify-between">
@@ -463,7 +433,7 @@
                             <button type="button" onclick="clearLogoImage()" id="clear-logo-btn" class="text-[10px] text-rose-500 dark:text-rose-400 hover:underline hidden"><i class="fa-solid fa-xmark mr-1"></i>Remove Logo</button>
                         </div>
                         <div class="flex items-center space-x-1.5">
-                            <input type="text" id="sender-logo" value="" oninput="updateLivePreview()" placeholder="[Logo URL or Upload]" class="w-full bg-white dark:bg-zinc-900 border border-zinc-300 dark:border-zinc-800 rounded-lg px-2 py-1 text-[11px] text-zinc-900 dark:text-zinc-200 focus:outline-none">
+                            <input type="text" id="sender-logo" value="" oninput="updateLivePreview()" placeholder="[Logo URL or Upload]" class="w-full bg-zinc-50 dark:bg-zinc-950 border border-zinc-300 dark:border-zinc-800 rounded-lg px-2 py-1 text-[11px] text-zinc-900 dark:text-zinc-200 focus:outline-none">
                             <label class="bg-zinc-200 dark:bg-zinc-800 hover:bg-zinc-300 dark:hover:bg-zinc-700 text-zinc-700 dark:text-zinc-300 px-2.5 py-1 rounded-lg text-[10px] cursor-pointer transition shrink-0 border border-zinc-300 dark:border-zinc-700 shadow-sm" title="Upload Logo">
                                 <i class="fa-solid fa-upload"></i>
                                 <input type="file" id="logo-file-input" accept="image/*" onchange="handleLogoUpload(event)" class="hidden">
@@ -472,14 +442,13 @@
                     </div>
 
                     <div class="grid grid-cols-2 gap-1.5">
-                        <input type="text" id="partner-logos" value="" oninput="updateLivePreview()" placeholder="Partner Logo URLs" class="w-full bg-white dark:bg-zinc-900 border border-zinc-300 dark:border-zinc-800 rounded-lg px-2 py-1 text-[11px] text-zinc-900 dark:text-zinc-200 focus:outline-none">
-                        <input type="text" id="sender-contact" value="" oninput="updateLivePreview()" placeholder="Email / Phone" class="w-full bg-white dark:bg-zinc-900 border border-zinc-300 dark:border-zinc-800 rounded-lg px-2 py-1 text-[11px] text-zinc-900 dark:text-zinc-200 focus:outline-none">
+                        <input type="text" id="partner-logos" value="" oninput="updateLivePreview()" placeholder="Partner Logo URLs" class="w-full bg-zinc-50 dark:bg-zinc-950 border border-zinc-300 dark:border-zinc-800 rounded-lg px-2 py-1 text-[11px] text-zinc-900 dark:text-zinc-200 focus:outline-none">
+                        <input type="text" id="sender-contact" value="" oninput="updateLivePreview()" placeholder="Email / Phone" class="w-full bg-zinc-50 dark:bg-zinc-950 border border-zinc-300 dark:border-zinc-800 rounded-lg px-2 py-1 text-[11px] text-zinc-900 dark:text-zinc-200 focus:outline-none">
                     </div>
-                    <input type="text" id="sender-address" value="" oninput="updateLivePreview()" placeholder="City / Address" class="w-full bg-white dark:bg-zinc-900 border border-zinc-300 dark:border-zinc-800 rounded-lg px-2 py-1 text-[11px] text-zinc-900 dark:text-zinc-200 focus:outline-none">
+                    <input type="text" id="sender-address" value="" oninput="updateLivePreview()" placeholder="City / Address" class="w-full bg-zinc-50 dark:bg-zinc-950 border border-zinc-300 dark:border-zinc-800 rounded-lg px-2 py-1 text-[11px] text-zinc-900 dark:text-zinc-200 focus:outline-none">
                 </div>
 
-                <!-- QR Code Upload / Configuration Card -->
-                <div class="space-y-2 bg-zinc-50 dark:bg-zinc-950 p-2.5 rounded-xl border border-indigo-500/40">
+                <div class="space-y-2 bg-white dark:bg-zinc-900 p-2.5 rounded-xl border border-indigo-500/40">
                     <div class="flex items-center justify-between">
                         <span class="text-[10px] font-bold text-indigo-600 dark:text-indigo-400 uppercase flex items-center space-x-1">
                             <i class="fa-solid fa-qrcode"></i>
@@ -488,7 +457,7 @@
                         <button type="button" onclick="clearDocumentQR()" id="clear-doc-qr-btn" class="text-[10px] text-rose-500 dark:text-rose-400 hover:underline hidden"><i class="fa-solid fa-xmark mr-1"></i>Remove</button>
                     </div>
                     <div class="flex items-center space-x-1.5">
-                        <input type="text" id="document-qr-url" value="" oninput="updateLivePreview()" placeholder="[QR Image URL or Upload]" class="w-full bg-white dark:bg-zinc-900 border border-zinc-300 dark:border-zinc-800 rounded-lg px-2 py-1 text-[11px] text-zinc-900 dark:text-zinc-200 focus:outline-none">
+                        <input type="text" id="document-qr-url" value="" oninput="updateLivePreview()" placeholder="[QR URL or text payload]" class="w-full bg-zinc-50 dark:bg-zinc-950 border border-zinc-300 dark:border-zinc-800 rounded-lg px-2 py-1 text-[11px] text-zinc-900 dark:text-zinc-200 focus:outline-none">
                         <label class="bg-zinc-200 dark:bg-zinc-800 hover:bg-zinc-300 dark:hover:bg-zinc-700 text-zinc-700 dark:text-zinc-300 px-2.5 py-1 rounded-lg text-[10px] cursor-pointer transition shrink-0 border border-zinc-300 dark:border-zinc-700 shadow-sm" title="Upload QR Code">
                             <i class="fa-solid fa-upload"></i>
                             <input type="file" id="doc-qr-file-input" accept="image/*" onchange="handleDocQrUpload(event)" class="hidden">
@@ -496,25 +465,24 @@
                     </div>
                 </div>
 
-                <div class="space-y-2 bg-zinc-50 dark:bg-zinc-950 p-2.5 rounded-xl border border-sky-500/40">
+                <div class="space-y-2 bg-white dark:bg-zinc-900 p-2.5 rounded-xl border border-sky-500/40">
                     <div class="text-[10px] font-bold text-sky-600 dark:text-sky-400 uppercase flex items-center space-x-1">
                         <i class="fa-solid fa-user-shield"></i>
                         <span>Client / Recipient (Payment Lock Trigger)</span>
                     </div>
-                    <input type="text" id="client-name" value="" oninput="handleClientBillingChange()" placeholder="[Recipient / Client Name]" class="w-full bg-white dark:bg-zinc-900 border border-zinc-300 dark:border-zinc-800 rounded-lg px-2.5 py-1 text-xs text-zinc-900 dark:text-zinc-200 font-bold focus:outline-none">
+                    <input type="text" id="client-name" value="" oninput="handleClientBillingChange()" placeholder="[Recipient / Client Name]" class="w-full bg-zinc-50 dark:bg-zinc-950 border border-zinc-300 dark:border-zinc-800 rounded-lg px-2.5 py-1 text-xs text-zinc-900 dark:text-zinc-200 font-bold focus:outline-none">
                     <div class="grid grid-cols-2 gap-1.5">
-                        <input type="text" id="client-contact" value="" oninput="handleClientBillingChange()" placeholder="Email / Phone" class="w-full bg-white dark:bg-zinc-900 border border-zinc-300 dark:border-zinc-800 rounded-lg px-2.5 py-1 text-[11px] text-zinc-900 dark:text-zinc-200 focus:outline-none">
-                        <input type="text" id="client-address" value="" oninput="handleClientBillingChange()" placeholder="Address" class="w-full bg-white dark:bg-zinc-900 border border-zinc-300 dark:border-zinc-800 rounded-lg px-2.5 py-1 text-[11px] text-zinc-900 dark:text-zinc-200 focus:outline-none">
+                        <input type="text" id="client-contact" value="" oninput="handleClientBillingChange()" placeholder="Email / Phone" class="w-full bg-zinc-50 dark:bg-zinc-950 border border-zinc-300 dark:border-zinc-800 rounded-lg px-2 py-1 text-[11px] text-zinc-900 dark:text-zinc-200 focus:outline-none">
+                        <input type="text" id="client-address" value="" oninput="handleClientBillingChange()" placeholder="Address" class="w-full bg-zinc-50 dark:bg-zinc-950 border border-zinc-300 dark:border-zinc-800 rounded-lg px-2 py-1 text-[11px] text-zinc-900 dark:text-zinc-200 focus:outline-none">
                     </div>
                 </div>
             </div>
 
-            <!-- Line Items & Financials Card -->
-            <div class="bg-white dark:bg-zinc-900 border border-teal-500/30 rounded-2xl p-3 shadow-sm space-y-2.5">
+            <div class="bg-zinc-50 dark:bg-zinc-950 border border-teal-500/30 rounded-2xl p-3 shadow-sm space-y-2.5">
                 <div class="flex items-center justify-between">
                     <div>
                         <label id="items-section-title" class="text-[11px] font-bold text-teal-700 dark:text-teal-300 uppercase tracking-wider flex items-center space-x-1.5">
-                            <i class="fa-solid fa-list-check text-teal-500 dark:text-teal-400 text-xs"></i>
+                            <i class="fa-solid fa-list-check text-teal-600 dark:text-teal-400 text-xs"></i>
                             <span>Line Items & Scope</span>
                         </label>
                     </div>
@@ -528,20 +496,19 @@
                 <div id="financial-tax-box" class="grid grid-cols-2 gap-2 pt-1 border-t border-zinc-200 dark:border-zinc-800">
                     <div>
                         <label class="block text-[10px] text-zinc-500 dark:text-zinc-400 uppercase mb-0.5">Tax Rate (%)</label>
-                        <input type="number" id="tax-rate" value="0" min="0" max="100" oninput="updateLivePreview()" class="w-full bg-zinc-50 dark:bg-zinc-950 border border-zinc-300 dark:border-zinc-800 rounded-lg px-2.5 py-1 text-xs text-zinc-900 dark:text-zinc-200 font-mono focus:outline-none" placeholder="0">
+                        <input type="number" id="tax-rate" value="0" min="0" max="100" oninput="updateLivePreview()" class="w-full bg-white dark:bg-zinc-900 border border-zinc-300 dark:border-zinc-800 rounded-lg px-2.5 py-1 text-xs text-zinc-900 dark:text-zinc-200 font-mono focus:outline-none" placeholder="0">
                     </div>
                     <div>
                         <label class="block text-[10px] text-zinc-500 dark:text-zinc-400 uppercase mb-0.5">Discount Amount</label>
-                        <input type="number" id="discount-amount" value="0" min="0" oninput="updateLivePreview()" class="w-full bg-zinc-50 dark:bg-zinc-950 border border-zinc-300 dark:border-zinc-800 rounded-lg px-2.5 py-1 text-xs text-zinc-900 dark:text-zinc-200 font-mono focus:outline-none" placeholder="0">
+                        <input type="number" id="discount-amount" value="0" min="0" oninput="updateLivePreview()" class="w-full bg-white dark:bg-zinc-900 border border-zinc-300 dark:border-zinc-800 rounded-lg px-2.5 py-1 text-xs text-zinc-900 dark:text-zinc-200 font-mono focus:outline-none" placeholder="0">
                     </div>
                 </div>
             </div>
 
-            <!-- Notes, Terms & Signatures / Seals Control -->
-            <div class="bg-white dark:bg-zinc-900 border border-yellow-500/30 rounded-2xl p-3 shadow-sm space-y-2.5">
+            <div class="bg-zinc-50 dark:bg-zinc-950 border border-yellow-500/30 rounded-2xl p-3 shadow-sm space-y-2.5">
                 <div class="flex items-center justify-between">
                     <label id="notes-label" class="block text-[11px] font-bold text-yellow-700 dark:text-yellow-300 uppercase tracking-wider flex items-center space-x-1.5">
-                        <i class="fa-solid fa-note-sticky text-yellow-500 dark:text-yellow-400 text-xs"></i>
+                        <i class="fa-solid fa-note-sticky text-yellow-600 dark:text-yellow-400 text-xs"></i>
                         <span>Notes & Terms</span>
                     </label>
                     <button type="button" onclick="openHumanizerFromNotes()" class="text-[10px] text-cyan-600 dark:text-cyan-400 hover:underline font-bold flex items-center space-x-1 bg-cyan-500/10 border border-cyan-500/20 px-2 py-0.5 rounded transition">
@@ -549,7 +516,7 @@
                         <span>AI Humanizer</span>
                     </button>
                 </div>
-                <textarea id="doc-notes" rows="2" oninput="updateLivePreview()" placeholder="Enter notes or terms here..." class="w-full bg-zinc-50 dark:bg-zinc-950 border border-zinc-300 dark:border-zinc-800 rounded-xl p-2 text-xs text-zinc-900 dark:text-zinc-200 focus:outline-none"></textarea>
+                <textarea id="doc-notes" rows="2" oninput="updateLivePreview()" placeholder="Enter notes or terms here..." class="w-full bg-white dark:bg-zinc-900 border border-zinc-300 dark:border-zinc-800 rounded-xl p-2 text-xs text-zinc-900 dark:text-zinc-200 focus:outline-none"></textarea>
 
                 <div class="pt-2 border-t border-zinc-200 dark:border-zinc-800 space-y-2.5">
                     <div class="flex items-center justify-between">
@@ -563,21 +530,21 @@
                     <div class="grid grid-cols-2 gap-2">
                         <div>
                             <label class="block text-[10px] text-zinc-500 dark:text-zinc-400 uppercase mb-0.5">Signatory Name</label>
-                            <input type="text" id="auth-name" value="" oninput="updateLivePreview()" placeholder="[Authorized Name]" class="w-full bg-zinc-50 dark:bg-zinc-950 border border-zinc-300 dark:border-zinc-800 rounded-lg px-2.5 py-1 text-xs text-zinc-900 dark:text-zinc-200 focus:outline-none">
+                            <input type="text" id="auth-name" value="" oninput="updateLivePreview()" placeholder="[Authorized Name]" class="w-full bg-white dark:bg-zinc-900 border border-zinc-300 dark:border-zinc-800 rounded-lg px-2.5 py-1 text-xs text-zinc-900 dark:text-zinc-200 focus:outline-none">
                         </div>
                         <div>
                             <label class="block text-[10px] text-zinc-500 dark:text-zinc-400 uppercase mb-0.5">Designation</label>
-                            <input type="text" id="auth-title" value="" oninput="updateLivePreview()" placeholder="[Designation]" class="w-full bg-zinc-50 dark:bg-zinc-950 border border-zinc-300 dark:border-zinc-800 rounded-lg px-2.5 py-1 text-xs text-zinc-900 dark:text-zinc-200 focus:outline-none">
+                            <input type="text" id="auth-title" value="" oninput="updateLivePreview()" placeholder="[Designation]" class="w-full bg-white dark:bg-zinc-900 border border-zinc-300 dark:border-zinc-800 rounded-lg px-2.5 py-1 text-xs text-zinc-900 dark:text-zinc-200 focus:outline-none">
                         </div>
                     </div>
 
-                    <div class="space-y-1 bg-zinc-50 dark:bg-zinc-950 p-2 rounded-xl border border-zinc-300 dark:border-zinc-800">
+                    <div class="space-y-1 bg-white dark:bg-zinc-900 p-2 rounded-xl border border-zinc-300 dark:border-zinc-800">
                         <div class="flex items-center justify-between">
                             <span class="text-[10px] text-zinc-700 dark:text-zinc-300 font-bold">Electronic Signature Image</span>
                             <button type="button" onclick="clearSignatureImage()" id="clear-sig-btn" class="text-[10px] text-rose-500 dark:text-rose-400 hover:underline hidden"><i class="fa-solid fa-xmark mr-1"></i>Remove</button>
                         </div>
                         <div class="flex items-center space-x-1.5">
-                            <input type="text" id="auth-sig-url" value="" oninput="updateLivePreview()" placeholder="[Paste Signature URL]" class="w-full bg-white dark:bg-zinc-900 border border-zinc-300 dark:border-zinc-800 rounded-lg px-2 py-1 text-[11px] text-zinc-900 dark:text-zinc-200 focus:outline-none">
+                            <input type="text" id="auth-sig-url" value="" oninput="updateLivePreview()" placeholder="[Paste Signature URL]" class="w-full bg-zinc-50 dark:bg-zinc-950 border border-zinc-300 dark:border-zinc-800 rounded-lg px-2 py-1 text-[11px] text-zinc-900 dark:text-zinc-200 focus:outline-none">
                             <label class="bg-zinc-200 dark:bg-zinc-800 hover:bg-zinc-300 dark:hover:bg-zinc-700 text-zinc-700 dark:text-zinc-300 px-2.5 py-1 rounded-lg text-xs cursor-pointer transition shrink-0 border border-zinc-300 dark:border-zinc-700 shadow-sm" title="Upload Signature File">
                                 <i class="fa-solid fa-signature"></i>
                                 <input type="file" id="sig-file-input" accept="image/*" onchange="handleSigUpload(event)" class="hidden">
@@ -586,34 +553,20 @@
                     </div>
 
                     <div class="grid grid-cols-2 gap-2 pt-1">
-                        <label class="flex items-center space-x-2 text-[11px] text-zinc-700 dark:text-zinc-300 cursor-pointer bg-zinc-50 dark:bg-zinc-950 p-2 rounded-xl border border-zinc-300 dark:border-zinc-800">
-                            <input type="checkbox" id="show-official-seal" checked onchange="updateLivePreview()" class="rounded bg-zinc-100 dark:bg-zinc-900 border-zinc-300 dark:border-zinc-700 text-emerald-500 focus:ring-0">
+                        <label class="flex items-center space-x-2 text-[11px] text-zinc-700 dark:text-zinc-300 cursor-pointer bg-white dark:bg-zinc-900 p-2 rounded-xl border border-zinc-300 dark:border-zinc-800">
+                            <input type="checkbox" id="show-official-seal" checked onchange="updateLivePreview()" class="rounded bg-zinc-100 dark:bg-zinc-950 border-zinc-300 dark:border-zinc-700 text-emerald-500 focus:ring-0">
                             <span class="font-bold">Official Seal Badge</span>
                         </label>
-                        <label class="flex items-center space-x-2 text-[11px] text-zinc-700 dark:text-zinc-300 cursor-pointer bg-zinc-50 dark:bg-zinc-950 p-2 rounded-xl border border-zinc-300 dark:border-zinc-800">
-                            <input type="checkbox" id="show-corp-stamp" checked onchange="updateLivePreview()" class="rounded bg-zinc-100 dark:bg-zinc-900 border-zinc-300 dark:border-zinc-700 text-emerald-500 focus:ring-0">
+                        <label class="flex items-center space-x-2 text-[11px] text-zinc-700 dark:text-zinc-300 cursor-pointer bg-white dark:bg-zinc-900 p-2 rounded-xl border border-zinc-300 dark:border-zinc-800">
+                            <input type="checkbox" id="show-corp-stamp" checked onchange="updateLivePreview()" class="rounded bg-zinc-100 dark:bg-zinc-950 border-zinc-300 dark:border-zinc-700 text-emerald-500 focus:ring-0">
                             <span class="font-bold">Corporate Stamp Box</span>
                         </label>
                     </div>
                 </div>
             </div>
-
         </section>
 
-        <!-- Right Panel: Live Secured Preview (7 Cols) -->
-        <section class="lg:col-span-7 bg-zinc-200/50 dark:bg-zinc-950 flex flex-col h-full overflow-y-auto p-4 sm:p-8 relative transition-colors">
-            
-            <div id="banner-status" class="max-w-3xl mx-auto w-full mb-4 flex flex-col sm:flex-row items-center justify-between gap-2 bg-amber-500/10 border border-amber-500/30 rounded-xl px-4 py-2.5 text-xs text-amber-700 dark:text-amber-300">
-                <div class="flex items-center space-x-2 text-center sm:text-left">
-                    <i class="fa-solid fa-shield-halved text-amber-600 dark:text-amber-400 shrink-0"></i>
-                    <span id="banner-text"><strong>Client Verification Pending:</strong> Payment verification is required to unlock.</span>
-                </div>
-                <button onclick="openPaymentModal('download')" class="bg-amber-500 hover:bg-amber-400 text-zinc-950 font-bold px-3 py-1 rounded-lg transition shadow shrink-0">
-                    Pay & Unlock
-                </button>
-            </div>
-
-            <!-- Scroll Wrapper -->
+        <section class="lg:col-span-7 bg-zinc-100 dark:bg-zinc-950 flex flex-col h-full overflow-y-auto p-4 sm:p-8 relative transition-colors">
             <div class="w-full overflow-x-auto pb-4">
                 <div class="max-w-3xl mx-auto w-[700px] sm:w-full bg-white text-zinc-900 rounded-2xl shadow-2xl p-6 sm:p-8 relative flex flex-col justify-between transition-all duration-300 shrink-0" id="document-wrapper">
                     <div id="watermark-container"></div>
@@ -621,7 +574,7 @@
                 </div>
             </div>
 
-            <div class="max-w-3xl mx-auto w-full mt-4 sm:mt-6 flex flex-col sm:flex-row items-center justify-between gap-3 bg-white dark:bg-zinc-900 border border-zinc-300 dark:border-zinc-800 p-3 sm:p-4 rounded-xl shadow-sm">
+            <div class="max-w-3xl mx-auto w-full mt-4 sm:mt-6 flex flex-col sm:flex-row items-center justify-between gap-3 bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 p-3 sm:p-4 rounded-xl shadow-sm">
                 <div class="text-[11px] text-zinc-500 dark:text-zinc-400 hidden sm:block font-mono">Live Responsive Preview</div>
                 <div class="flex items-center space-x-2.5 w-full sm:w-auto justify-end">
                     <button onclick="handlePrintAction()" class="bg-zinc-100 dark:bg-zinc-800 hover:bg-zinc-200 dark:hover:bg-zinc-700 text-zinc-700 dark:text-zinc-300 px-3.5 sm:px-4 py-2 rounded-xl text-xs font-bold transition flex items-center space-x-2 border border-zinc-300 dark:border-zinc-700">
@@ -637,9 +590,9 @@
         </section>
     </main>
 
-    <!-- Utility Modal for QR Code (KES 50) & AI Humanizer -->
+    <!-- Modals -->
     <div id="utility-modal" class="fixed inset-0 z-50 bg-zinc-950/80 backdrop-blur-sm flex items-center justify-center hidden p-4">
-        <div class="bg-white dark:bg-zinc-900 border border-zinc-300 dark:border-zinc-800 rounded-2xl max-w-lg w-full p-6 space-y-6 shadow-2xl relative">
+        <div class="bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-2xl max-w-lg w-full p-6 space-y-6 shadow-2xl relative">
             <button onclick="closeUtilityModal()" class="absolute top-4 right-4 text-zinc-500 dark:text-zinc-400 hover:text-zinc-800 dark:hover:text-zinc-200 transition">
                 <i class="fa-solid fa-xmark text-sm"></i>
             </button>
@@ -661,9 +614,8 @@
         </div>
     </div>
 
-    <!-- How It Works Modal -->
     <div id="guide-modal" class="fixed inset-0 z-50 bg-zinc-950/80 backdrop-blur-sm flex items-center justify-center hidden p-4">
-        <div class="bg-white dark:bg-zinc-900 border border-zinc-300 dark:border-zinc-800 rounded-2xl max-w-lg w-full p-6 space-y-6 shadow-2xl relative">
+        <div class="bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-2xl max-w-lg w-full p-6 space-y-6 shadow-2xl relative">
             <button onclick="closeGuideModal()" class="absolute top-4 right-4 text-zinc-500 dark:text-zinc-400 hover:text-zinc-800 dark:hover:text-zinc-200 transition">
                 <i class="fa-solid fa-xmark text-sm"></i>
             </button>
@@ -684,11 +636,7 @@
                 </div>
                 <div class="flex items-start space-x-3 bg-zinc-50 dark:bg-zinc-950 p-3 rounded-xl border border-zinc-200 dark:border-zinc-800">
                     <div class="bg-cyan-500 text-zinc-950 font-black h-5 w-5 rounded-full flex items-center justify-center shrink-0">2</div>
-                    <div><strong class="text-zinc-900 dark:text-white">Paid QR Utility:</strong> Generate website, Wi-Fi, text, or phone QR codes and pay KES 50 via Paystack to unlock high-resolution downloads.</div>
-                </div>
-                <div class="flex items-start space-x-3 bg-zinc-50 dark:bg-zinc-950 p-3 rounded-xl border border-zinc-200 dark:border-zinc-800">
-                    <div class="bg-cyan-500 text-zinc-950 font-black h-5 w-5 rounded-full flex items-center justify-center shrink-0">3</div>
-                    <div><strong class="text-zinc-900 dark:text-white">Secure Paystack Verification:</strong> Complete client verification to unlock high-resolution PDF downloading and printing.</div>
+                    <div><strong class="text-zinc-900 dark:text-white">QR Code Studio:</strong> Customize colors, frames, and payload types. Secure downloads cost KES 60.</div>
                 </div>
             </div>
 
@@ -698,9 +646,8 @@
         </div>
     </div>
 
-    <!-- Payment Gateway Modal -->
     <div id="payment-modal" class="fixed inset-0 z-50 bg-zinc-950/80 backdrop-blur-sm flex items-center justify-center hidden p-4">
-        <div class="bg-white dark:bg-zinc-900 border border-zinc-300 dark:border-zinc-800 rounded-2xl max-w-md w-full p-6 space-y-6 shadow-2xl relative">
+        <div class="bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-2xl max-w-md w-full p-6 space-y-6 shadow-2xl relative">
             <button onclick="closePaymentModal()" class="absolute top-4 right-4 text-zinc-500 dark:text-zinc-400 hover:text-zinc-800 dark:hover:text-zinc-200 transition">
                 <i class="fa-solid fa-xmark text-sm"></i>
             </button>
@@ -813,7 +760,8 @@
                 { desc: 'Custom Dashboard Frontend & API Pipeline Development', qty: 2, price: 20000 }
             ],
             paidDocuments: {},
-            qrPaid: false
+            qrCodeUnlocked: false,
+            lastUnlockedPayload: ''
         };
 
         let paymentTargetAction = 'download';
@@ -825,26 +773,15 @@
             updateLivePreview();
         });
 
-        function toggleSiteTheme() {
-            const htmlEl = document.documentElement;
-            const bodyEl = document.getElementById('app-body');
-            const iconEl = document.getElementById('theme-icon');
-            const textEl = document.getElementById('theme-text');
-
-            if (htmlEl.classList.contains('dark')) {
-                htmlEl.classList.remove('dark');
-                bodyEl.className = 'bg-zinc-100 text-zinc-900 font-sans h-full flex flex-col antialiased selection:bg-cyan-500 selection:text-zinc-950';
-                bodyEl.style.setProperty('--sb-track', '#f4f4f5');
-                bodyEl.style.setProperty('--sb-thumb', '#d4d4d8');
-                iconEl.className = 'fa-solid fa-moon text-indigo-600';
-                textEl.textContent = 'Dark Mode';
+        function toggleTheme() {
+            const html = document.documentElement;
+            const icon = document.getElementById('theme-icon');
+            if (html.classList.contains('dark')) {
+                html.classList.remove('dark');
+                icon.className = 'fa-solid fa-moon text-indigo-600 text-sm';
             } else {
-                htmlEl.classList.add('dark');
-                bodyEl.className = 'bg-zinc-950 text-zinc-100 font-sans h-full flex flex-col antialiased selection:bg-cyan-500 selection:text-zinc-950';
-                bodyEl.style.setProperty('--sb-track', '#09090b');
-                bodyEl.style.setProperty('--sb-thumb', '#27272a');
-                iconEl.className = 'fa-solid fa-sun text-amber-400';
-                textEl.textContent = 'Light Mode';
+                html.classList.add('dark');
+                icon.className = 'fa-solid fa-sun text-amber-500 text-sm';
             }
         }
 
@@ -854,6 +791,8 @@
             if (view === 'hub') {
                 hub.classList.remove('hidden');
                 studio.classList.add('hidden');
+                appState.qrCodeUnlocked = false;
+                appState.lastUnlockedPayload = '';
             } else {
                 hub.classList.add('hidden');
                 studio.classList.remove('hidden');
@@ -883,15 +822,15 @@
 
             modal.classList.remove('hidden');
             if (tool === 'qr') {
-                title.textContent = 'QR Code Generator Utility (KES 50 Download)';
-                subtitle.textContent = 'Generate Website, Wi-Fi, Text, or Phone QR codes and pay 50 shs to download.';
+                title.textContent = 'Advanced QR Code Customizer & Studio';
+                subtitle.textContent = 'Design personalized QR codes with high-contrast colors, frames, and content payloads.';
                 icon.className = 'fa-solid fa-qrcode text-lg';
                 body.innerHTML = `
                     <div class="space-y-3">
                         <div class="grid grid-cols-2 gap-2">
                             <div>
-                                <label class="block text-[11px] text-zinc-500 dark:text-zinc-400 mb-1 font-semibold">QR Code Type</label>
-                                <select id="util-qr-type" onchange="onQrTypeChange()" class="w-full bg-zinc-100 dark:bg-zinc-950 border border-zinc-300 dark:border-zinc-800 rounded-xl px-2.5 py-1.5 text-xs text-zinc-900 dark:text-zinc-200 focus:outline-none">
+                                <label class="block text-[11px] text-zinc-500 dark:text-zinc-400 mb-1 font-semibold">QR Payload Type</label>
+                                <select id="util-qr-type" onchange="onQrTypeChange()" class="w-full bg-zinc-50 dark:bg-zinc-950 border border-zinc-300 dark:border-zinc-800 rounded-xl px-2.5 py-1.5 text-xs text-zinc-900 dark:text-zinc-200 focus:outline-none">
                                     <option value="url">Website / URL</option>
                                     <option value="wifi">Wi-Fi Network</option>
                                     <option value="text">Plain Text / Note</option>
@@ -899,8 +838,12 @@
                                 </select>
                             </div>
                             <div>
-                                <label class="block text-[11px] text-zinc-500 dark:text-zinc-400 mb-1 font-semibold">Action</label>
-                                <button onclick="generateCustomUtilityQR()" class="w-full bg-cyan-500 hover:bg-cyan-400 text-zinc-950 font-bold py-1.5 rounded-xl text-xs transition">Update QR</button>
+                                <label class="block text-[11px] text-zinc-500 dark:text-zinc-400 mb-1 font-semibold">Frame / Badge Style</label>
+                                <select id="util-qr-frame" onchange="generateCustomUtilityQR()" class="w-full bg-zinc-50 dark:bg-zinc-950 border border-zinc-300 dark:border-zinc-800 rounded-xl px-2.5 py-1.5 text-xs text-zinc-900 dark:text-zinc-200 focus:outline-none">
+                                    <option value="clean">Clean Border</option>
+                                    <option value="scan">Scan Me Badge</option>
+                                    <option value="corporate">Corporate Seal</option>
+                                </select>
                             </div>
                         </div>
 
@@ -911,14 +854,32 @@
                             </div>
                         </div>
 
-                        <div class="flex flex-col items-center justify-center p-3 bg-white rounded-xl shadow-inner border border-zinc-200">
+                        <div class="grid grid-cols-2 gap-2">
+                            <div>
+                                <label class="block text-[10px] text-zinc-500 dark:text-zinc-400 mb-0.5">QR Dots Color (High Contrast)</label>
+                                <div class="flex items-center space-x-2">
+                                    <input type="color" id="qr-color-dark" value="#000000" oninput="generateCustomUtilityQR()" class="h-8 w-10 rounded cursor-pointer bg-transparent border-0">
+                                    <span class="text-[11px] font-mono text-zinc-600 dark:text-zinc-300" id="qr-dark-val">#000000</span>
+                                </div>
+                            </div>
+                            <div>
+                                <label class="block text-[10px] text-zinc-500 dark:text-zinc-400 mb-0.5">Background Color</label>
+                                <div class="flex items-center space-x-2">
+                                    <input type="color" id="qr-color-light" value="#ffffff" oninput="generateCustomUtilityQR()" class="h-8 w-10 rounded cursor-pointer bg-transparent border-0">
+                                    <span class="text-[11px] font-mono text-zinc-600 dark:text-zinc-300" id="qr-light-val">#ffffff</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div id="qr-preview-wrapper" class="relative flex flex-col items-center justify-center p-4 bg-zinc-100 dark:bg-zinc-950 rounded-xl shadow-inner border border-zinc-200 dark:border-zinc-800 overflow-hidden min-h-[170px]">
+                            <div id="qr-blur-overlay" class="absolute inset-0 bg-white/20 dark:bg-zinc-950/20 backdrop-blur-[1px] pointer-events-none"></div>
                             <div id="utility-qr-render"></div>
                         </div>
 
                         <div class="flex items-center space-x-2 pt-2">
                             <button onclick="handleQRDownloadAction()" class="w-full bg-emerald-500 hover:bg-emerald-400 text-zinc-950 font-bold py-2.5 rounded-xl text-xs transition flex items-center justify-center space-x-2 shadow-lg">
                                 <i class="fa-solid fa-download"></i>
-                                <span>Pay KES 50 & Download QR Code</span>
+                                <span id="qr-download-btn-label">Download Customized QR Code (KES 60)</span>
                             </button>
                         </div>
                     </div>
@@ -932,16 +893,59 @@
                     <div class="space-y-3">
                         <div>
                             <label class="block text-xs text-zinc-500 dark:text-zinc-400 mb-1">Input Text / Draft</label>
-                            <textarea id="utility-ai-input" rows="3" class="w-full bg-zinc-100 dark:bg-zinc-950 border border-zinc-300 dark:border-zinc-800 rounded-xl p-2.5 text-xs text-zinc-900 dark:text-zinc-200 focus:outline-none" placeholder="Paste terms or notes here..."></textarea>
+                            <textarea id="utility-ai-input" rows="3" class="w-full bg-zinc-50 dark:bg-zinc-950 border border-zinc-300 dark:border-zinc-800 rounded-xl p-2.5 text-xs text-zinc-900 dark:text-zinc-200 focus:outline-none" placeholder="Paste terms or notes here..."></textarea>
                         </div>
-                        <button onclick="executeAIHumanize()" class="w-full neon-btn text-zinc-950 font-bold py-2.5 rounded-xl text-xs">Humanize & Refine Text</button>
+                        <button onclick="executeAIHumanize()" class="w-full neon-btn text-zinc-950 font-bold py-2.5 rounded-xl text-xs bg-cyan-600 hover:bg-cyan-500 text-white">Humanize & Refine Text</button>
                         <div>
                             <label class="block text-xs text-zinc-500 dark:text-zinc-400 mb-1">Humanized Executive Result</label>
-                            <textarea id="utility-ai-output" rows="3" class="w-full bg-zinc-100 dark:bg-zinc-950 border border-zinc-300 dark:border-zinc-800 rounded-xl p-2.5 text-xs text-cyan-600 dark:text-cyan-400 font-medium focus:outline-none" readonly placeholder="Refined executive draft will appear here..."></textarea>
+                            <textarea id="utility-ai-output" rows="3" class="w-full bg-zinc-50 dark:bg-zinc-950 border border-zinc-300 dark:border-zinc-800 rounded-xl p-2.5 text-xs text-cyan-600 dark:text-cyan-400 font-medium focus:outline-none" readonly placeholder="Refined executive draft will appear here..."></textarea>
                         </div>
                         <button onclick="applyHumanizedNotes()" class="w-full bg-emerald-500 hover:bg-emerald-400 text-zinc-950 font-bold py-2 rounded-xl text-xs transition">Apply to Document Notes</button>
                     </div>
                 `;
+            }
+        }
+
+        function unlockQRCodeDownload() {
+            let handler = PaystackPop.setup({
+                key: PAYSTACK_PUBLIC_KEY,
+                email: 'client@apexstudiopro.com',
+                amount: 60 * 100, // KES 60
+                currency: 'KES',
+                ref: 'QR_UNLOCK_' + Math.floor((Math.random() * 1000000000) + 1),
+                callback: function(response) {
+                    appState.qrCodeUnlocked = true;
+                    appState.lastUnlockedPayload = getActiveQRString();
+                    updateQRStateDisplay();
+                    if (typeof confetti === 'function') confetti({ particleCount: 100, spread: 70, origin: { y: 0.6 } });
+                },
+                onClose: function() {}
+            });
+            handler.openIframe();
+        }
+
+        function updateQRStateDisplay() {
+            const renderEl = document.getElementById('utility-qr-render');
+            const overlayEl = document.getElementById('qr-blur-overlay');
+            const btnLabel = document.getElementById('qr-download-btn-label');
+            const currentPayload = getActiveQRString();
+
+            // If the URL or Payload Type has changed since last payment, re-lock!
+            if (appState.qrCodeUnlocked && appState.lastUnlockedPayload !== currentPayload) {
+                appState.qrCodeUnlocked = false;
+                appState.lastUnlockedPayload = '';
+            }
+
+            if (!renderEl || !overlayEl || !btnLabel) return;
+
+            if (appState.qrCodeUnlocked) {
+                renderEl.classList.remove('filter', 'blur-[2px]', 'select-none', 'opacity-80');
+                overlayEl.classList.add('hidden');
+                btnLabel.textContent = 'Download Customized QR Code (Unlocked)';
+            } else {
+                renderEl.classList.add('filter', 'blur-[2px]', 'select-none', 'opacity-80');
+                overlayEl.classList.remove('hidden');
+                btnLabel.textContent = 'Download Customized QR Code (KES 60)';
             }
         }
 
@@ -1005,19 +1009,57 @@
             if (!container) return;
             container.innerHTML = '';
             const dataStr = getActiveQRString();
-            new QRCode(container, {
+            
+            const darkColor = document.getElementById('qr-color-dark')?.value || '#000000';
+            const lightColor = document.getElementById('qr-color-light')?.value || '#ffffff';
+            const frameStyle = document.getElementById('util-qr-frame')?.value || 'clean';
+
+            const darkValEl = document.getElementById('qr-dark-val');
+            const lightValEl = document.getElementById('qr-light-val');
+            if (darkValEl) darkValEl.textContent = darkColor;
+            if (lightValEl) lightValEl.textContent = lightColor;
+
+            let wrapperClass = 'p-4 rounded-xl bg-white shadow-md inline-block';
+            if (frameStyle === 'scan') {
+                wrapperClass = 'p-4 rounded-2xl bg-white border-2 border-cyan-500 shadow-lg text-center';
+            } else if (frameStyle === 'corporate') {
+                wrapperClass = 'p-4 rounded-xl bg-white border-2 border-amber-500 shadow-lg text-center';
+            }
+
+            const innerBox = document.createElement('div');
+            innerBox.className = wrapperClass;
+
+            if (frameStyle === 'scan') {
+                const header = document.createElement('div');
+                header.className = 'text-[10px] font-black uppercase text-cyan-600 mb-2 tracking-widest';
+                header.textContent = 'SCAN ME';
+                innerBox.appendChild(header);
+            } else if (frameStyle === 'corporate') {
+                const header = document.createElement('div');
+                header.className = 'text-[10px] font-black uppercase text-amber-600 mb-2 tracking-wider';
+                header.textContent = 'VERIFIED SEAL';
+                innerBox.appendChild(header);
+            }
+
+            const qrTarget = document.createElement('div');
+            innerBox.appendChild(qrTarget);
+            container.appendChild(innerBox);
+
+            new QRCode(qrTarget, {
                 text: dataStr,
-                width: 150,
-                height: 150,
-                colorDark: "#000000",
-                colorLight: "#ffffff",
+                width: 140,
+                height: 140,
+                colorDark: darkColor,
+                colorLight: lightColor,
                 correctLevel: QRCode.CorrectLevel.H
             });
+
+            updateQRStateDisplay();
         }
 
         function handleQRDownloadAction() {
-            if (!appState.qrPaid) {
-                openPaymentModal('qr-download');
+            if (!appState.qrCodeUnlocked) {
+                unlockQRCodeDownload();
                 return;
             }
             executeDownloadQRImage();
@@ -1038,11 +1080,10 @@
 
             const link = document.createElement('a');
             link.href = dataUrl;
-            link.download = `ApexStudio_QRCode_${Date.now()}.png`;
+            link.download = `ApexStudio_CustomQR_${Date.now()}.png`;
             document.body.appendChild(link);
             link.click();
             document.body.removeChild(link);
-            appState.qrPaid = false; // Reset for next download
         }
 
         function openHumanizerFromNotes() {
@@ -1300,17 +1341,10 @@
             const feeDisplay = document.getElementById('modal-fee-display');
             const badge = document.getElementById('modal-client-badge');
 
-            if (action === 'qr-download') {
-                heading.textContent = 'QR Code Download Fee';
-                subtitle.textContent = 'Complete KES 50 payment to unlock high-resolution QR download.';
-                feeDisplay.innerHTML = `KES 50 <span class="text-xs font-normal text-zinc-500">($0.40 USD)</span>`;
-                badge.textContent = 'QR Utility';
-            } else {
-                heading.textContent = 'Client Verification Fee';
-                subtitle.textContent = `Complete payment for "${appState.clientName || 'Client'}" (${appState.docNumber || 'Doc'}) to unlock printing and downloading.`;
-                feeDisplay.innerHTML = `KES 100 <span class="text-xs font-normal text-zinc-500">($1.00 USD)</span>`;
-                badge.textContent = appState.clientName || 'Client';
-            }
+            heading.textContent = 'Client Verification Fee';
+            subtitle.textContent = `Complete payment for "${appState.clientName || 'Client'}" (${appState.docNumber || 'Doc'}) to unlock printing and downloading.`;
+            feeDisplay.innerHTML = `KES 100 <span class="text-xs font-normal text-zinc-500">($1.00 USD)</span>`;
+            badge.textContent = appState.clientName || 'Client';
 
             document.getElementById('payment-modal').classList.remove('hidden');
         }
@@ -1321,27 +1355,18 @@
 
         function executePayment() {
             closePaymentModal();
-            let amount = paymentTargetAction === 'qr-download' ? 50 : 100;
-            let customerEmail = 'client@apexstudiopro.com';
-
             let handler = PaystackPop.setup({
                 key: PAYSTACK_PUBLIC_KEY,
-                email: customerEmail,
-                amount: amount * 100,
+                email: 'client@apexstudiopro.com',
+                amount: 100 * 100,
                 currency: 'KES',
                 ref: 'APEX_' + Math.floor((Math.random() * 1000000000) + 1),
                 callback: function(response) {
-                    if (paymentTargetAction === 'qr-download') {
-                        appState.qrPaid = true;
-                        if (typeof confetti === 'function') confetti({ particleCount: 100, spread: 70, origin: { y: 0.6 } });
-                        executeDownloadQRImage();
-                    } else {
-                        appState.paidDocuments[getDocumentKey()] = true;
-                        updateLivePreview();
-                        if (typeof confetti === 'function') confetti({ particleCount: 100, spread: 70, origin: { y: 0.6 } });
-                        if (paymentTargetAction === 'print') setTimeout(() => window.print(), 500);
-                        else setTimeout(() => executeDownloadPDF(), 500);
-                    }
+                    appState.paidDocuments[getDocumentKey()] = true;
+                    updateLivePreview();
+                    if (typeof confetti === 'function') confetti({ particleCount: 100, spread: 70, origin: { y: 0.6 } });
+                    if (paymentTargetAction === 'print') setTimeout(() => window.print(), 500);
+                    else setTimeout(() => executeDownloadPDF(), 500);
                 },
                 onClose: function() {}
             });
@@ -1388,8 +1413,8 @@
                 dueContainer.style.display = 'block';
                 receiptConfig.classList.add('hidden');
                 financialBox.style.display = 'grid';
-                itemsTitle.innerHTML = `<i class="fa-solid fa-list-check text-cyan-500 dark:text-cyan-400 text-xs mr-1.5"></i>Invoice Items & Pricing`;
-                notesLabel.innerHTML = `<i class="fa-solid fa-note-sticky text-yellow-500 dark:text-yellow-400 text-xs mr-1.5"></i>Notes & Payment Terms`;
+                itemsTitle.innerHTML = `<i class="fa-solid fa-list-check text-cyan-600 dark:text-cyan-400 text-xs mr-1.5"></i>Invoice Items & Pricing`;
+                notesLabel.innerHTML = `<i class="fa-solid fa-note-sticky text-yellow-600 dark:text-yellow-400 text-xs mr-1.5"></i>Notes & Payment Terms`;
                 extendedSection.classList.add('hidden');
                 certConfig.classList.add('hidden');
             } else if (type === 'Quotation') {
@@ -1398,8 +1423,8 @@
                 dueContainer.style.display = 'block';
                 receiptConfig.classList.add('hidden');
                 financialBox.style.display = 'grid';
-                itemsTitle.innerHTML = `<i class="fa-solid fa-list-check text-cyan-500 dark:text-cyan-400 text-xs mr-1.5"></i>Quotation Items & Pricing`;
-                notesLabel.innerHTML = `<i class="fa-solid fa-note-sticky text-yellow-500 dark:text-yellow-400 text-xs mr-1.5"></i>Quotation Terms & Validity`;
+                itemsTitle.innerHTML = `<i class="fa-solid fa-list-check text-cyan-600 dark:text-cyan-400 text-xs mr-1.5"></i>Quotation Items & Pricing`;
+                notesLabel.innerHTML = `<i class="fa-solid fa-note-sticky text-yellow-600 dark:text-yellow-400 text-xs mr-1.5"></i>Quotation Terms & Validity`;
                 extendedSection.classList.add('hidden');
                 certConfig.classList.add('hidden');
             } else if (type === 'Receipt') {
@@ -1410,8 +1435,8 @@
                 financialBox.style.display = 'grid';
                 appState.taxRate = 8;
                 document.getElementById('tax-rate').value = 8;
-                itemsTitle.innerHTML = `<i class="fa-solid fa-list-check text-cyan-500 dark:text-cyan-400 text-xs mr-1.5"></i>Paid Items & Services`;
-                notesLabel.innerHTML = `<i class="fa-solid fa-note-sticky text-yellow-500 dark:text-yellow-400 text-xs mr-1.5"></i>Receipt Notes`;
+                itemsTitle.innerHTML = `<i class="fa-solid fa-list-check text-cyan-600 dark:text-cyan-400 text-xs mr-1.5"></i>Paid Items & Services`;
+                notesLabel.innerHTML = `<i class="fa-solid fa-note-sticky text-yellow-600 dark:text-yellow-400 text-xs mr-1.5"></i>Receipt Notes`;
                 extendedSection.classList.add('hidden');
                 certConfig.classList.add('hidden');
             } else if (type === 'Certificate') {
@@ -1420,8 +1445,8 @@
                 dueContainer.style.display = 'none';
                 receiptConfig.classList.add('hidden');
                 financialBox.style.display = 'none';
-                itemsTitle.innerHTML = `<i class="fa-solid fa-list-check text-cyan-500 dark:text-cyan-400 text-xs mr-1.5"></i>Award Criteria / Modules`;
-                notesLabel.innerHTML = `<i class="fa-solid fa-note-sticky text-yellow-500 dark:text-yellow-400 text-xs mr-1.5"></i>Certificate Citation`;
+                itemsTitle.innerHTML = `<i class="fa-solid fa-list-check text-cyan-600 dark:text-cyan-400 text-xs mr-1.5"></i>Award Criteria / Modules`;
+                notesLabel.innerHTML = `<i class="fa-solid fa-note-sticky text-yellow-600 dark:text-yellow-400 text-xs mr-1.5"></i>Certificate Citation`;
                 extendedSection.classList.add('hidden');
                 certConfig.classList.remove('hidden');
             } else if (type === 'Proposal') {
@@ -1430,8 +1455,8 @@
                 dueContainer.style.display = 'block';
                 receiptConfig.classList.add('hidden');
                 financialBox.style.display = 'grid';
-                itemsTitle.innerHTML = `<i class="fa-solid fa-list-check text-cyan-500 dark:text-cyan-400 text-xs mr-1.5"></i>Project Phases & Deliverables`;
-                notesLabel.innerHTML = `<i class="fa-solid fa-note-sticky text-yellow-500 dark:text-yellow-400 text-xs mr-1.5"></i>Terms & Conditions`;
+                itemsTitle.innerHTML = `<i class="fa-solid fa-list-check text-cyan-600 dark:text-cyan-400 text-xs mr-1.5"></i>Project Phases & Deliverables`;
+                notesLabel.innerHTML = `<i class="fa-solid fa-note-sticky text-yellow-600 dark:text-yellow-400 text-xs mr-1.5"></i>Terms & Conditions`;
                 extendedSection.classList.remove('hidden');
                 certConfig.classList.add('hidden');
             } else if (type === 'Delivery') {
@@ -1440,8 +1465,8 @@
                 dueContainer.style.display = 'none';
                 receiptConfig.classList.add('hidden');
                 financialBox.style.display = 'none';
-                itemsTitle.innerHTML = `<i class="fa-solid fa-list-check text-cyan-500 dark:text-cyan-400 text-xs mr-1.5"></i>Items Dispatched`;
-                notesLabel.innerHTML = `<i class="fa-solid fa-note-sticky text-yellow-500 dark:text-yellow-400 text-xs mr-1.5"></i>Delivery Notes & Instructions`;
+                itemsTitle.innerHTML = `<i class="fa-solid fa-list-check text-cyan-600 dark:text-cyan-400 text-xs mr-1.5"></i>Items Dispatched`;
+                notesLabel.innerHTML = `<i class="fa-solid fa-note-sticky text-yellow-600 dark:text-yellow-400 text-xs mr-1.5"></i>Delivery Notes & Instructions`;
                 extendedSection.classList.add('hidden');
                 certConfig.classList.add('hidden');
             }
@@ -1461,7 +1486,7 @@
                 const btn = document.createElement('button');
                 btn.type = 'button';
                 const isSelected = appState.variant === v.id;
-                btn.className = `py-1.5 px-2 text-[10px] font-bold rounded-lg transition border ${isSelected ? 'bg-cyan-500 text-zinc-950 border-cyan-400 shadow-sm' : 'bg-zinc-100 dark:bg-zinc-950 text-zinc-600 dark:text-zinc-400 border-zinc-300 dark:border-zinc-800 hover:text-zinc-900 dark:hover:text-zinc-200'}`;
+                btn.className = `py-1.5 px-2 text-[10px] font-bold rounded-lg transition border ${isSelected ? 'bg-cyan-500 text-zinc-950 border-cyan-400 shadow-sm' : 'bg-white dark:bg-zinc-900 text-zinc-600 dark:text-zinc-400 border-zinc-300 dark:border-zinc-800 hover:text-zinc-900 dark:hover:text-zinc-200'}`;
                 btn.innerHTML = `<div class="truncate">${v.name.replace(/^\d+\.\s*/, '')}</div>`;
                 btn.onclick = () => {
                     appState.variant = v.id;
@@ -1479,19 +1504,19 @@
             container.innerHTML = '';
             appState.items.forEach((item, index) => {
                 const div = document.createElement('div');
-                div.className = 'flex items-center space-x-1.5 bg-zinc-50 dark:bg-zinc-950 p-2 rounded-xl border border-zinc-200 dark:border-zinc-800';
+                div.className = 'flex items-center space-x-1.5 bg-white dark:bg-zinc-900 p-2 rounded-xl border border-zinc-200 dark:border-zinc-800';
                 let isNoPrice = appState.docType === 'Certificate' || appState.docType === 'Delivery';
 
                 div.innerHTML = `
                     <div class="flex-1">
-                        <input type="text" value="${item.desc}" oninput="updateItem(${index}, 'desc', this.value)" placeholder="${isNoPrice ? 'Criterion...' : 'Description...'}" class="w-full bg-white dark:bg-zinc-900 border border-zinc-300 dark:border-zinc-800 rounded-lg px-2 py-1 text-[11px] text-zinc-900 dark:text-zinc-200 focus:outline-none">
+                        <input type="text" value="${item.desc}" oninput="updateItem(${index}, 'desc', this.value)" placeholder="${isNoPrice ? 'Criterion...' : 'Description...'}" class="w-full bg-zinc-50 dark:bg-zinc-950 border border-zinc-300 dark:border-zinc-800 rounded-lg px-2 py-1 text-[11px] text-zinc-900 dark:text-zinc-200 focus:outline-none">
                     </div>
                     <div class="w-12 shrink-0">
-                        <input type="number" value="${item.qty}" min="1" oninput="updateItem(${index}, 'qty', this.value)" class="w-full bg-white dark:bg-zinc-900 border border-zinc-300 dark:border-zinc-800 rounded-lg px-1.5 py-1 text-[11px] text-zinc-900 dark:text-zinc-200 font-mono text-center focus:outline-none" title="Qty">
+                        <input type="number" value="${item.qty}" min="1" oninput="updateItem(${index}, 'qty', this.value)" class="w-full bg-zinc-50 dark:bg-zinc-950 border border-zinc-300 dark:border-zinc-800 rounded-lg px-1.5 py-1 text-[11px] text-zinc-900 dark:text-zinc-200 font-mono text-center focus:outline-none" title="Qty">
                     </div>
                     ${!isNoPrice ? `
                     <div class="w-20 shrink-0">
-                        <input type="number" value="${item.price}" min="0" oninput="updateItem(${index}, 'price', this.value)" class="w-full bg-white dark:bg-zinc-900 border border-zinc-300 dark:border-zinc-800 rounded-lg px-1.5 py-1 text-[11px] text-zinc-900 dark:text-zinc-200 font-mono text-right focus:outline-none" title="Price">
+                        <input type="number" value="${item.price}" min="0" oninput="updateItem(${index}, 'price', this.value)" class="w-full bg-zinc-50 dark:bg-zinc-950 border border-zinc-300 dark:border-zinc-800 rounded-lg px-1.5 py-1 text-[11px] text-zinc-900 dark:text-zinc-200 font-mono text-right focus:outline-none" title="Price">
                     </div>` : ''}
                     <button type="button" onclick="removeLineItem(${index})" class="text-zinc-400 hover:text-rose-500 dark:hover:text-rose-400 p-1 transition shrink-0" title="Delete">
                         <i class="fa-solid fa-trash-can text-[11px]"></i>
@@ -1583,13 +1608,11 @@
 
             const docEl = document.getElementById('printable-document');
             const isPaid = isClientPaid();
-            const bannerEl = document.getElementById('banner-status');
             const watermarkContainer = document.getElementById('watermark-container');
 
             if (isPaid) {
                 docEl.className = 'relative z-10 flex-1 flex flex-col justify-between paid-preview';
                 watermarkContainer.innerHTML = '';
-                bannerEl.style.display = 'none';
             } else {
                 docEl.className = 'relative z-10 flex-1 flex flex-col justify-between unpaid-preview';
                 watermarkContainer.innerHTML = `
@@ -1599,19 +1622,31 @@
                         </div>
                     </div>
                 `;
-                bannerEl.style.display = 'flex';
-                document.getElementById('banner-text').innerHTML = `<strong>Payment Verification Required:</strong> Complete payment for <strong>"${appState.clientName || 'Client'}"</strong> to unlock printing & downloading.`;
             }
 
             docEl.innerHTML = generateDocumentHtml(subtotal, discount, tax, total, curSym);
 
-            if (isThermalReceipt) {
-                setTimeout(() => {
+            setTimeout(() => {
+                const docQrTarget = document.getElementById('document-embedded-qr');
+                if (docQrTarget) {
+                    docQrTarget.innerHTML = '';
+                    let qrPayload = appState.documentQrUrl.trim() || `https://apexstudiopro.com/verify?doc=${appState.docNumber}`;
+                    new QRCode(docQrTarget, {
+                        text: qrPayload,
+                        width: 75,
+                        height: 75,
+                        colorDark: "#000000",
+                        colorLight: "#ffffff",
+                        correctLevel: QRCode.CorrectLevel.H
+                    });
+                }
+
+                if (isThermalReceipt) {
                     const qrBox = document.getElementById('thermal-qr-code');
-                    if (qrBox && !appState.documentQrUrl) {
+                    if (qrBox) {
                         qrBox.innerHTML = '';
                         new QRCode(qrBox, {
-                            text: `REC:${appState.docNumber}|TOTAL:${total}|CLIENT:${appState.clientName}`,
+                            text: `https://apexstudiopro.com/receipt?no=${appState.docNumber}`,
                             width: 120,
                             height: 120,
                             colorDark: "#000000",
@@ -1619,8 +1654,8 @@
                             correctLevel: QRCode.CorrectLevel.H
                         });
                     }
-                }, 50);
-            }
+                }
+            }, 50);
         }
 
         function generateDocumentHtml(subtotal, discount, tax, total, curSym) {
@@ -1631,12 +1666,7 @@
             let cContact = appState.clientContact.trim() || '[Email / Phone]';
             let cAddress = appState.clientAddress.trim() || '[Address]';
 
-            let qrDisplayHtml = '';
-            if (appState.documentQrUrl) {
-                qrDisplayHtml = `<div class="flex justify-center my-2"><img src="${appState.documentQrUrl}" class="h-20 w-20 object-contain" alt="QR Code"></div>`;
-            } else if (appState.docType === 'Receipt' && appState.variant === 'thermal') {
-                qrDisplayHtml = `<div id="thermal-qr-code" class="flex justify-center py-2"></div>`;
-            }
+            let qrDisplayHtml = `<div class="flex justify-center bg-white p-2 rounded-lg border border-zinc-200 shadow-sm"><div id="document-embedded-qr"></div></div>`;
 
             let logoAlignClass = 'items-start text-left';
             let logoImgAlign = 'mr-auto';
@@ -1661,40 +1691,51 @@
 
             let signatureHtml = '';
             if (appState.showSignature) {
-                let sigVisual = appState.authSigUrl ? `<img src="${appState.authSigUrl}" class="h-10 max-w-[130px] object-contain mb-0.5" alt="Signature">` : `<div class="h-10 w-36 border-b border-dashed border-zinc-400 mb-1 flex items-end"><span class="text-[9px] text-zinc-400 italic no-print pb-0.5">Sign here</span></div>`;
+                let sigVisual = appState.authSigUrl ? `<img src="${appState.authSigUrl}" class="h-10 max-w-[120px] object-contain mb-0.5" alt="Signature">` : `<div class="h-10 w-28 border-b border-dashed border-zinc-400 mb-1 flex items-end"><span class="text-[9px] text-zinc-400 italic no-print pb-0.5">Sign here</span></div>`;
                 let stampBoxHtml = appState.showCorpStamp ? `
                     <div class="flex flex-col items-center justify-center">
-                        <div class="h-16 w-28 border-2 border-dashed rounded-xl flex flex-col items-center justify-center p-1 text-center" style="border-color: ${appState.themePrimary}B3; color: ${appState.themeDark}; background-color: ${appState.themePrimary}10;">
-                            <i class="fa-solid fa-stamp text-sm mb-0.5" style="color: ${appState.themePrimary};"></i>
-                            <span class="text-[9px] font-bold tracking-wider" style="color: ${appState.themeDark};">CORP STAMP</span>
+                        <div class="h-14 w-24 border-2 border-dashed rounded-xl flex flex-col items-center justify-center p-1 text-center" style="border-color: ${appState.themePrimary}B3; color: ${appState.themeDark}; background-color: ${appState.themePrimary}10;">
+                            <i class="fa-solid fa-stamp text-xs mb-0.5" style="color: ${appState.themePrimary};"></i>
+                            <span class="text-[8px] font-bold tracking-wider" style="color: ${appState.themeDark};">CORP STAMP</span>
                         </div>
                     </div>
                 ` : '<div></div>';
 
                 let sealBoxHtml = appState.showOfficialSeal ? `
-                    <div class="flex flex-col items-center justify-end">
-                        <div class="h-16 w-16 rounded-full border-4 flex flex-col items-center justify-center p-1 text-center shadow-sm" style="border-color: ${appState.themePrimary}; color: ${appState.themeDark}; background-color: ${appState.themePrimary}15;">
-                            <i class="fa-solid fa-certificate text-base mb-0.5" style="color: ${appState.themePrimary};"></i>
-                            <span class="text-[8px] font-bold uppercase tracking-tight" style="color: ${appState.themeDark};">SEAL</span>
+                    <div class="flex flex-col items-center justify-center">
+                        <div class="h-14 w-14 rounded-full border-4 flex flex-col items-center justify-center p-1 text-center shadow-sm" style="border-color: ${appState.themePrimary}; color: ${appState.themeDark}; background-color: ${appState.themePrimary}15;">
+                            <i class="fa-solid fa-certificate text-xs mb-0.5" style="color: ${appState.themePrimary};"></i>
+                            <span class="text-[7px] font-bold uppercase tracking-tight" style="color: ${appState.themeDark};">SEAL</span>
                         </div>
                     </div>
                 ` : '<div></div>';
 
                 let sigColHtml = `
                     <div class="flex flex-col items-start">
-                        <div class="font-bold text-zinc-700 uppercase tracking-wider mb-1 text-[11px]">AUTHORIZED SIGNATORY</div>
+                        <div class="font-bold text-zinc-700 uppercase tracking-wider mb-1 text-[10px]">AUTHORIZED SIGNATORY</div>
                         ${sigVisual}
-                        <div class="border-t border-zinc-400 pt-0.5 font-semibold text-zinc-900 w-36 text-xs">${appState.authName || '[Authorized Name]'}</div>
-                        <div class="text-[10px] text-zinc-500">${appState.authTitle || '[Designation]'}</div>
+                        <div class="border-t border-zinc-400 pt-0.5 font-semibold text-zinc-900 w-28 text-[11px]">${appState.authName || '[Authorized Name]'}</div>
+                        <div class="text-[9px] text-zinc-500">${appState.authTitle || '[Designation]'}</div>
                     </div>
                 `;
 
                 signatureHtml = `
                     <div class="w-full pt-3 mt-2 border-t border-zinc-200">
-                        <div class="grid grid-cols-3 gap-4 items-end text-xs w-full mb-1">
+                        <div class="grid grid-cols-4 gap-2 items-end text-xs w-full mb-1">
                             ${sigColHtml}
                             ${stampBoxHtml}
                             ${sealBoxHtml}
+                            <div class="flex flex-col items-end justify-center">
+                                ${qrDisplayHtml}
+                            </div>
+                        </div>
+                    </div>
+                `;
+            } else {
+                signatureHtml = `
+                    <div class="w-full pt-3 mt-2 border-t border-zinc-200 flex justify-end">
+                        <div class="flex flex-col items-end justify-center">
+                            ${qrDisplayHtml}
                         </div>
                     </div>
                 `;
@@ -1744,7 +1785,7 @@
                             </div>
                             <div class="font-bold tracking-widest" style="color: ${appState.themePrimary};">================================</div>
                             <div class="text-[11px] font-medium text-zinc-700 py-1">Thank you for shopping with Us!</div>
-                            ${qrDisplayHtml}
+                            <div id="thermal-qr-code" class="flex justify-center py-2"></div>
                         </div>
                     `;
                 }
@@ -1783,10 +1824,7 @@
                             </div>
                         </div>
                         <div class="border-t border-zinc-200 pt-2 text-[11px] text-zinc-500 space-y-1">
-                            <div class="flex justify-between items-end">
-                                <div><div class="font-bold text-zinc-700 uppercase tracking-wider">Notes</div><p class="leading-relaxed">${appState.notes || 'Thank you for your business!'}</p></div>
-                                ${qrDisplayHtml}
-                            </div>
+                            <div><div class="font-bold text-zinc-700 uppercase tracking-wider mb-1">Notes</div><p class="leading-relaxed">${appState.notes || 'Thank you for your business!'}</p></div>
                             ${signatureHtml}
                         </div>
                     </div>
@@ -1809,7 +1847,6 @@
                                 <div class="text-[11px] text-zinc-500 uppercase tracking-widest mb-1">Awarded to</div>
                                 <div class="text-2xl font-bold text-zinc-900 border-b pb-1 mb-2 inline-block" style="border-color: ${appState.themePrimary}">${cName}</div>
                                 <p class="text-xs text-zinc-600 max-w-md mx-auto leading-relaxed">${appState.notes || appState.intro}</p>
-                                ${qrDisplayHtml}
                             </div>
                             <div class="w-full">${signatureHtml}</div>
                         </div>
@@ -1827,7 +1864,6 @@
                                 <div class="text-[11px] italic text-zinc-600 mb-1">This esteemed recognition is presented to</div>
                                 <div class="text-2xl font-bold font-serif text-zinc-900 mb-2">${cName}</div>
                                 <p class="text-xs text-zinc-600 max-w-md mx-auto">${appState.notes || appState.intro}</p>
-                                ${qrDisplayHtml}
                             </div>
                             <div class="w-full relative z-10">${signatureHtml}</div>
                         </div>
@@ -1844,7 +1880,6 @@
                                 <div class="text-[11px] font-serif italic text-zinc-700 mb-1">Presented with honor and distinction to</div>
                                 <div class="text-2xl font-bold font-serif text-zinc-900 border-b pb-1 mb-2 inline-block" style="border-color: ${appState.themePrimary}">${cName}</div>
                                 <p class="text-xs text-zinc-700 max-w-md mx-auto">${appState.notes || appState.intro}</p>
-                                ${qrDisplayHtml}
                             </div>
                             <div class="w-full">${signatureHtml}</div>
                         </div>
@@ -1863,7 +1898,6 @@
                             <div class="text-[11px] italic text-zinc-500 mb-2">This is proudly presented to</div>
                             <div class="text-2xl font-bold font-serif text-zinc-900 border-b-2 pb-0.5 px-6 mb-2 inline-block" style="border-color: ${appState.themePrimary}">${cName}</div>
                             <p class="text-xs text-zinc-600 max-w-lg mx-auto leading-relaxed mb-2">${appState.notes || appState.intro}</p>
-                            ${qrDisplayHtml}
                         </div>
                         <div class="w-full">${signatureHtml}</div>
                     </div>
@@ -1894,7 +1928,7 @@
                         </div>
                     </div>
                     <div>
-                        ${!isDelivery ? `<div class="flex justify-between items-end mb-6"><div class="flex items-center">${qrDisplayHtml}</div><div class="w-64 bg-zinc-50 p-4 rounded-xl border border-zinc-200 space-y-1.5 text-xs"><div class="flex justify-between text-zinc-600"><span>Subtotal:</span><span class="font-mono font-bold">${curSym}${subtotal.toLocaleString()}</span></div>${discount > 0 ? `<div class="flex justify-between font-bold" style="color: ${appState.themePrimary}"><span>Discount:</span><span class="font-mono">-${curSym}${discount.toLocaleString()}</span></div>` : ''}${tax > 0 ? `<div class="flex justify-between text-zinc-600"><span>Tax (${appState.taxRate}%):</span><span class="font-mono font-bold">${curSym}${tax.toLocaleString()}</span></div>` : ''}<div class="flex justify-between pt-2 border-t border-zinc-300 text-sm font-black text-zinc-900"><span>Total:</span><span class="font-mono" style="color: ${appState.themePrimary}">${curSym}${total.toLocaleString()}</span></div></div></div>` : ''}
+                        ${!isDelivery ? `<div class="flex justify-end mb-6"><div class="w-64 bg-zinc-50 p-4 rounded-xl border border-zinc-200 space-y-1.5 text-xs"><div class="flex justify-between text-zinc-600"><span>Subtotal:</span><span class="font-mono font-bold">${curSym}${subtotal.toLocaleString()}</span></div>${discount > 0 ? `<div class="flex justify-between font-bold" style="color: ${appState.themePrimary}"><span>Discount:</span><span class="font-mono">-${curSym}${discount.toLocaleString()}</span></div>` : ''}${tax > 0 ? `<div class="flex justify-between text-zinc-600"><span>Tax (${appState.taxRate}%):</span><span class="font-mono font-bold">${curSym}${tax.toLocaleString()}</span></div>` : ''}<div class="flex justify-between pt-2 border-t border-zinc-300 text-sm font-black text-zinc-900"><span>Total:</span><span class="font-mono" style="color: ${appState.themePrimary}">${curSym}${total.toLocaleString()}</span></div></div></div>` : ''}
                         <div class="border-t border-zinc-200 pt-3 text-[11px] text-zinc-500 space-y-2"><div class="font-bold text-zinc-700 uppercase tracking-wider">Terms & Conditions</div><p class="leading-relaxed">${appState.notes || '[Enter notes or terms here...]'}</p>${signatureHtml}</div>
                     </div>
                 `;
@@ -1921,7 +1955,7 @@
                         </div>
                     </div>
                     <div>
-                        ${!isDelivery ? `<div class="flex justify-between items-end mb-6"><div class="flex items-center">${qrDisplayHtml}</div><div class="w-64 bg-zinc-50 p-4 rounded-xl border border-zinc-200 space-y-1 text-xs"><div class="flex justify-between text-zinc-600"><span>Subtotal:</span><span class="font-mono font-bold">${curSym}${subtotal.toLocaleString()}</span></div>${discount > 0 ? `<div class="flex justify-between font-bold" style="color: ${appState.themePrimary}"><span>Discount:</span><span class="font-mono">-${curSym}${discount.toLocaleString()}</span></div>` : ''}${tax > 0 ? `<div class="flex justify-between text-zinc-600"><span>Tax (${appState.taxRate}%):</span><span class="font-mono font-bold">${curSym}${tax.toLocaleString()}</span></div>` : ''}<div class="flex justify-between pt-2 border-t border-zinc-300 font-black text-sm text-zinc-900"><span>Total:</span><span class="font-mono" style="color: ${appState.themePrimary}">${curSym}${total.toLocaleString()}</span></div></div></div>` : ''}
+                        ${!isDelivery ? `<div class="flex justify-end mb-6"><div class="w-64 bg-zinc-50 p-4 rounded-xl border border-zinc-200 space-y-1 text-xs"><div class="flex justify-between text-zinc-600"><span>Subtotal:</span><span class="font-mono font-bold">${curSym}${subtotal.toLocaleString()}</span></div>${discount > 0 ? `<div class="flex justify-between font-bold" style="color: ${appState.themePrimary}"><span>Discount:</span><span class="font-mono">-${curSym}${discount.toLocaleString()}</span></div>` : ''}${tax > 0 ? `<div class="flex justify-between text-zinc-600"><span>Tax (${appState.taxRate}%):</span><span class="font-mono font-bold">${curSym}${tax.toLocaleString()}</span></div>` : ''}<div class="flex justify-between pt-2 border-t border-zinc-300 font-black text-sm text-zinc-900"><span>Total:</span><span class="font-mono" style="color: ${appState.themePrimary}">${curSym}${total.toLocaleString()}</span></div></div></div>` : ''}
                         <div class="border-t border-zinc-200 pt-3 text-[11px] text-zinc-500 space-y-2"><div class="font-bold text-zinc-700 uppercase tracking-wider">Notes & Validations</div><p class="leading-relaxed">${appState.notes || '[Enter notes or terms here...]'}</p>${signatureHtml}</div>
                     </div>
                 `;
@@ -1947,11 +1981,4 @@
                     </div>
                 </div>
                 <div>
-                    ${!isDelivery ? `<div class="flex justify-between items-end mb-6"><div class="flex items-center">${qrDisplayHtml}</div><div class="w-64 space-y-1.5 text-xs"><div class="flex justify-between py-1 text-zinc-600"><span>Subtotal:</span><span class="font-mono font-semibold">${curSym}${subtotal.toLocaleString()}</span></div>${discount > 0 ? `<div class="flex justify-between py-1 font-semibold" style="color: ${appState.themePrimary}"><span>Discount:</span><span class="font-mono">-${curSym}${discount.toLocaleString()}</span></div>` : ''}${tax > 0 ? `<div class="flex justify-between py-1 text-zinc-600"><span>Tax (${appState.taxRate}%):</span><span class="font-mono font-semibold">${curSym}${tax.toLocaleString()}</span></div>` : ''}<div class="flex justify-between py-2.5 border-t border-zinc-300 text-sm font-black text-zinc-900"><span>Total Due:</span><span class="font-mono" style="color: ${appState.themePrimary}">${curSym}${total.toLocaleString()}</span></div></div></div>` : ''}
-                    <div class="border-t border-zinc-200 pt-3 text-[11px] text-zinc-500 space-y-2"><div class="font-bold text-zinc-700 uppercase tracking-wider">Notes & Terms</div><p class="leading-relaxed">${appState.notes || '[Enter notes or terms here...]'}</p><div class="w-full">${signatureHtml}</div></div>
-                </div>
-            `;
-        }
-    </script>
-</body>
-</html>
+                    ${!isDelivery ? `<div class="flex justify-end mb-6"><div class="w-64 space-y-1.5 text-xs"><div class="flex justify-between py-1 text-zinc-600"><span>Subtotal:</span><span class="font-mono font-semibold">${curSym}${subtotal.toLocaleString()}</span></div>${discount > 0 ? `<div class="flex justify-between py-1 font-semibold" style="color: ${appState.themePrimary}"><span>Discount:</span><span class="font-mono">-${curSym}${discount.toLocaleString()}</span></div>` : ''}${tax > 0 ? `<div class="flex justify-be
