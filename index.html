@@ -1981,4 +1981,11 @@
                     </div>
                 </div>
                 <div>
-                    ${!isDelivery ? `<div class="flex justify-end mb-6"><div class="w-64 space-y-1.5 text-xs"><div class="flex justify-between py-1 text-zinc-600"><span>Subtotal:</span><span class="font-mono font-semibold">${curSym}${subtotal.toLocaleString()}</span></div>${discount > 0 ? `<div class="flex justify-between py-1 font-semibold" style="color: ${appState.themePrimary}"><span>Discount:</span><span class="font-mono">-${curSym}${discount.toLocaleString()}</span></div>` : ''}${tax > 0 ? `<div class="flex justify-be
+                    ${!isDelivery ? `<div class="flex justify-end mb-6"><div class="w-64 space-y-1.5 text-xs"><div class="flex justify-between py-1 text-zinc-600"><span>Subtotal:</span><span class="font-mono font-semibold">${curSym}${subtotal.toLocaleString()}</span></div>${discount > 0 ? `<div class="flex justify-between py-1 font-semibold" style="color: ${appState.themePrimary}"><span>Discount:</span><span class="font-mono">-${curSym}${discount.toLocaleString()}</span></div>` : ''}${tax > 0 ? `<div class="flex justify-between py-1 text-zinc-600"><span>Tax (${appState.taxRate}%):</span><span class="font-mono font-semibold">${curSym}${tax.toLocaleString()}</span></div>` : ''}<div class="flex justify-between py-2.5 border-t border-zinc-300 text-sm font-black text-zinc-900"><span>Total Due:</span><span class="font-mono" style="color: ${appState.themePrimary}">${curSym}${total.toLocaleString()}</span></div></div></div>` : ''}
+                    <div class="border-t border-zinc-200 pt-3 text-[11px] text-zinc-500 space-y-2"><div class="font-bold text-zinc-700 uppercase tracking-wider">Notes & Terms</div><p class="leading-relaxed">${appState.notes || '[Enter notes or terms here...]'}</p><div class="w-full">${signatureHtml}</div></div>
+                </div>
+            `;
+        }
+    </script>
+</body>
+</html>
