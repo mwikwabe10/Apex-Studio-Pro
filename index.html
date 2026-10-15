@@ -474,7 +474,7 @@
                     <input type="text" id="client-name" value="" oninput="handleClientBillingChange()" placeholder="[Recipient / Client Name]" class="w-full bg-zinc-50 dark:bg-zinc-950 border border-zinc-300 dark:border-zinc-800 rounded-lg px-2.5 py-1 text-xs text-zinc-900 dark:text-zinc-200 font-bold focus:outline-none">
                     <div class="grid grid-cols-2 gap-1.5">
                         <input type="text" id="client-contact" value="" oninput="handleClientBillingChange()" placeholder="Email / Phone" class="w-full bg-zinc-50 dark:bg-zinc-950 border border-zinc-300 dark:border-zinc-800 rounded-lg px-2 py-1 text-[11px] text-zinc-900 dark:text-zinc-200 focus:outline-none">
-                        <input type="text" id="client-address" value="" oninput="handleClientBillingChange()" placeholder="Address" class="w-full bg-zinc-50 dark:bg-zinc-950 border border-zinc-300 dark:border-zinc-800 rounded-lg px-2.5 py-1 text-[11px] text-zinc-900 dark:text-zinc-200 focus:outline-none">
+                        <input type="text" id="client-address" value="" oninput="handleClientBillingChange()" placeholder="Address" class="w-full bg-zinc-50 dark:bg-zinc-950 border border-zinc-300 dark:border-zinc-800 rounded-lg px-2 py-1 text-[11px] text-zinc-900 dark:text-zinc-200 focus:outline-none">
                     </div>
                 </div>
             </div>
@@ -1633,10 +1633,8 @@
                 if (docQrTarget && appState.documentQrUrl.trim()) {
                     docQrTarget.innerHTML = '';
                     if (appState.documentQrUrl.startsWith('data:image/') || appState.documentQrUrl.startsWith('http')) {
-                        // Render as uploaded/external image if URL/file
                         docQrTarget.innerHTML = `<img src="${appState.documentQrUrl}" class="h-16 w-16 object-contain" alt="QR">`;
                     } else {
-                        // Render generated QR code from text payload
                         new QRCode(docQrTarget, {
                             text: appState.documentQrUrl.trim(),
                             width: 75,
@@ -1658,7 +1656,6 @@
             let cContact = appState.clientContact.trim() || '[Email / Phone]';
             let cAddress = appState.clientAddress.trim() || '[Address]';
 
-            // Only render QR slot if user supplied a QR URL or upload
             let qrDisplayHtml = appState.documentQrUrl.trim() 
                 ? `<div class="flex justify-center bg-white p-2 rounded-lg border border-zinc-200 shadow-sm"><div id="document-embedded-qr"></div></div>`
                 : '';
@@ -1778,8 +1775,13 @@
                                 ${tax > 0 ? `<div class="flex justify-between"><span>Tax (${appState.taxRate}%):</span><span class="font-mono">${curSym}${tax.toLocaleString()}</span></div>` : ''}
                                 <div class="flex justify-between font-bold text-xs pt-1 border-t border-zinc-400"><span>TOTAL:</span><span class="font-mono" style="color: ${appState.themePrimary};">${curSym}${total.toLocaleString()}</span></div>
                             </div>
-                            <div class="font-bold tracking-widest" style="color: ${appState.themePrimary};">================================</div>
+                            <div class="font-bold tracking-widest" style="color: ${appState.themePrimary};">--------------------------------</div>
+                            
+                            <!-- Bottom Center QR Code Insertion for Thermal Receipt -->
+                            ${appState.documentQrUrl.trim() ? `<div class="py-2 flex justify-center">${qrDisplayHtml}</div>` : ''}
+
                             <div class="text-[11px] font-medium text-zinc-700 py-1">Thank you for shopping with Us!</div>
+                            <div class="font-bold tracking-widest" style="color: ${appState.themePrimary};">================================</div>
                         </div>
                     `;
                 }
