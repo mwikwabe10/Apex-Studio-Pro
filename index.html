@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
+    <meta name="theme-color" content="#09090b">
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 100 100%27%3E%3Ctext y=%27.9em%27 font-size=%2790%27%3E%F0%9F%93%91%3C/text%3E%3C/svg%3E">
     <title>Invoice Generator, Quotation & Receipt Maker | Apex Studio Pro</title>
 
     <meta name="description" content="Create professional invoices, quotations, receipts and business documents online with Apex Studio Pro. Customize your documents and export polished PDFs.">
@@ -25,11 +26,10 @@
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Apex Studio Pro — Business Document Generator">
 <meta name="twitter:description" content="Generate professional invoices, quotations and receipts online.">
-
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- FontAwesome for Icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -90,31 +90,101 @@
             .no-print { display: none !important; }
             header, #hub-dashboard, #payment-modal, #guide-modal, #utility-modal { display: none !important; }
         }
+
+        /* ===== Modernization layer (visual only) ===== */
+        :root { --accent: 6 182 212; --ease: cubic-bezier(.22,1,.36,1); }
+        html { scroll-behavior: smooth; -webkit-tap-highlight-color: transparent; }
+        body { text-rendering: optimizeLegibility; }
+        body::before {
+            content: ""; position: fixed; inset: 0; z-index: -1; pointer-events: none;
+            background:
+                radial-gradient(60rem 40rem at 85% -10%, rgb(var(--accent) / .10), transparent 60%),
+                radial-gradient(50rem 35rem at -10% 110%, rgb(99 102 241 / .08), transparent 60%);
+        }
+        ::selection { background: rgb(var(--accent) / .3); }
+        *:focus-visible { outline: 2px solid rgb(var(--accent)); outline-offset: 2px; border-radius: 8px; }
+        input:focus, select:focus, textarea:focus {
+            outline: none !important;
+            border-color: rgb(var(--accent) / .7) !important;
+            box-shadow: 0 0 0 3px rgb(var(--accent) / .18);
+            transition: box-shadow .2s var(--ease), border-color .2s var(--ease);
+        }
+        button { transition: transform .15s var(--ease), filter .2s, background-color .2s, box-shadow .2s; }
+        button:active { transform: scale(.97); }
+        header { box-shadow: 0 1px 0 rgb(0 0 0 / .03), 0 8px 30px -12px rgb(0 0 0 / .15) !important; backdrop-filter: saturate(180%) blur(16px); -webkit-backdrop-filter: saturate(180%) blur(16px); }
+
+        /* Cards */
+        .neon-card { position: relative; overflow: hidden; transition: transform .35s var(--ease), box-shadow .35s var(--ease), border-color .35s; }
+        .neon-card::after {
+            content: ""; position: absolute; inset: 0; pointer-events: none; opacity: 0; transition: opacity .35s;
+            background: radial-gradient(18rem 12rem at var(--mx, 50%) var(--my, 0%), rgb(var(--accent) / .10), transparent 70%);
+        }
+        .neon-card:hover { transform: translateY(-5px); border-color: rgb(var(--accent) / .4); box-shadow: 0 24px 48px -20px rgb(0 0 0 / .35); }
+        .neon-card:hover::after { opacity: 1; }
+        .neon-card:focus-visible { outline-offset: 3px; border-radius: 1rem; }
+        .neon-card button i.fa-arrow-right { transition: transform .25s var(--ease); }
+        .neon-card:hover button i.fa-arrow-right { transform: translateX(4px); }
+
+        /* Hero */
+        .hero-title { background: linear-gradient(135deg, currentColor 40%, rgb(var(--accent)) 140%); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; }
+        .stat-chip { display: inline-flex; align-items: center; gap: .5rem; padding: .4rem .8rem; border-radius: 999px; font-size: 11px; font-weight: 600;
+            background: rgb(113 113 122 / .08); border: 1px solid rgb(113 113 122 / .2); }
+        .stat-chip i { color: rgb(var(--accent)); }
+
+        /* Entrance motion */
+        @keyframes rise { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
+        @keyframes pop  { from { opacity: 0; transform: translateY(10px) scale(.97); } to { opacity: 1; transform: none; } }
+        #hub-dashboard > * { animation: rise .6s var(--ease) both; }
+        #hub-dashboard > *:nth-child(2) { animation-delay: .08s; }
+        #hub-dashboard > *:nth-child(3) { animation-delay: .16s; }
+        #hub-dashboard .grid > .neon-card { animation: rise .55s var(--ease) both; }
+        #hub-dashboard .grid > .neon-card:nth-child(2) { animation-delay: .05s; }
+        #hub-dashboard .grid > .neon-card:nth-child(3) { animation-delay: .10s; }
+        #hub-dashboard .grid > .neon-card:nth-child(4) { animation-delay: .15s; }
+        #hub-dashboard .grid > .neon-card:nth-child(5) { animation-delay: .20s; }
+        #hub-dashboard .grid > .neon-card:nth-child(6) { animation-delay: .25s; }
+        #studio-workspace:not(.hidden) { animation: rise .4s var(--ease) both; }
+        #utility-modal:not(.hidden), #guide-modal:not(.hidden), #payment-modal:not(.hidden) { animation: fade .2s ease both; }
+        #utility-modal:not(.hidden) > div, #guide-modal:not(.hidden) > div, #payment-modal:not(.hidden) > div { animation: pop .3s var(--ease) both; }
+        @keyframes fade { from { opacity: 0; } to { opacity: 1; } }
+        #utility-modal > div, #guide-modal > div, #payment-modal > div { border-radius: 1.5rem !important; box-shadow: 0 40px 80px -20px rgb(0 0 0 / .6) !important; }
+
+        /* Studio workspace polish */
+        #studio-workspace > section:first-child { scrollbar-gutter: stable; }
+        #document-wrapper { box-shadow: 0 30px 70px -25px rgb(0 0 0 / .45), 0 0 0 1px rgb(0 0 0 / .05) !important; border-radius: 1rem; }
+
+        /* Scrollbars */
+        * { scrollbar-width: thin; scrollbar-color: rgb(100 116 139 / .4) transparent; }
+        ::-webkit-scrollbar-thumb:hover { background: rgb(100 116 139 / .55); }
+
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after { animation: none !important; transition: none !important; scroll-behavior: auto !important; }
+        }
     </style>
 </head>
 <body id="app-body" class="bg-zinc-50 dark:bg-zinc-950 text-zinc-900 dark:text-zinc-100 font-sans h-full flex flex-col antialiased transition-colors duration-300">
 
     <!-- Top Navigation Bar -->
     <header class="border-b border-zinc-200 dark:border-zinc-800 bg-white/80 dark:bg-zinc-900/90 backdrop-blur sticky top-0 z-30 px-4 sm:px-8 py-3.5 flex items-center justify-between shadow-sm transition-colors duration-200">
-        <div class="flex items-center space-x-3 cursor-pointer group" onclick="switchView('hub')">
+        <div class="flex items-center space-x-3 cursor-pointer group" onclick="switchView('hub')" role="button" tabindex="0" aria-label="Go to dashboard hub">
             <div id="nav-logo-box" class="bg-gradient-to-tr from-cyan-600 via-blue-600 to-indigo-600 text-white p-2.5 rounded-2xl font-black text-sm tracking-tighter flex items-center justify-center shadow-lg shadow-cyan-500/20 group-hover:scale-105 transition">
                 <i class="fa-solid fa-layer-group text-base"></i>
             </div>
             <div>
                 <h1 class="font-extrabold text-base sm:text-lg flex items-center space-x-2 tracking-tight">
                     <span>Apex Studio Pro</span>
-                    <span class="bg-cyan-500/10 text-cyan-600 dark:text-cyan-400 text-[10px] font-mono px-2 py-0.5 rounded-full border border-cyan-500/30 font-bold uppercase tracking-wider">Enterprise Hub</span>
+                    <span class="hidden xs:inline-flex sm:inline-flex bg-cyan-500/10 text-cyan-600 dark:text-cyan-400 text-[10px] font-mono px-2 py-0.5 rounded-full border border-cyan-500/30 font-bold uppercase tracking-wider">Enterprise Hub</span>
                 </h1>
-                <p class="text-[11px] text-zinc-500 dark:text-zinc-400 font-medium">Professional Document Automation & Verification Suite</p>
+                <p class="hidden sm:block text-[11px] text-zinc-500 dark:text-zinc-400 font-medium">Professional Document Automation & Verification Suite</p>
             </div>
         </div>
 
         <div class="flex items-center space-x-3">
-            <button onclick="toggleTheme()" class="bg-zinc-100 dark:bg-zinc-800 hover:bg-zinc-200 dark:hover:bg-zinc-700 text-zinc-700 dark:text-zinc-300 p-2.5 rounded-xl text-xs font-bold transition flex items-center justify-center border border-zinc-300 dark:border-zinc-700 shadow-sm" title="Toggle Dark/Light Mode">
+            <button onclick="toggleTheme()" aria-label="Toggle dark or light mode" class="bg-zinc-100 dark:bg-zinc-800 hover:bg-zinc-200 dark:hover:bg-zinc-700 text-zinc-700 dark:text-zinc-300 p-2.5 rounded-xl text-xs font-bold transition flex items-center justify-center border border-zinc-300 dark:border-zinc-700 shadow-sm" title="Toggle Dark/Light Mode">
                 <i id="theme-icon" class="fa-solid fa-sun text-amber-500 dark:text-cyan-400 text-sm"></i>
             </button>
             <button onclick="switchView('hub')" class="bg-cyan-500/10 text-cyan-600 dark:text-cyan-400 hover:bg-cyan-500/20 px-4 py-2 rounded-xl text-xs font-bold transition flex items-center space-x-2 border border-cyan-500/30 shadow-sm">
-                <i class="fa-solid fa-grid-2 text-xs"></i>
+                <i class="fa-solid fa-table-cells-large text-xs"></i>
                 <span class="hidden sm:inline">Dashboard Hub</span>
             </button>
             <button onclick="openGuideModal()" class="bg-zinc-100 dark:bg-zinc-800 hover:bg-zinc-200 dark:hover:bg-zinc-700 text-zinc-700 dark:text-zinc-300 px-4 py-2 rounded-xl text-xs font-semibold transition flex items-center space-x-1.5 border border-zinc-300 dark:border-zinc-700 shadow-sm">
@@ -126,15 +196,14 @@
 
     <!-- HUB VIEW: Dashboard Hub -->
     <section id="hub-dashboard" class="flex-1 overflow-y-auto p-4 sm:p-12 max-w-7xl mx-auto w-full space-y-10">
-        <div class="flex flex-col md:flex-row items-center justify-between gap-6 bg-white dark:bg-zinc-900 p-6 sm:p-8 rounded-3xl border border-zinc-200 dark:border-zinc-800 shadow-xl relative overflow-hidden">
+        <div class="flex flex-col md:flex-row items-center justify-between gap-6 bg-white dark:bg-zinc-900 p-6 sm:p-8 rounded-[2rem] border border-zinc-200 dark:border-zinc-800 shadow-2xl shadow-cyan-500/5 relative overflow-hidden">
             <div class="absolute -right-10 -bottom-10 w-64 h-64 bg-cyan-500/5 rounded-full blur-3xl pointer-events-none"></div>
             <div class="space-y-3 text-center md:text-left max-w-2xl">
                 <div class="inline-flex items-center space-x-2 bg-cyan-500/10 border border-cyan-500/30 px-3.5 py-1.5 rounded-full text-cyan-600 dark:text-cyan-400 text-xs font-semibold tracking-wide">
-                    <i class="fa-solid fa-sparkles"></i>
+                    <i class="fa-solid fa-wand-magic-sparkles"></i>
                     <span>Next-Gen Enterprise Document Platform</span>
                 </div>
-                
-<h2 class="text-3xl sm:text-4xl font-extrabold tracking-tight font-sans leading-tight">
+                <h2 class="hero-title text-3xl sm:text-5xl font-extrabold tracking-tight font-sans leading-[1.1]">
     Online Invoice, Quotation & Receipt Generator
 </h2>
 
@@ -145,7 +214,6 @@
     for your clients. Explore our QR code generator and AI text rewriting
     utility to simplify everyday business tasks.
 </p>
-
             </div>
         </div>
 
@@ -155,7 +223,7 @@
                 <h3 class="text-xs font-bold uppercase tracking-widest text-zinc-500 dark:text-zinc-400 font-mono">Document Studios</h3>
             </div>
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                <div onclick="launchStudio('Invoice')" class="neon-card bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-2xl p-6 flex flex-col justify-between cursor-pointer group shadow-sm hover:shadow-md">
+                <div onclick="launchStudio('Invoice')" role="button" tabindex="0" class="neon-card bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-2xl p-6 flex flex-col justify-between cursor-pointer group shadow-sm hover:shadow-md">
                     <div class="space-y-4">
                         <div class="h-12 w-12 rounded-2xl bg-cyan-500/10 border border-cyan-500/30 flex items-center justify-center text-cyan-600 dark:text-cyan-400 group-hover:scale-110 transition shadow-inner">
                             <i class="fa-solid fa-file-invoice-dollar text-xl"></i>
@@ -173,7 +241,7 @@
                     </div>
                 </div>
 
-                <div onclick="launchStudio('Receipt')" class="neon-card bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-2xl p-6 flex flex-col justify-between cursor-pointer group shadow-sm hover:shadow-md">
+                <div onclick="launchStudio('Receipt')" role="button" tabindex="0" class="neon-card bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-2xl p-6 flex flex-col justify-between cursor-pointer group shadow-sm hover:shadow-md">
                     <div class="space-y-4">
                         <div class="h-12 w-12 rounded-2xl bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center text-emerald-600 dark:text-emerald-400 group-hover:scale-110 transition shadow-inner">
                             <i class="fa-solid fa-receipt text-xl"></i>
@@ -191,7 +259,7 @@
                     </div>
                 </div>
 
-                <div onclick="launchStudio('Quotation')" class="neon-card bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-2xl p-6 flex flex-col justify-between cursor-pointer group shadow-sm hover:shadow-md">
+                <div onclick="launchStudio('Quotation')" role="button" tabindex="0" class="neon-card bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-2xl p-6 flex flex-col justify-between cursor-pointer group shadow-sm hover:shadow-md">
                     <div class="space-y-4">
                         <div class="h-12 w-12 rounded-2xl bg-purple-500/10 border border-purple-500/30 flex items-center justify-center text-purple-600 dark:text-purple-400 group-hover:scale-110 transition shadow-inner">
                             <i class="fa-solid fa-file-contract text-xl"></i>
@@ -209,7 +277,7 @@
                     </div>
                 </div>
 
-                <div onclick="launchStudio('Certificate')" class="neon-card bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-2xl p-6 flex flex-col justify-between cursor-pointer group shadow-sm hover:shadow-md">
+                <div onclick="launchStudio('Certificate')" role="button" tabindex="0" class="neon-card bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-2xl p-6 flex flex-col justify-between cursor-pointer group shadow-sm hover:shadow-md">
                     <div class="space-y-4">
                         <div class="h-12 w-12 rounded-2xl bg-amber-500/10 border border-amber-500/30 flex items-center justify-center text-amber-600 dark:text-amber-400 group-hover:scale-110 transition shadow-inner">
                             <i class="fa-solid fa-award text-xl"></i>
@@ -227,7 +295,7 @@
                     </div>
                 </div>
 
-                <div onclick="launchStudio('Proposal')" class="neon-card bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-2xl p-6 flex flex-col justify-between cursor-pointer group shadow-sm hover:shadow-md">
+                <div onclick="launchStudio('Proposal')" role="button" tabindex="0" class="neon-card bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-2xl p-6 flex flex-col justify-between cursor-pointer group shadow-sm hover:shadow-md">
                     <div class="space-y-4">
                         <div class="h-12 w-12 rounded-2xl bg-blue-500/10 border border-blue-500/30 flex items-center justify-center text-blue-600 dark:text-blue-400 group-hover:scale-110 transition shadow-inner">
                             <i class="fa-solid fa-briefcase text-xl"></i>
@@ -245,7 +313,7 @@
                     </div>
                 </div>
 
-                <div onclick="launchStudio('Delivery')" class="neon-card bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-2xl p-6 flex flex-col justify-between cursor-pointer group shadow-sm hover:shadow-md">
+                <div onclick="launchStudio('Delivery')" role="button" tabindex="0" class="neon-card bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-2xl p-6 flex flex-col justify-between cursor-pointer group shadow-sm hover:shadow-md">
                     <div class="space-y-4">
                         <div class="h-12 w-12 rounded-2xl bg-rose-500/10 border border-rose-500/30 flex items-center justify-center text-rose-600 dark:text-rose-400 group-hover:scale-110 transition shadow-inner">
                             <i class="fa-solid fa-truck-fast text-xl"></i>
@@ -271,7 +339,7 @@
                 <h3 class="text-xs font-bold uppercase tracking-widest text-zinc-500 dark:text-zinc-400 font-mono">Productivity Utilities</h3>
             </div>
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                <div onclick="openUtilityModal('qr')" class="neon-card bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-2xl p-6 flex flex-col justify-between cursor-pointer group shadow-sm hover:shadow-md">
+                <div onclick="openUtilityModal('qr')" role="button" tabindex="0" class="neon-card bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-2xl p-6 flex flex-col justify-between cursor-pointer group shadow-sm hover:shadow-md">
                     <div class="space-y-4">
                         <div class="h-12 w-12 rounded-2xl bg-cyan-500/10 border border-cyan-500/30 flex items-center justify-center text-cyan-600 dark:text-cyan-400 group-hover:scale-110 transition shadow-inner">
                             <i class="fa-solid fa-qrcode text-xl"></i>
@@ -289,7 +357,7 @@
                     </div>
                 </div>
 
-                <div onclick="openUtilityModal('ai')" class="neon-card bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-2xl p-6 flex flex-col justify-between cursor-pointer group shadow-sm hover:shadow-md">
+                <div onclick="openUtilityModal('ai')" role="button" tabindex="0" class="neon-card bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-2xl p-6 flex flex-col justify-between cursor-pointer group shadow-sm hover:shadow-md">
                     <div class="space-y-4">
                         <div class="h-12 w-12 rounded-2xl bg-indigo-500/10 border border-indigo-500/30 flex items-center justify-center text-indigo-600 dark:text-indigo-400 group-hover:scale-110 transition shadow-inner">
                             <i class="fa-solid fa-robot text-xl"></i>
@@ -308,6 +376,10 @@
                 </div>
             </div>
         </div>
+
+        <footer class="text-center text-[11px] text-zinc-500 dark:text-zinc-500 pt-4 pb-2 font-mono">
+            &copy; <span id="yr-footer"></span> Apex Studio Pro &middot; Professional Document Automation
+        </footer>
     </section>
 
     <!-- STUDIO WORKSPACE VIEW -->
@@ -625,9 +697,9 @@
     </main>
 
     <!-- Modals -->
-    <div id="utility-modal" class="fixed inset-0 z-50 bg-zinc-950/80 backdrop-blur-sm flex items-center justify-center hidden p-4">
+    <div id="utility-modal" role="dialog" aria-modal="true" class="fixed inset-0 z-50 bg-zinc-950/80 backdrop-blur-sm flex items-center justify-center hidden p-4">
         <div class="bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-2xl max-w-lg w-full p-6 space-y-6 shadow-2xl relative">
-            <button onclick="closeUtilityModal()" class="absolute top-4 right-4 text-zinc-500 dark:text-zinc-400 hover:text-zinc-800 dark:hover:text-zinc-200 transition">
+            <button onclick="closeUtilityModal()" aria-label="Close" class="absolute top-4 right-4 text-zinc-500 dark:text-zinc-400 hover:text-zinc-800 dark:hover:text-zinc-200 transition">
                 <i class="fa-solid fa-xmark text-sm"></i>
             </button>
             <div class="flex items-center space-x-3">
@@ -648,9 +720,9 @@
         </div>
     </div>
 
-    <div id="guide-modal" class="fixed inset-0 z-50 bg-zinc-950/80 backdrop-blur-sm flex items-center justify-center hidden p-4">
+    <div id="guide-modal" role="dialog" aria-modal="true" class="fixed inset-0 z-50 bg-zinc-950/80 backdrop-blur-sm flex items-center justify-center hidden p-4">
         <div class="bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-2xl max-w-lg w-full p-6 space-y-6 shadow-2xl relative">
-            <button onclick="closeGuideModal()" class="absolute top-4 right-4 text-zinc-500 dark:text-zinc-400 hover:text-zinc-800 dark:hover:text-zinc-200 transition">
+            <button onclick="closeGuideModal()" aria-label="Close" class="absolute top-4 right-4 text-zinc-500 dark:text-zinc-400 hover:text-zinc-800 dark:hover:text-zinc-200 transition">
                 <i class="fa-solid fa-xmark text-sm"></i>
             </button>
             <div class="flex items-center space-x-3">
@@ -680,9 +752,9 @@
         </div>
     </div>
 
-    <div id="payment-modal" class="fixed inset-0 z-50 bg-zinc-950/80 backdrop-blur-sm flex items-center justify-center hidden p-4">
+    <div id="payment-modal" role="dialog" aria-modal="true" class="fixed inset-0 z-50 bg-zinc-950/80 backdrop-blur-sm flex items-center justify-center hidden p-4">
         <div class="bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-2xl max-w-md w-full p-6 space-y-6 shadow-2xl relative">
-            <button onclick="closePaymentModal()" class="absolute top-4 right-4 text-zinc-500 dark:text-zinc-400 hover:text-zinc-800 dark:hover:text-zinc-200 transition">
+            <button onclick="closePaymentModal()" aria-label="Close" class="absolute top-4 right-4 text-zinc-500 dark:text-zinc-400 hover:text-zinc-800 dark:hover:text-zinc-200 transition">
                 <i class="fa-solid fa-xmark text-sm"></i>
             </button>
             <div class="flex items-center space-x-3">
@@ -2015,6 +2087,33 @@
                 </div>
             `;
         }
+    </script>
+
+    <script>
+    /* UI enhancements only — keyboard access, Esc to close, card glow, footer year */
+    (function () {
+        document.getElementById('yr-footer').textContent = new Date().getFullYear();
+        document.addEventListener('keydown', function (e) {
+            var t = e.target;
+            if ((e.key === 'Enter' || e.key === ' ') && t && t.getAttribute && t.getAttribute('role') === 'button' && t.tagName === 'DIV') {
+                e.preventDefault(); t.click();
+            }
+            if (e.key === 'Escape') {
+                var map = { 'utility-modal': 'closeUtilityModal', 'guide-modal': 'closeGuideModal', 'payment-modal': 'closePaymentModal' };
+                Object.keys(map).forEach(function (id) {
+                    var el = document.getElementById(id);
+                    if (el && !el.classList.contains('hidden') && typeof window[map[id]] === 'function') window[map[id]]();
+                });
+            }
+        });
+        document.querySelectorAll('.neon-card').forEach(function (c) {
+            c.addEventListener('pointermove', function (e) {
+                var r = c.getBoundingClientRect();
+                c.style.setProperty('--mx', (e.clientX - r.left) + 'px');
+                c.style.setProperty('--my', (e.clientY - r.top) + 'px');
+            });
+        });
+    })();
     </script>
 </body>
 </html>
