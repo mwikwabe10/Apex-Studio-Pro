@@ -12,9 +12,10 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&family=Playfair+Display:ital,wght@0,600;0,700;1,600&family=Cinzel:wght@600;700;800&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    <!-- Canvas Confetti & html2pdf -->
+    <!-- Canvas Confetti & html2pdf & html2canvas -->
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <!-- Paystack Inline JS SDK -->
     <script src="https://js.paystack.co/v1/inline.js"></script>
     <!-- QRCode generator library -->
@@ -452,12 +453,12 @@
                     <div class="flex items-center justify-between">
                         <span class="text-[10px] font-bold text-indigo-600 dark:text-indigo-400 uppercase flex items-center space-x-1">
                             <i class="fa-solid fa-qrcode"></i>
-                            <span>Document QR Code / Verification Tag</span>
+                            <span>Document QR Code / Verification Tag (Optional)</span>
                         </span>
                         <button type="button" onclick="clearDocumentQR()" id="clear-doc-qr-btn" class="text-[10px] text-rose-500 dark:text-rose-400 hover:underline hidden"><i class="fa-solid fa-xmark mr-1"></i>Remove</button>
                     </div>
                     <div class="flex items-center space-x-1.5">
-                        <input type="text" id="document-qr-url" value="" oninput="updateLivePreview()" placeholder="[QR URL or text payload]" class="w-full bg-zinc-50 dark:bg-zinc-950 border border-zinc-300 dark:border-zinc-800 rounded-lg px-2 py-1 text-[11px] text-zinc-900 dark:text-zinc-200 focus:outline-none">
+                        <input type="text" id="document-qr-url" value="" oninput="updateLivePreview()" placeholder="[Leave blank or paste QR URL/text]" class="w-full bg-zinc-50 dark:bg-zinc-950 border border-zinc-300 dark:border-zinc-800 rounded-lg px-2 py-1 text-[11px] text-zinc-900 dark:text-zinc-200 focus:outline-none">
                         <label class="bg-zinc-200 dark:bg-zinc-800 hover:bg-zinc-300 dark:hover:bg-zinc-700 text-zinc-700 dark:text-zinc-300 px-2.5 py-1 rounded-lg text-[10px] cursor-pointer transition shrink-0 border border-zinc-300 dark:border-zinc-700 shadow-sm" title="Upload QR Code">
                             <i class="fa-solid fa-upload"></i>
                             <input type="file" id="doc-qr-file-input" accept="image/*" onchange="handleDocQrUpload(event)" class="hidden">
@@ -473,7 +474,7 @@
                     <input type="text" id="client-name" value="" oninput="handleClientBillingChange()" placeholder="[Recipient / Client Name]" class="w-full bg-zinc-50 dark:bg-zinc-950 border border-zinc-300 dark:border-zinc-800 rounded-lg px-2.5 py-1 text-xs text-zinc-900 dark:text-zinc-200 font-bold focus:outline-none">
                     <div class="grid grid-cols-2 gap-1.5">
                         <input type="text" id="client-contact" value="" oninput="handleClientBillingChange()" placeholder="Email / Phone" class="w-full bg-zinc-50 dark:bg-zinc-950 border border-zinc-300 dark:border-zinc-800 rounded-lg px-2 py-1 text-[11px] text-zinc-900 dark:text-zinc-200 focus:outline-none">
-                        <input type="text" id="client-address" value="" oninput="handleClientBillingChange()" placeholder="Address" class="w-full bg-zinc-50 dark:bg-zinc-950 border border-zinc-300 dark:border-zinc-800 rounded-lg px-2 py-1 text-[11px] text-zinc-900 dark:text-zinc-200 focus:outline-none">
+                        <input type="text" id="client-address" value="" oninput="handleClientBillingChange()" placeholder="Address" class="w-full bg-zinc-50 dark:bg-zinc-950 border border-zinc-300 dark:border-zinc-800 rounded-lg px-2.5 py-1 text-[11px] text-zinc-900 dark:text-zinc-200 focus:outline-none">
                     </div>
                 </div>
             </div>
@@ -930,7 +931,6 @@
             const btnLabel = document.getElementById('qr-download-btn-label');
             const currentPayload = getActiveQRString();
 
-            // If the URL or Payload Type has changed since last payment, re-lock!
             if (appState.qrCodeUnlocked && appState.lastUnlockedPayload !== currentPayload) {
                 appState.qrCodeUnlocked = false;
                 appState.lastUnlockedPayload = '';
@@ -1019,24 +1019,25 @@
             if (darkValEl) darkValEl.textContent = darkColor;
             if (lightValEl) lightValEl.textContent = lightColor;
 
-            let wrapperClass = 'p-4 rounded-xl bg-white shadow-md inline-block';
+            let wrapperClass = 'p-6 rounded-xl bg-white shadow-md inline-block text-center';
             if (frameStyle === 'scan') {
-                wrapperClass = 'p-4 rounded-2xl bg-white border-2 border-cyan-500 shadow-lg text-center';
+                wrapperClass = 'p-6 rounded-2xl bg-white border-2 border-cyan-500 shadow-lg text-center';
             } else if (frameStyle === 'corporate') {
-                wrapperClass = 'p-4 rounded-xl bg-white border-2 border-amber-500 shadow-lg text-center';
+                wrapperClass = 'p-6 rounded-xl bg-white border-2 border-amber-500 shadow-lg text-center';
             }
 
             const innerBox = document.createElement('div');
+            innerBox.id = 'qr-exportable-card';
             innerBox.className = wrapperClass;
 
             if (frameStyle === 'scan') {
                 const header = document.createElement('div');
-                header.className = 'text-[10px] font-black uppercase text-cyan-600 mb-2 tracking-widest';
+                header.className = 'text-xs font-black uppercase text-cyan-600 mb-2 tracking-widest';
                 header.textContent = 'SCAN ME';
                 innerBox.appendChild(header);
             } else if (frameStyle === 'corporate') {
                 const header = document.createElement('div');
-                header.className = 'text-[10px] font-black uppercase text-amber-600 mb-2 tracking-wider';
+                header.className = 'text-xs font-black uppercase text-amber-600 mb-2 tracking-wider';
                 header.textContent = 'VERIFIED SEAL';
                 innerBox.appendChild(header);
             }
@@ -1047,8 +1048,8 @@
 
             new QRCode(qrTarget, {
                 text: dataStr,
-                width: 140,
-                height: 140,
+                width: 160,
+                height: 160,
                 colorDark: darkColor,
                 colorLight: lightColor,
                 correctLevel: QRCode.CorrectLevel.H
@@ -1066,24 +1067,25 @@
         }
 
         function executeDownloadQRImage() {
-            const qrCanvas = document.querySelector('#utility-qr-render canvas');
-            const qrImg = document.querySelector('#utility-qr-render img');
-            let dataUrl = '';
-            if (qrCanvas) {
-                dataUrl = qrCanvas.toDataURL('image/png');
-            } else if (qrImg) {
-                dataUrl = qrImg.src;
-            } else {
+            const target = document.getElementById('qr-exportable-card');
+            if (!target) {
                 alert('Please generate the QR code first.');
                 return;
             }
 
-            const link = document.createElement('a');
-            link.href = dataUrl;
-            link.download = `ApexStudio_CustomQR_${Date.now()}.png`;
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
+            html2canvas(target, {
+                scale: 3,
+                backgroundColor: '#ffffff',
+                useCORS: true
+            }).then(canvas => {
+                const dataUrl = canvas.toDataURL('image/png');
+                const link = document.createElement('a');
+                link.href = dataUrl;
+                link.download = `ApexStudio_CustomQR_${Date.now()}.png`;
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+            });
         }
 
         function openHumanizerFromNotes() {
@@ -1628,27 +1630,17 @@
 
             setTimeout(() => {
                 const docQrTarget = document.getElementById('document-embedded-qr');
-                if (docQrTarget) {
+                if (docQrTarget && appState.documentQrUrl.trim()) {
                     docQrTarget.innerHTML = '';
-                    let qrPayload = appState.documentQrUrl.trim() || `https://apexstudiopro.com/verify?doc=${appState.docNumber}`;
-                    new QRCode(docQrTarget, {
-                        text: qrPayload,
-                        width: 75,
-                        height: 75,
-                        colorDark: "#000000",
-                        colorLight: "#ffffff",
-                        correctLevel: QRCode.CorrectLevel.H
-                    });
-                }
-
-                if (isThermalReceipt) {
-                    const qrBox = document.getElementById('thermal-qr-code');
-                    if (qrBox) {
-                        qrBox.innerHTML = '';
-                        new QRCode(qrBox, {
-                            text: `https://apexstudiopro.com/receipt?no=${appState.docNumber}`,
-                            width: 120,
-                            height: 120,
+                    if (appState.documentQrUrl.startsWith('data:image/') || appState.documentQrUrl.startsWith('http')) {
+                        // Render as uploaded/external image if URL/file
+                        docQrTarget.innerHTML = `<img src="${appState.documentQrUrl}" class="h-16 w-16 object-contain" alt="QR">`;
+                    } else {
+                        // Render generated QR code from text payload
+                        new QRCode(docQrTarget, {
+                            text: appState.documentQrUrl.trim(),
+                            width: 75,
+                            height: 75,
                             colorDark: "#000000",
                             colorLight: "#ffffff",
                             correctLevel: QRCode.CorrectLevel.H
@@ -1666,7 +1658,10 @@
             let cContact = appState.clientContact.trim() || '[Email / Phone]';
             let cAddress = appState.clientAddress.trim() || '[Address]';
 
-            let qrDisplayHtml = `<div class="flex justify-center bg-white p-2 rounded-lg border border-zinc-200 shadow-sm"><div id="document-embedded-qr"></div></div>`;
+            // Only render QR slot if user supplied a QR URL or upload
+            let qrDisplayHtml = appState.documentQrUrl.trim() 
+                ? `<div class="flex justify-center bg-white p-2 rounded-lg border border-zinc-200 shadow-sm"><div id="document-embedded-qr"></div></div>`
+                : '';
 
             let logoAlignClass = 'items-start text-left';
             let logoImgAlign = 'mr-auto';
@@ -1731,7 +1726,7 @@
                         </div>
                     </div>
                 `;
-            } else {
+            } else if (appState.documentQrUrl.trim()) {
                 signatureHtml = `
                     <div class="w-full pt-3 mt-2 border-t border-zinc-200 flex justify-end">
                         <div class="flex flex-col items-end justify-center">
@@ -1785,7 +1780,6 @@
                             </div>
                             <div class="font-bold tracking-widest" style="color: ${appState.themePrimary};">================================</div>
                             <div class="text-[11px] font-medium text-zinc-700 py-1">Thank you for shopping with Us!</div>
-                            <div id="thermal-qr-code" class="flex justify-center py-2"></div>
                         </div>
                     `;
                 }
